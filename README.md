@@ -10,3 +10,4 @@ Project cá nhân
   + Tìm kiếm theo nhà máy chưng cất rượu
   + Danh sách về buổi đấu giá(các thông tin chính về buổi đấu giá)
   + Tìm kiếm theo loại rượu
+  + Multiple language
