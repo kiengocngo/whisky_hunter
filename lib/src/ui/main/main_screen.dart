@@ -3,7 +3,10 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:whisky_hunter/src/ui/auction/aution_information.dart';
 import 'package:whisky_hunter/src/ui/auction_data_screen.dart';
+import 'package:whisky_hunter/src/ui/favortie/favorite_screen.dart';
+import 'package:whisky_hunter/src/ui/settings/language_setting.dart';
 class MainScreen extends StatefulWidget {
   const MainScreen({Key? key}) : super(key: key);
 
@@ -15,9 +18,9 @@ class _MainScreenState extends State<MainScreen> {
   int _selectedIndex = 0;
   static const List<Widget> _widgetOptions = <Widget> [
     AuctionDataScreen(),
-    AuctionDataScreen(),
-    AuctionDataScreen(),
-    AuctionDataScreen(),
+    AuctionInformation(),
+    FavoriteScreen(),
+    Settings(),
 
   ];
   
@@ -35,21 +38,24 @@ class _MainScreenState extends State<MainScreen> {
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         items: <BottomNavigationBarItem>[
-          BottomNavigationBarItem(icon: SvgPicture.asset('lib/assets/icons/home.svg'),
+          BottomNavigationBarItem(icon: SvgPicture.asset('lib/assets/icons/home.svg', width: 25, height: 25,),
           label: '',
-          activeIcon: SvgPicture.asset('lib/assets/icons/hospital.svg'),
+          activeIcon: SvgPicture.asset('lib/assets/icons/home.svg', width: 30, height: 30,),
           ),
-          BottomNavigationBarItem(icon: SvgPicture.asset('lib/assets/icons/home.svg'),
+          BottomNavigationBarItem(icon: SvgPicture.asset('lib/assets/icons/auction.svg', height: 25, width: 25,),
           label: '',
-          activeIcon: SvgPicture.asset('lib/assets/icons/hospital.svg'),
+          activeIcon: SvgPicture.asset('lib/assets/icons/auction.svg', width: 30,height: 30,),
           ),
-          BottomNavigationBarItem(icon: SvgPicture.asset('lib/assets/icons/home.svg'),
-          label: '',
-          activeIcon: SvgPicture.asset('lib/assets/icons/hospital.svg'),
+          BottomNavigationBarItem(icon: SvgPicture.asset('lib/assets/icons/favorite.svg', height: 25, width: 25,),
+          label: '',   
+          activeIcon: ClipRRect(
+            borderRadius: BorderRadius.circular(12),
+
+            child: SvgPicture.asset('lib/assets/icons/favorite.svg', width: 30, height: 30, fit: BoxFit.scaleDown,), ),
           ),
-          BottomNavigationBarItem(icon: SvgPicture.asset('lib/assets/icons/home.svg'),
+          BottomNavigationBarItem(icon: SvgPicture.asset('lib/assets/icons/setting.svg', height: 25, width: 25,),
           label: '',
-          activeIcon: SvgPicture.asset('lib/assets/icons/hospital.svg'),
+          activeIcon: SvgPicture.asset('lib/assets/icons/setting.svg',  height: 30, width: 30,),
           ),
         ],
         currentIndex: _selectedIndex,

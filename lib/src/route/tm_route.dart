@@ -3,7 +3,9 @@ import 'package:get/route_manager.dart';
 
 import 'package:whisky_hunter/src/ui/auction_data_screen.dart';
 import 'package:whisky_hunter/src/ui/autction_data_slug.dart';
+import 'package:whisky_hunter/src/ui/favortie/favorite_screen.dart';
 import 'package:whisky_hunter/src/ui/main/main_screen.dart';
+import 'package:whisky_hunter/src/ui/settings/language_setting.dart';
 import 'package:whisky_hunter/src/ui/splash/splash_screen.dart';
 
 enum TMRoute {
@@ -11,6 +13,8 @@ enum TMRoute {
   auction,
   auctionSlug,
   main,
+  setting,
+  favorite,
 }
 
 
@@ -25,6 +29,10 @@ extension TMRouteExt on TMRoute {
         return '/auctionSlug';
       case TMRoute.main:
       return '/main';
+      case TMRoute.setting:
+      return '/setting';
+      case TMRoute.favorite:
+      return '/favorite';
       default:
         return null;
     }
@@ -83,6 +91,18 @@ extension TMRouteExt on TMRoute {
           settings: settings,
           bindings: [],
           page: () => const MainScreen(),
+        );
+        case TMRoute.setting:
+        return GetPageRoute(
+          settings: settings,
+          bindings:[],
+          page: () => const Settings(),
+        );
+        case TMRoute.favorite:
+        return GetPageRoute(
+          settings: settings,
+          bindings: [],
+          page: () => const FavoriteScreen(),
         );
       default:
         return GetPageRoute(

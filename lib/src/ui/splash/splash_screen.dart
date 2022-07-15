@@ -14,10 +14,9 @@ class _SplashScreenState extends State<SplashScreen> {
   Future<void> _goToNextScreen() async {
     bool isFirstTimeOpenApp = await Get.find<AppManager>().isFirstTimeOpenApp();
     
-    TMRoute nextRoute = isFirstTimeOpenApp ? TMRoute.auction : TMRoute.main;
+    TMRoute nextRoute = isFirstTimeOpenApp ? TMRoute.main : TMRoute.main;
     Get.offAllNamed(nextRoute.name!);
   }
-
 
   @override
   void initState() {
@@ -37,6 +36,9 @@ class _SplashScreenState extends State<SplashScreen> {
             image: AssetImage('lib/assets/images/whiskey1.jpeg'),
             fit: BoxFit.fill,
           ),
+        ),
+        child: const Center(
+          child: Text('WHISKY HUNTER'),
         ),
       ),
     );
