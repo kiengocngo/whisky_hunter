@@ -12,6 +12,7 @@ class TMThemeData with Diagnosticable {
   late TextStyle textDataAuction;
   late TextStyle textDataAuctionBlack;
   late TextStyle text_16_500;
+  late TextStyle textSeeMore;
 
 
   // Builds the Custom Themes, EFd on the currently defined EF Themes
@@ -56,7 +57,12 @@ class TMThemeData with Diagnosticable {
       fontStyle: FontStyle.normal,
       color: Colors.white,
     );
-  
+  theme.textSeeMore = const TextStyle(
+      fontFamily: 'Roboto',
+      fontWeight: FontWeight.bold,
+      fontSize: 14,
+      color: Colors.black
+    );
 
     return theme;
   }

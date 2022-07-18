@@ -2,11 +2,16 @@ import 'dart:developer';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_svg/svg.dart';
 
 import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:get/instance_manager.dart';
+import 'package:whisky_hunter/%20bloc/aution_bloc/auction/aution_event.dart';
+import 'package:whisky_hunter/%20bloc/aution_bloc/auction/aution_state.dart';
+import 'package:whisky_hunter/%20bloc/blocs/auction/bloc/auction_bloc.dart';
+
 import 'package:whisky_hunter/src/data/model/auction_data_model.dart';
 import 'package:whisky_hunter/src/data/model/distilleries_info.dart';
 import 'package:whisky_hunter/src/route/tm_route.dart';
@@ -22,32 +27,14 @@ class AuctionDataScreen extends StatefulWidget {
 }
 
 class _AuctionDataScreenState extends State<AuctionDataScreen> {
-  late Future<List<AuctionDataModel>> listAuctionData;
   late Future<List<AuctionDataModel>> listSearchAuction;
   late Future<List<DistilleriesInfo>> listDistilleriesInfo;
+  final AuctionBloc _auctionBloc = AuctionBloc();
   @override
   void initState() {
-    listAuctionData = fetchAuctionData();
     listDistilleriesInfo = fetchDistillerInfo();
+    _auctionBloc.add(GetAuctionList());
     super.initState();
-  }
-
-  Future<List<AuctionDataModel>> fetchAuctionData() async {
-    try {
-      Response response =
-          await Dio().get('https://whiskyhunter.net/api/auctions_data/');
-      if (response.statusCode == 200) {
-        var getData = response.data as List;
-        var listAuctionData =
-            getData.map((e) => AuctionDataModel.fromJson(e)).toList();
-        return listAuctionData;
-      } else {
-        throw Exception('Faild to load AuctionData');
-      }
-    } on DioError catch (e) {
-      log(e.toString());
-      throw Exception('Faild to to Data ');
-    }
   }
 
   Future<List<DistilleriesInfo>> fetchDistillerInfo() async {
@@ -76,6 +63,10 @@ class _AuctionDataScreenState extends State<AuctionDataScreen> {
           children: [
             Expanded(
               flex: 1,
+              child: _buildSearch()),
+            const SizedBox(height: 12,),
+            Expanded(
+              flex: 2,
               child: Padding(
                   padding: const EdgeInsets.only(left: 16.0, right: 16.0),
                   child: FutureBuilder<List<DistilleriesInfo>>(
@@ -139,8 +130,8 @@ class _AuctionDataScreenState extends State<AuctionDataScreen> {
                                             children: [
                                               SvgPicture.asset(
                                                 'lib/assets/icons/vote.svg',
-                                                height: 30,
-                                                width: 30,
+                                                height: 14,
+                                                width: 14,
                                                 color: Colors.white,
                                               ),
                                               Text(
@@ -187,144 +178,159 @@ class _AuctionDataScreenState extends State<AuctionDataScreen> {
                         );
                       })),
             ),
-            Expanded(
-              flex: 3,
-              child: FutureBuilder<List<AuctionDataModel>>(
-                future: listAuctionData,
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    return ListView.separated(
-                      separatorBuilder: (context, index) {
-                        return const Divider();
-                      },
-                      itemCount:
-                          (snapshot.data as List<AuctionDataModel>).length,
-                      itemBuilder: (context, index) {
-                        var auctionData =
-                            (snapshot.data as List<AuctionDataModel>)[index];
-
-                        return Padding(
-                          padding: const EdgeInsets.all(16.0),
-                          child: Stack(
-                            children: [
-                              Container(
-                                height:
-                                    MediaQuery.of(context).size.height * 3 / 5,
-                                width: MediaQuery.of(context).size.width,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(8),
-                                  image: const DecorationImage(
-                                    image: AssetImage(
-                                      'lib/assets/images/whisky.jpeg',
-                                    ),
-                                    fit: BoxFit.fill,
-                                  ),
-                                ),
-                                padding: const EdgeInsets.all(16),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text(
-                                      auctionData.auctionName,
-                                      style: TMThemeData.fromContext(context)
-                                          .textNameWhisky,
-                                    ),
-                                    const SizedBox(
-                                      height: 12,
-                                    ),
-                                    InkWell(
-                                      onTap: () {
-                                        Get.toNamed(TMRoute.auctionSlug.name!,
-                                            arguments: [
-                                              auctionData.dt,
-                                              auctionData.auctionName,
-                                              auctionData.auctionSlug,
-                                              auctionData.auctionLotsCount,
-                                              auctionData.allAuctionsLotsCount,
-                                              auctionData.winningBidMax,
-                                              auctionData.winningBidMin,
-                                              auctionData.auctionTradingVolume,
-                                            ]);
-                                      },
-                                      child: Container(
-                                        height: 56,
-                                        width: 160,
-                                        decoration: BoxDecoration(
-                                          border: Border.all(
-                                              width: 2,
-                                              color: TMColors.textWhite),
-                                        ),
-                                        child: Center(
-                                          child: Text(
-                                            'Learn More',
-                                            style:
-                                                TMThemeData.fromContext(context)
-                                                    .learnMore,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Positioned(
-                                top: 16, left: 16,
-                                child: InkWell(
-                                  onTap: () {
-                                    SQLHelper.createItem(
-                                        auctionData.auctionName,
-                                        auctionData.auctionSlug);
-                                  },
-                                  child: const Icon(
-                                    Icons.favorite_outline,
-                                    color: Colors.red,
-                                  ),
-                                ),
-                                // MyFavorite(),
-                              ),
-                            ],
-                          ),
-                        );
-                      },
-                    );
-                  } else if (snapshot.hasError) {
-                    return Center(
-                      child: Text('${snapshot.error}'),
-                    );
-                  }
-                  return const Center(
-                    child: CircularProgressIndicator(
-                      backgroundColor: Colors.black,
+            const Divider(),
+            Padding(
+              padding: const EdgeInsets.only(left: 16.0, right: 16.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  TextButton(
+                    onPressed: () {},
+                    child: Text(
+                      'See more...',
+                      style: TMThemeData.fromContext(context).textSeeMore,
                     ),
-                  );
-                },
+                  )
+                ],
               ),
+            ),
+            Expanded(
+              flex: 6,
+              child: _buildListAuction(),
             ),
           ],
         ),
       ),
     );
   }
+
+  Widget _buildListAuction() {
+    return BlocProvider(
+      create: (_) => _auctionBloc,
+      child: BlocListener<AuctionBloc, AuctionState>(
+        listener: (context, state) {
+          if (state is AuctionError) {
+            ScaffoldMessenger.of(context)
+                .showSnackBar(SnackBar(content: Text(state.message!)));
+          }
+        },
+        child: BlocBuilder<AuctionBloc, AuctionState>(
+          builder: (context, state) {
+            if (state is AuctionInitial) {
+              return _buildLoading();
+            } else if (state is AuctionLoading) {
+              return _buildLoading();
+            } else if (state is AuctionLoaded) {
+              return _buildCard(context, state.listAutionModel);
+            } else if (state is AuctionError) {
+              return Container();
+            } else {
+              return Container();
+            }
+          },
+        ),
+      ),
+    );
+  }
+
+  Widget _buildCard(BuildContext context, List<AuctionDataModel> model) {
+    return GridView.builder(
+        itemCount: 8,
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2, crossAxisSpacing: 2.0, mainAxisSpacing: 2.0),
+        itemBuilder: (context, index) {
+          var data = model[index];
+          return Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Stack(
+              children: [
+                Container(
+                  height: MediaQuery.of(context).size.height * 2 / 5,
+                  width: MediaQuery.of(context).size.width,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8),
+                    image: const DecorationImage(
+                      image: AssetImage(
+                        'lib/assets/images/whisky.jpeg',
+                      ),
+                      fit: BoxFit.fill,
+                    ),
+                  ),
+                  padding: const EdgeInsets.all(16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        data.auctionName,
+                        style: TMThemeData.fromContext(context).textNameWhisky,
+                      ),
+                      const SizedBox(
+                        height: 12,
+                      ),
+                      InkWell(
+                        onTap: () {
+                          Get.toNamed(TMRoute.auctionSlug.name!, arguments: [
+                            data.dt,
+                            data.auctionName,
+                            data.auctionSlug,
+                            data.auctionLotsCount,
+                            data.allAuctionsLotsCount,
+                            data.winningBidMax,
+                            data.winningBidMin,
+                            data.auctionTradingVolume,
+                          ]);
+                        },
+                        child: Container(
+                          height: 40,
+                          width: 160,
+                          decoration: BoxDecoration(
+                            border:
+                                Border.all(width: 2, color: TMColors.textWhite),
+                          ),
+                          child: Center(
+                            child: Text(
+                              'See More',
+                              style: TMThemeData.fromContext(context).learnMore,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Positioned(
+                  top: 16,
+                  left: 16,
+                  child: InkWell(
+                    onTap: () {
+                      SQLHelper.createItem(data.auctionName, data.auctionSlug);
+                    },
+                    child: const Icon(
+                      Icons.favorite_outline,
+                      color: Colors.red,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          );
+        });
+  }
+
+  Widget _buildLoading() {
+    return const Center(
+      child: CircularProgressIndicator(),
+    );
+  }
+  Widget _buildSearch() {
+    return TextFormField(
+      decoration: InputDecoration(
+        hintText: 'Search with slug',
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12.0),
+        ),
+      ),
+    );
+  }
 }
-// class MyFavorite extends StatefulWidget {
-//   const MyFavorite({Key? key}) : super(key: key);
-
-//   @override
-//   State<MyFavorite> createState() => _MyFavoriteState();
-// }
-
-// class _MyFavoriteState extends State<MyFavorite> {
-//   bool isFavorite = false;
- 
-  
-//   @override
-//   Widget build(BuildContext context) {
-//     return InkWell(
-//       onTap: () => setState(() async{
-//         isFavorite = !isFavorite;
-        
-//       }),
-//       child: Icon(isFavorite?Icons.favorite: Icons.favorite_outline,color: Colors.red, ),);
-//   }
-// }

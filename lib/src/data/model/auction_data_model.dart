@@ -15,18 +15,29 @@ class AuctionDataModel {
       required this.auctionLotsCount,
       required this.allAuctionsLotsCount,
       required this.winningBidMax,
-      required this.winningBidMin, required this.auctionTradingVolume});
+      required this.winningBidMin,
+      required this.auctionTradingVolume});
 
   factory AuctionDataModel.fromJson(Map<String, dynamic> json) {
     return AuctionDataModel(
-        dt: json['dt'],
-        auctionName: json['auction_name'],
-        auctionSlug: json['auction_slug'],
-        auctionLotsCount: json['auction_lots_count'],
-        allAuctionsLotsCount: json['all_auctions_lots_count'],
-        winningBidMax: json['winning_bid_max'],
-        winningBidMin: json['winning_bid_min'],
-        auctionTradingVolume: json['auction_trading_volume']
-        );
+      dt: json['dt'],
+      auctionName: json['auction_name'],
+      auctionSlug: json['auction_slug'],
+      auctionLotsCount: json['auction_lots_count'],
+      allAuctionsLotsCount: json['all_auctions_lots_count'],
+      winningBidMax: json['winning_bid_max'],
+      winningBidMin: json['winning_bid_min'],
+      auctionTradingVolume: json['auction_trading_volume'],
+    );
   }
+
+  Map<String, dynamic> toJson() => {
+        'auction_name': auctionName,
+        'auction_slug': auctionSlug,
+        'aution_lost_count': auctionLotsCount,
+        'all_auction_lots_count': allAuctionsLotsCount,
+        'winning_bid_max': winningBidMax,
+        'winning_bid_min': winningBidMin,
+        'auction_trading_volume': auctionTradingVolume,
+      };
 }

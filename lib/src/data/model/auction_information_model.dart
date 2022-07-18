@@ -29,88 +29,18 @@ class AuctionInformations {
         listingFee: json['listing_fee'],
         baseCurrency: json['base_currency']);
   }
+  Map<String, dynamic> toJson() => {
+    'name' : name,
+    'slug' : slug,
+    'url' : url,
+    'buyers_fee': buyersFee,
+    'sellers_fee': sellersFee,
+    'reserver_fee': reserveFee,
+    'listing_fee': listingFee,
+    'baseCurrenct': baseCurrency,
+  };
 }
 
 
 
 
-//  {
-//         "name": "Prestige Whisky Auction",
-//         "slug": "prestige-whisky-auction",
-//         "url": "https://www.prestigewhiskyauction.com",
-//         "buyers_fee": 10.0,
-//         "sellers_fee": 0.0,
-//         "reserve_fee": 4.0,
-//         "listing_fee": 3.0,
-//         "base_currency": "GBP"
-//     },
-//     {
-//         "name": "The Whisky Shop Auctions",
-//         "slug": "the-whisky-shop-auctions",
-//         "url": "https://www.whiskyshop.com/auctions/",
-//         "buyers_fee": 10.0,
-//         "sellers_fee": 0.0,
-//         "reserve_fee": 5.0,
-//         "listing_fee": 3.0,
-//         "base_currency": "GBP"
-//     },
-//     {
-//         "name": "Australian Whisky Auctions",
-//         "slug": "australian-whisky-auctions",
-//         "url": "https://www.australianwhiskyauctions.com.au",
-//         "buyers_fee": 10.0,
-//         "sellers_fee": 0.0,
-//         "reserve_fee": 6.0,
-//         "listing_fee": 4.0,
-//         "base_currency": "AUD"
-//     },
-//     {
-//         "name": "Whisky Bull Auctions",
-//         "slug": "whisky-bull-auctions",
-//         "url": "https://www.whiskybull.com/",
-//         "buyers_fee": 7.0,
-//         "sellers_fee": 0.0,
-//         "reserve_fee": 5.0,
-//         "listing_fee": 0.0,
-//         "base_currency": "GBP"
-//     },
-//     {
-//         "name": "WVA Whisky Auctions",
-//         "slug": "wva-whisky-auctions",
-//         "url": "https://www.wvawhiskyauctions.co.uk/",
-//         "buyers_fee": 10.0,
-//         "sellers_fee": 0.0,
-//         "reserve_fee": 0.0,
-//         "listing_fee": 0.0,
-//         "base_currency": "GBP"
-//     },
-//     {
-//         "name": "Speyside Whisky Auctions",
-//         "slug": "speyside-whisky-auctions",
-//         "url": "https://www.speysidewhiskyauctions.co.uk/",
-//         "buyers_fee": 10.0,
-//         "sellers_fee": 0.0,
-//         "reserve_fee": 4.0,
-//         "listing_fee": 3.0,
-//         "base_currency": "GBP"
-//     },
-//     {
-//         "name": "Scotch Whisky Auctions",
-//         "slug": "scotchwhiskyauctions",
-//         "url": "https://www.scotchwhiskyauctions.com/",
-//         "buyers_fee": 10.0,
-//         "sellers_fee": 0.0,
-//         "reserve_fee": 10.0,
-//         "listing_fee": 6.0,
-//         "base_currency": "GBP"
-//     },
-//     {
-//         "name": "Rum Auctioneer",
-//         "slug": "rumauctioneer",
-//         "url": "https://www.rumauctioneer.com/",
-//         "buyers_fee": 10.0,
-//         "sellers_fee": 5.0,
-//         "reserve_fee": 4.0,
-//         "listing_fee": 3.0,
-//         "base_currency": "GBP"
-//     },
