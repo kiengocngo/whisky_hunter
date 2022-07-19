@@ -23,4 +23,12 @@ class DistilleriesInfo {
         votes: json['whiskybase_votes'],
         rating: json['whiskybase_rating']);
   }
+  Map<String, dynamic> toJson() =>{
+    'name': name,
+    'slug': slug,
+    'country': country,
+    'whiskybase_whiskyies': whiskies,
+    'whiskybase_votes': votes,
+    'whiskybase_rating': rating,
+  };
 }

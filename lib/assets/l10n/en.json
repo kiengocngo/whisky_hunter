@@ -1,4 +1,11 @@
 {
     "home_text": "Home",
-    "setting_text": "Setting"
+    "setting_text": "Setting",
+    "branch": "WHISKY HUNTER",
+    "seeMore": "See more...",
+    "language": "Language",
+    "select_language": "Select language",
+    "vote": "Vote",
+    "rate": "Rate",
+    "country": "Country"
 }
