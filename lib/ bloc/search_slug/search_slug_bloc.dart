@@ -9,7 +9,7 @@ class SearchSlugBloc extends Bloc<SearchSlugEvent, SearchSlugState>{
     on<GetSLugList>((event, emit ) async {
       try {
         emit(SearchSlugLoading());
-        final slugList = await _apiRepositorySearchSlug.fetchSlugList();
+        final slugList = await _apiRepositorySearchSlug.fetchSlugList(event.slug);
         emit(SearchSlugLoaded(slugList));
         
       } on NetWorkError {

@@ -7,4 +7,7 @@ abstract class SearchSlugEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class GetSLugList extends SearchSlugEvent{}
+class GetSLugList extends SearchSlugEvent{
+  final String slug;
+  const GetSLugList({required this.slug});
+}

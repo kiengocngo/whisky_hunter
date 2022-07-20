@@ -1,22 +1,25 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:whisky_hunter/%20bloc/search_distilleries_slug.dart/search_distilleries_slug_bloc.dart';
+import 'package:whisky_hunter/%20bloc/search_distilleries_slug.dart/search_distilleries_slug_event.dart';
+import 'package:whisky_hunter/%20bloc/search_distilleries_slug.dart/search_distilleries_slug_state.dart';
 import 'package:whisky_hunter/%20bloc/search_slug/search_slug_bloc.dart';
 import 'package:whisky_hunter/%20bloc/search_slug/search_slug_event.dart';
 import 'package:whisky_hunter/%20bloc/search_slug/search_slug_state.dart';
 import 'package:whisky_hunter/src/data/model/auction_data_model.dart';
 import 'package:whisky_hunter/theme/tm_theme_data.dart';
 
-class SearchSlugScreen extends StatefulWidget {
-  const SearchSlugScreen({Key? key}) : super(key: key);
+class DistilleriesSlug extends StatefulWidget {
+  const DistilleriesSlug({Key? key}) : super(key: key);
 
   @override
-  State<SearchSlugScreen> createState() => _SearchSlugScreenState();
+  State<DistilleriesSlug> createState() => _DistilleriesSlugScreenState();
 }
 
-class _SearchSlugScreenState extends State<SearchSlugScreen> {
+class _DistilleriesSlugScreenState extends State<DistilleriesSlug> {
   final TextEditingController _searchSlugController = TextEditingController();
-  final SearchSlugBloc _searchSlugBloc = SearchSlugBloc();
+  final DistilleriesSlugBloc _distilleriesSlugBloc = DistilleriesSlugBloc();
 
   @override
   Widget build(BuildContext context) {
@@ -48,8 +51,8 @@ class _SearchSlugScreenState extends State<SearchSlugScreen> {
                   suffixIcon: IconButton(
                     icon: const Icon(CupertinoIcons.search),
                     onPressed: () {
-                      _searchSlugBloc
-                          .add(GetSLugList(slug: _searchSlugController.text));
+                      _distilleriesSlugBloc
+                          .add(GetSLugList1(slug: _searchSlugController.text));
                     },
                   ),
                 ),
@@ -67,12 +70,12 @@ class _SearchSlugScreenState extends State<SearchSlugScreen> {
 
   Widget _buildSlug() {
     return BlocProvider(
-      create: (_) => _searchSlugBloc,
-      child: BlocListener<SearchSlugBloc, SearchSlugState>(
+      create: (_) => _distilleriesSlugBloc,
+      child: BlocListener<DistilleriesSlugBloc, DistilleriesSlugState>(
         listener: (context, state) {
           if (state is SearchSlugError) {
             ScaffoldMessenger.of(context)
-                .showSnackBar(SnackBar(content: Text(state.message!)));
+                .showSnackBar(SnackBar(content: Text('Loi')));
           }
         },
         child: BlocBuilder<SearchSlugBloc, SearchSlugState>(

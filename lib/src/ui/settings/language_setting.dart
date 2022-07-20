@@ -28,7 +28,7 @@ class _SettingsState extends State<Settings> {
               Text(
                 LocaleKeys.setting_text.tr(),
                 style: const TextStyle(
-                    fontSize: 20,
+                    fontSize: 20,  
                     fontWeight: FontWeight.w500,
                     color: Colors.black),
               ),

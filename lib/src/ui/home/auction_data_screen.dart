@@ -39,37 +39,40 @@ class _AuctionDataScreenState extends State<AuctionDataScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Column(
-          children: [
-            Expanded(flex: 1, child: _buildSearch()),
-            const SizedBox(
-              height: 12,
-            ),
-            Expanded(
-              flex: 2,
-              child: _buildListDisInfo(),
-            ),
-            const Divider(),
-            Padding(
-              padding: const EdgeInsets.only(left: 16.0, right: 16.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  TextButton(
-                    onPressed: () {},
-                    child: Text(
-                      LocaleKeys.seeMore.tr(),
-                      style: TMThemeData.fromContext(context).textSeeMore,
-                    ),
-                  )
-                ],
+        child: Padding(
+          padding: const EdgeInsets.only(left: 16.0, right: 16.0),
+          child: Column(
+            children: [
+              Expanded(flex: 1, child: _buildSearch()),
+              const SizedBox(
+                height: 12,
               ),
-            ),
-            Expanded(
-              flex: 6,
-              child: _buildListAuction(),
-            ),
-          ],
+              Expanded(
+                flex: 2,
+                child: _buildListDisInfo(),
+              ),
+              const Divider(),
+              Padding(
+                padding: const EdgeInsets.only(left: 16.0, right: 16.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    TextButton(
+                      onPressed: () {},
+                      child: Text(
+                        LocaleKeys.seeMore.tr(),
+                        style: TMThemeData.fromContext(context).textSeeMore,
+                      ),
+                    )
+                  ],
+                ),
+              ),
+              Expanded(
+                flex: 6,
+                child: _buildListAuction(),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -108,83 +111,80 @@ class _AuctionDataScreenState extends State<AuctionDataScreen> {
     return GridView.builder(
         itemCount: 8,
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2, crossAxisSpacing: 2.0, mainAxisSpacing: 2.0),
+            crossAxisCount: 2, crossAxisSpacing: 16.0, mainAxisSpacing: 16.0),
         itemBuilder: (context, index) {
           var data = model[index];
-          return Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Stack(
-              children: [
-                Container(
-                  height: MediaQuery.of(context).size.height * 2 / 5,
-                  width: MediaQuery.of(context).size.width,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8),
-                    image: const DecorationImage(
-                      image: AssetImage(
-                        'lib/assets/images/whisky.jpeg',
-                      ),
-                      fit: BoxFit.fill,
+          return Stack(
+            children: [
+              Container(
+                height: MediaQuery.of(context).size.height * 2 / 5,
+                width: MediaQuery.of(context).size.width,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(8),
+                  image: const DecorationImage(
+                    image: AssetImage(
+                      'lib/assets/images/whisky.jpeg',
                     ),
+                    fit: BoxFit.fill,
                   ),
-                  padding: const EdgeInsets.all(16),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        data.auctionName,
-                        style: TMThemeData.fromContext(context).textNameWhisky,
-                      ),
-                      const SizedBox(
-                        height: 12,
-                      ),
-                      InkWell(
-                        onTap: () {
-                          Get.toNamed(TMRoute.auctionSlug.name!, arguments: [
-                            data.dt,
-                            data.auctionName,
-                            data.auctionSlug,
-                            data.auctionLotsCount,
-                            data.allAuctionsLotsCount,
-                            data.winningBidMax,
-                            data.winningBidMin,
-                            data.auctionTradingVolume,
-                          ]);
-                        },
-                        child: Container(
-                          height: 40,
-                          width: 160,
-                          decoration: BoxDecoration(
-                            border:
-                                Border.all(width: 2, color: TMColors.textWhite),
-                          ),
-                          child: Center(
-                            child: Text(
-                              LocaleKeys.seeMore.tr(),
-                              style: TMThemeData.fromContext(context).learnMore,
-                            ),
+                ),
+                padding: const EdgeInsets.all(16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      data.auctionName,
+                      style: TMThemeData.fromContext(context).textNameWhisky,
+                    ),
+                    const SizedBox(
+                      height: 12,
+                    ),
+                    InkWell(
+                      onTap: () {
+                        Get.toNamed(TMRoute.auctionSlug.name!, arguments: [
+                          data.dt,
+                          data.auctionName,
+                          data.auctionSlug,
+                          data.auctionLotsCount,
+                          data.allAuctionsLotsCount,
+                          data.winningBidMax,
+                          data.winningBidMin,
+                          data.auctionTradingVolume,
+                        ]);
+                      },
+                      child: Container(
+                        height: 40,
+                        width: 160,
+                        decoration: BoxDecoration(
+                          border:
+                              Border.all(width: 2, color: TMColors.textWhite),
+                        ),
+                        child: Center(
+                          child: Text(
+                            LocaleKeys.seeMore.tr(),
+                            style: TMThemeData.fromContext(context).learnMore,
                           ),
                         ),
                       ),
-                    ],
-                  ),
-                ),
-                Positioned(
-                  top: 16,
-                  left: 16,
-                  child: InkWell(
-                    onTap: () {
-                      SQLHelper.createItem(data.auctionName, data.auctionSlug);
-                    },
-                    child: const Icon(
-                      Icons.favorite_outline,
-                      color: Colors.red,
                     ),
+                  ],
+                ),
+              ),
+              Positioned(
+                top: 4,
+                right: 16,
+                child: InkWell(
+                  onTap: () {
+                    SQLHelper.createItem(data.auctionName, data.auctionSlug);
+                  },
+                  child: const Icon(
+                    Icons.favorite_outline,
+                    color: Colors.red,
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           );
         });
   }
@@ -250,72 +250,69 @@ class _AuctionDataScreenState extends State<AuctionDataScreen> {
   }
 
   Widget _buildCard1(BuildContext context, List<DistilleriesInfo> model) {
-    return Padding(
-      padding: const EdgeInsets.only(left: 16.0),
-      child: ListView.separated(
-        separatorBuilder: (context, index) {
-          return const SizedBox(
-            width: 10,
-          );
-        },
-        scrollDirection: Axis.horizontal,
-        itemCount: 5,
-        itemBuilder: (context, index) {
-          var data = model[index];
-          return ClipRRect(
-            borderRadius: BorderRadius.circular(12),
-            child: Container(
-              height: 100,
-              width: 300,
-              decoration: const BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage(
-                    'lib/assets/images/whisky2.jpeg',
-                  ),
-                  fit: BoxFit.fill,
+    return ListView.separated(
+      separatorBuilder: (context, index) {
+        return const SizedBox(
+          width: 10,
+        );
+      },
+      scrollDirection: Axis.horizontal,
+      itemCount: 5,
+      itemBuilder: (context, index) {
+        var data = model[index];
+        return ClipRRect(
+          borderRadius: BorderRadius.circular(12),
+          child: Container(
+            height: 100,
+            width: 300,
+            decoration: const BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage(
+                  'lib/assets/images/whisky2.jpeg',
                 ),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      data.name,
-                      style: TMThemeData.fromContext(context).textNameWhisky,
-                    ),
-                    const SizedBox(
-                      height: 8.0,
-                    ),
-                    Text(
-                      '${LocaleKeys.country.tr()}: ${data.country}',
-                      style: TMThemeData.fromContext(context).textDataAuction,
-                    ),
-                    const SizedBox(
-                      height: 8.0,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Text(
-                          '${LocaleKeys.vote.tr()}: ${data.votes}',
-                         
-                          style:
-                              TMThemeData.fromContext(context).textDataAuction,
-                        ),
-                      ],
-                    ),
-                    Text('${LocaleKeys.rate.tr()}: ${data.rating}',style:
-                              TMThemeData.fromContext(context).textDataAuction,)
-                  ],
-                ),
+                fit: BoxFit.fill,
               ),
             ),
-          );
-        },
-      ),
+            child: Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    data.name,
+                    style: TMThemeData.fromContext(context).textNameWhisky,
+                  ),
+                  const SizedBox(
+                    height: 8.0,
+                  ),
+                  Text(
+                    '${LocaleKeys.country.tr()}: ${data.country}',
+                    style: TMThemeData.fromContext(context).textDataAuction,
+                  ),
+                  const SizedBox(
+                    height: 8.0,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(
+                        '${LocaleKeys.vote.tr()}: ${data.votes}',
+                       
+                        style:
+                            TMThemeData.fromContext(context).textDataAuction,
+                      ),
+                    ],
+                  ),
+                  Text('${LocaleKeys.rate.tr()}: ${data.rating}',style:
+                            TMThemeData.fromContext(context).textDataAuction,)
+                ],
+              ),
+            ),
+          ),
+        );
+      },
     );
   }
 }
