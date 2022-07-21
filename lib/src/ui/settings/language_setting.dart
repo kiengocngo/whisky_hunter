@@ -36,7 +36,7 @@ class _SettingsState extends State<Settings> {
                 height: 12,
               ),
               Text(
-                LocaleKeys.language.tr(),
+              tr('language'),
                 style: const TextStyle(
                     fontSize: 14, fontWeight: FontWeight.normal),
               ),

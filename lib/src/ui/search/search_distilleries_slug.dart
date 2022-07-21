@@ -5,7 +5,6 @@ import 'package:whisky_hunter/%20bloc/search_distilleries_slug.dart/search_disti
 import 'package:whisky_hunter/%20bloc/search_distilleries_slug.dart/search_distilleries_slug_event.dart';
 import 'package:whisky_hunter/%20bloc/search_distilleries_slug.dart/search_distilleries_slug_state.dart';
 import 'package:whisky_hunter/%20bloc/search_slug/search_slug_bloc.dart';
-import 'package:whisky_hunter/%20bloc/search_slug/search_slug_event.dart';
 import 'package:whisky_hunter/%20bloc/search_slug/search_slug_state.dart';
 import 'package:whisky_hunter/src/data/model/auction_data_model.dart';
 import 'package:whisky_hunter/theme/tm_theme_data.dart';

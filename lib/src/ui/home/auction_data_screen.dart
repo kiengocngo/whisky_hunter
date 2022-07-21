@@ -9,6 +9,7 @@ import 'package:whisky_hunter/%20bloc/distilleries_info/distilleries_bloc.dart';
 import 'package:whisky_hunter/%20bloc/distilleries_info/distilleries_info_event.dart';
 import 'package:whisky_hunter/%20bloc/distilleries_info/distilleries_info_state.dart';
 import 'package:whisky_hunter/l10n/locale_keys.g.dart';
+import 'package:whisky_hunter/src/comp/dialog/tm_dialog.dart';
 import 'package:whisky_hunter/src/data/model/auction_data_model.dart';
 import 'package:whisky_hunter/src/data/model/distilleries_info.dart';
 import 'package:whisky_hunter/src/route/tm_route.dart';
@@ -49,7 +50,7 @@ class _AuctionDataScreenState extends State<AuctionDataScreen> {
               ),
               Expanded(
                 flex: 2,
-                child: _buildListDisInfo(),
+                child: _buildListDisInfo(context),
               ),
               const Divider(),
               Padding(
@@ -69,7 +70,7 @@ class _AuctionDataScreenState extends State<AuctionDataScreen> {
               ),
               Expanded(
                 flex: 6,
-                child: _buildListAuction(),
+                child: _buildListAuction(context),
               ),
             ],
           ),
@@ -78,31 +79,28 @@ class _AuctionDataScreenState extends State<AuctionDataScreen> {
     );
   }
 
-  Widget _buildListAuction() {
+  Widget _buildListAuction(BuildContext context) {
     return BlocProvider(
       create: (_) => _auctionBloc,
-      child: BlocListener<AuctionBloc, AuctionState>(
-        listener: (context, state) {
-          if (state is AuctionError) {
-            ScaffoldMessenger.of(context)
-                .showSnackBar(SnackBar(content: Text(state.message!)));
+      child: BlocConsumer<AuctionBloc, AuctionState>(
+        builder: (context, state) {
+          if (state is AuctionInitial) {
+            return _buildLoading();
+          } else if (state is AuctionLoading) {
+            return _buildLoading();
+          } else if (state is AuctionLoaded) {
+            return _buildCard(context, state.listAutionModel);
+          } else if (state is AuctionError) {
+            return Container();
+          } else {
+            return Container();
           }
         },
-        child: BlocBuilder<AuctionBloc, AuctionState>(
-          builder: (context, state) {
-            if (state is AuctionInitial) {
-              return _buildLoading();
-            } else if (state is AuctionLoading) {
-              return _buildLoading();
-            } else if (state is AuctionLoaded) {
-              return _buildCard(context, state.listAutionModel);
-            } else if (state is AuctionError) {
-              return Container();
-            } else {
-              return Container();
-            }
-          },
-        ),
+        listener: (context, state) {
+          if (state is AuctionError) {
+            TMDialog.show(context, title: 'Loi API');
+          }
+        },
       ),
     );
   }
@@ -220,31 +218,32 @@ class _AuctionDataScreenState extends State<AuctionDataScreen> {
     );
   }
 
-  Widget _buildListDisInfo() {
+  Widget _buildListDisInfo(BuildContext context) {
     return BlocProvider(
       create: (_) => _disInfoBloc,
-      child: BlocListener<DistilleriesInfoBloc, DistilleriesInfoState>(
-        listener: (context, state) {
-          if (state is DistilleriesInfoError) {
-            ScaffoldMessenger.of(context)
-                .showSnackBar(SnackBar(content: Text(state.message!)));
+      child: BlocConsumer<DistilleriesInfoBloc, DistilleriesInfoState>(
+        builder: (context, state) {
+          if (state is DistilleriesInfoInitial) {
+            return _buildLoading();
+          } else if (state is DistilleriesInfoLoading) {
+            return _buildLoading();
+          } else if (state is DistilleriesInfoLoaded) {
+            return _buildCard1(context, state.listDistilleriesInfo);
+          } else if (state is DistilleriesInfoError) {
+            return Container();
+          } else {
+            return Container();
           }
         },
-        child: BlocBuilder<DistilleriesInfoBloc, DistilleriesInfoState>(
-          builder: (context, state) {
-            if (state is DistilleriesInfoInitial) {
-              return _buildLoading();
-            } else if (state is DistilleriesInfoLoading) {
-              return _buildLoading();
-            } else if (state is DistilleriesInfoLoaded) {
-              return _buildCard1(context, state.listDistilleriesInfo);
-            } else if (state is DistilleriesInfoError) {
-              return Container();
-            } else {
-              return Container();
-            }
-          },
-        ),
+        listener: (context, state) {
+          if (state is DistilleriesInfoError) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(state.message!),
+              ),
+            );
+          }
+        },
       ),
     );
   }
@@ -299,14 +298,14 @@ class _AuctionDataScreenState extends State<AuctionDataScreen> {
                     children: [
                       Text(
                         '${LocaleKeys.vote.tr()}: ${data.votes}',
-                       
-                        style:
-                            TMThemeData.fromContext(context).textDataAuction,
+                        style: TMThemeData.fromContext(context).textDataAuction,
                       ),
                     ],
                   ),
-                  Text('${LocaleKeys.rate.tr()}: ${data.rating}',style:
-                            TMThemeData.fromContext(context).textDataAuction,)
+                  Text(
+                    '${LocaleKeys.rate.tr()}: ${data.rating}',
+                    style: TMThemeData.fromContext(context).textDataAuction,
+                  )
                 ],
               ),
             ),

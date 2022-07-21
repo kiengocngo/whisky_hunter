@@ -57,7 +57,9 @@ class _SearchSlugScreenState extends State<SearchSlugScreen> {
               const SizedBox(
                 height: 12,
               ),
-              Expanded(child: _buildSlug()),
+              Expanded(
+                child: _buildSlug(context),
+              ),
             ],
           ),
         ),
@@ -65,38 +67,54 @@ class _SearchSlugScreenState extends State<SearchSlugScreen> {
     );
   }
 
-  Widget _buildSlug() {
+  // Widget _buildSlug() {
+  //   return BlocProvider(
+  //     create: (_) => _searchSlugBloc,
+  //     child: BlocListener<SearchSlugBloc, SearchSlugState>(
+  //       listener: (context, state) {
+  //         if (state is SearchSlugError) {
+  //           ScaffoldMessenger.of(context)
+  //               .showSnackBar(SnackBar(content: Text(state.message!)));
+  //         }
+  //       },
+  //       child: BlocBuilder<SearchSlugBloc, SearchSlugState>(
+  //         builder: (context, state) {
+
+  //         },
+  //       ),
+  //     ),
+  //   );
+  // }
+  Widget _buildSlug(BuildContext context) {
     return BlocProvider(
       create: (_) => _searchSlugBloc,
-      child: BlocListener<SearchSlugBloc, SearchSlugState>(
+      child: BlocConsumer<SearchSlugBloc, SearchSlugState>(
         listener: (context, state) {
-          if (state is SearchSlugError) {
-            ScaffoldMessenger.of(context)
-                .showSnackBar(SnackBar(content: Text(state.message!)));
+
+        },
+        builder: (context, state) {
+          if (state is SearchSlugInitial) {
+            return Container(child: Text('Nhap'),);
+          } else if (state is SearchSlugLoading) {
+            return _buildLoading();
+          } else if (state is SearchSlugLoaded) {
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                    'Ket qua tim kiem cho tu khoa "${_searchSlugController.text}".'),
+                const SizedBox(
+                  height: 6,
+                ),
+                Expanded(child: _buildCard(context, state.listSlug)),
+              ],
+            );
+          } else if (state is SearchSlugError) {
+            return const Text('Loi tim kiem');
+          } else {
+            return const Text('Input slug to search');
           }
         },
-        child: BlocBuilder<SearchSlugBloc, SearchSlugState>(
-          builder: (context, state) {
-            if (state is SearchSlugInitial) {
-              return Container();
-            } else if (state is SearchSlugLoading) {
-              return _buildLoading();
-            } else if (state is SearchSlugLoaded) {
-              return Column(
-              crossAxisAlignment: CrossAxisAlignment.start ,
-                children: [
-                  Text('Ket qua tim kiem cho tu khoa "${_searchSlugController.text}".'),
-                  const SizedBox(height: 6,),
-                  Expanded(child: _buildCard(context, state.listSlug)),
-                ],
-              );
-            } else if (state is SearchSlugError) {
-              return const Text('Loi tim kiem');
-            } else {
-              return const Text('Input slug to search');
-            }
-          },
-        ),
       ),
     );
   }
