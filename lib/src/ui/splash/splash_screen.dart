@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:whisky_hunter/src/route/tm_route.dart';
 import 'package:whisky_hunter/src/shared/app_managrer.dart';
 import 'package:get/get.dart';
@@ -11,18 +12,25 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-  Future<void> _goToNextScreen() async {
-    bool isFirstTimeOpenApp = await Get.find<AppManager>().isFirstTimeOpenApp();
-    
-    TMRoute nextRoute = isFirstTimeOpenApp ? TMRoute.main : TMRoute.main;
-    Get.offAllNamed(nextRoute.name!);
-  }
+  var isFirstOpenApp = false;
 
+  void _getFirstOpenApp() async {
+    final prefs = await SharedPreferences.getInstance();
+    isFirstOpenApp = prefs.getBool(AppManager.firstOpenApp) ?? false;
+  
+  }
+  
   @override
   void initState() {
     super.initState();
-    Future.delayed(
-        const Duration(seconds: 1), () => {_goToNextScreen()});
+    _getFirstOpenApp();
+    Future.delayed(const Duration(seconds: 5), () {
+      if(isFirstOpenApp){
+        Get.offAllNamed(TMRoute.main.name!);
+      } else {
+        Get.offAllNamed(TMRoute.onboarding.name!);
+      }
+    });
   }
 
   @override
