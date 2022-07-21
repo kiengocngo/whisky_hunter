@@ -4,8 +4,8 @@ import 'package:whisky_hunter/src/data/model/distilleries_slug.dart';
 class ApiProviderDistilleriesSlug {
   final Dio _dio = Dio();
 
-  Future<List<DistilleriesSlug>> fetchSlugList(String slug) async {
-    List<DistilleriesSlug> slugs = [];
+  Future<List<DistilleriesSlugModel>> fetchSlugList(String slug) async {
+    List<DistilleriesSlugModel> slugs = [];
     if (slug == "") {
       return slugs;
     }
@@ -15,7 +15,7 @@ class ApiProviderDistilleriesSlug {
       
         var getData = response.data as List;
         var listSlugData =
-            getData.map((e) => DistilleriesSlug.fromJson(e)).toList();
+            getData.map((e) => DistilleriesSlugModel.fromJson(e)).toList();
         return listSlugData;
      
   

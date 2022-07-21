@@ -7,7 +7,6 @@ import 'package:whisky_hunter/src/data/model/auction_data_model.dart';
 class ApiProviderAuction {
   final NetworkManager networkManager = NetworkManager();
   final Dio _dio = Dio();
-  final String _url = 'https://whiskyhunter.net/api/auctions_data/';
   Future<List<AuctionDataModel>> fetchAuctionList() async {
     try{
       

@@ -4,7 +4,7 @@ import 'package:whisky_hunter/src/data/model/distilleries_slug.dart';
 class ApiRepositoryDistilleriesSlug {
   final _provider = ApiProviderDistilleriesSlug();
 
-  Future<List<DistilleriesSlug>> fetchSlugList(String slug) {
+  Future<List<DistilleriesSlugModel>> fetchSlugList(String slug) {
     return _provider.fetchSlugList(slug);
   }
 }

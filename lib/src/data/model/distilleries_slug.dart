@@ -1,4 +1,4 @@
-class DistilleriesSlug{
+class DistilleriesSlugModel{
 
 final String dt;
   final String name;
@@ -9,7 +9,7 @@ final String dt;
   final double winningBidMin;
   final double tradingVolume;
 
-  DistilleriesSlug(
+  DistilleriesSlugModel(
       {required this.dt,
       required this.name,
       required this.slug,
@@ -19,8 +19,8 @@ final String dt;
       required this.winningBidMin,
       required this.tradingVolume});
 
-  factory DistilleriesSlug.fromJson(Map<String, dynamic> json) {
-    return DistilleriesSlug(
+  factory DistilleriesSlugModel.fromJson(Map<String, dynamic> json) {
+    return DistilleriesSlugModel(
       dt: json['dt'],
       name: json['name'],
       slug: json['slug'],

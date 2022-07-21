@@ -1,6 +1,8 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:whisky_hunter/%20bloc/module/bloc_module.dart';
 import 'package:whisky_hunter/%20bloc/search_slug/search_slug_bloc.dart';
 import 'package:whisky_hunter/%20bloc/search_slug/search_slug_event.dart';
 import 'package:whisky_hunter/%20bloc/search_slug/search_slug_state.dart';
@@ -16,7 +18,7 @@ class SearchSlugScreen extends StatefulWidget {
 
 class _SearchSlugScreenState extends State<SearchSlugScreen> {
   final TextEditingController _searchSlugController = TextEditingController();
-  final SearchSlugBloc _searchSlugBloc = SearchSlugBloc();
+  late SearchSlugBloc searchSlugBloc;
 
   @override
   Widget build(BuildContext context) {
@@ -41,14 +43,14 @@ class _SearchSlugScreenState extends State<SearchSlugScreen> {
                 keyboardType: TextInputType.name,
                 controller: _searchSlugController,
                 decoration: InputDecoration(
-                  hintText: 'Search with Slug...',
+                  hintText: tr('search_slug'),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12.0),
                   ),
                   suffixIcon: IconButton(
                     icon: const Icon(CupertinoIcons.search),
                     onPressed: () {
-                      _searchSlugBloc
+                      getIt<SearchSlugBloc>()
                           .add(GetSLugList(slug: _searchSlugController.text));
                     },
                   ),
@@ -67,55 +69,32 @@ class _SearchSlugScreenState extends State<SearchSlugScreen> {
     );
   }
 
-  // Widget _buildSlug() {
-  //   return BlocProvider(
-  //     create: (_) => _searchSlugBloc,
-  //     child: BlocListener<SearchSlugBloc, SearchSlugState>(
-  //       listener: (context, state) {
-  //         if (state is SearchSlugError) {
-  //           ScaffoldMessenger.of(context)
-  //               .showSnackBar(SnackBar(content: Text(state.message!)));
-  //         }
-  //       },
-  //       child: BlocBuilder<SearchSlugBloc, SearchSlugState>(
-  //         builder: (context, state) {
-
-  //         },
-  //       ),
-  //     ),
-  //   );
-  // }
   Widget _buildSlug(BuildContext context) {
-    return BlocProvider(
-      create: (_) => _searchSlugBloc,
-      child: BlocConsumer<SearchSlugBloc, SearchSlugState>(
-        listener: (context, state) {
-
-        },
-        builder: (context, state) {
-          if (state is SearchSlugInitial) {
-            return Container(child: Text('Nhap'),);
-          } else if (state is SearchSlugLoading) {
-            return _buildLoading();
-          } else if (state is SearchSlugLoaded) {
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                    'Ket qua tim kiem cho tu khoa "${_searchSlugController.text}".'),
-                const SizedBox(
-                  height: 6,
-                ),
-                Expanded(child: _buildCard(context, state.listSlug)),
-              ],
-            );
-          } else if (state is SearchSlugError) {
-            return const Text('Loi tim kiem');
-          } else {
-            return const Text('Input slug to search');
-          }
-        },
-      ),
+    return BlocBuilder<SearchSlugBloc, SearchSlugState>(
+     bloc: getIt<SearchSlugBloc>(),
+      builder: (context, state) {
+        if (state is SearchSlugInitial) {
+          return const Text('');
+        } else if (state is SearchSlugLoading) {
+          return _buildLoading();
+        } else if (state is SearchSlugLoaded) {
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+            _searchSlugController.text.isNotEmpty ? Text(
+                  '${tr("search_result")}"${_searchSlugController.text}".') : const Text(""),
+              const SizedBox(
+                height: 6,
+              ),
+             _searchSlugController.text.isNotEmpty ? Expanded(child: _buildCard(context, state.listSlug)) : Container(),
+            ],
+          );
+        } else if (state is SearchSlugError) {
+          return const Text('Loi tim kiem');
+        } else {
+          return const Text('Input slug to search');
+        }
+      },
     );
   }
 

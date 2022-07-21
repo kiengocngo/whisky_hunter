@@ -1,7 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart' hide Trans;
-import 'package:whisky_hunter/l10n/locale_keys.g.dart';
+import 'package:whisky_hunter/src/shared/app_managrer.dart';
 
 class Settings extends StatefulWidget {
   const Settings({Key? key}) : super(key: key);
@@ -16,6 +16,7 @@ class _SettingsState extends State<Settings> {
     'EN',
     'VN',
   ];
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,9 +27,9 @@ class _SettingsState extends State<Settings> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                LocaleKeys.setting_text.tr(),
+                tr("setting_text"),
                 style: const TextStyle(
-                    fontSize: 20,  
+                    fontSize: 20,
                     fontWeight: FontWeight.w500,
                     color: Colors.black),
               ),
@@ -36,7 +37,7 @@ class _SettingsState extends State<Settings> {
                 height: 12,
               ),
               Text(
-              tr('language'),
+                tr('language'),
                 style: const TextStyle(
                     fontSize: 14, fontWeight: FontWeight.normal),
               ),
@@ -47,7 +48,7 @@ class _SettingsState extends State<Settings> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    LocaleKeys.select_language.tr(),
+                    tr("select_language"),
                     style: const TextStyle(
                         fontSize: 14, fontWeight: FontWeight.bold),
                   ),
@@ -59,11 +60,11 @@ class _SettingsState extends State<Settings> {
                         onChanged: (String? newValue) {
                           setState(() {
                             dropdownValue = newValue!;
-                            if(dropdownValue == 'EN'){
+                            if (dropdownValue == 'EN') {
                               context.setLocale(const Locale('en'));
                               Get.updateLocale(const Locale('en'));
-                            }else if(dropdownValue == 'VN'){
-                               context.setLocale(const Locale('vi'));
+                            } else if (dropdownValue == 'VN') {
+                              context.setLocale(const Locale('vi'));
                               Get.updateLocale(const Locale('vi'));
                             }
                           });
@@ -72,11 +73,14 @@ class _SettingsState extends State<Settings> {
                             .map<DropdownMenuItem<String>>((String value) {
                           return DropdownMenuItem<String>(
                             value: value,
-                            child: Text(value, style: const TextStyle(fontSize:15, fontWeight: FontWeight.w500),),
+                            child: Text(
+                              value,
+                              style: const TextStyle(
+                                  fontSize: 15, fontWeight: FontWeight.w500),
+                            ),
                           );
                         }).toList(),
                       ),
-                      
                     ],
                   ),
                 ],

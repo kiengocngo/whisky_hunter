@@ -14,8 +14,8 @@ class DistilleriesSlugInitial extends DistilleriesSlugState{}
 class DistilleriesSlugLoading extends DistilleriesSlugState{}
 
 class DistilleriesSlugLoaded extends DistilleriesSlugState {
-  final List<DistilleriesSlug> listSlug;
-  const DistilleriesSlugLoaded(this.listSlug);
+  final List<DistilleriesSlugModel> listSlug2;
+  const DistilleriesSlugLoaded(this.listSlug2);
 }
 
 class DistilleriesSlugError extends DistilleriesSlugState{
