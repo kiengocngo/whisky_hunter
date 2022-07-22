@@ -1,8 +1,9 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:whisky_hunter/%20bloc/aution_bloc/auction_info/auctio_info_state.dart';
-import 'package:whisky_hunter/%20bloc/aution_bloc/auction_info/auction_info_event.dart';
+import 'package:whisky_hunter/%20bloc/blocs/auction/aution_state.dart';
+import 'package:whisky_hunter/%20bloc/blocs/auction_info/auctio_info_state.dart';
+import 'package:whisky_hunter/%20bloc/blocs/auction_info/auction_info_event.dart';
 import 'package:whisky_hunter/%20bloc/blocs/auction_info/auction_info_bloc.dart';
 import 'package:whisky_hunter/%20bloc/module/bloc_module.dart';
 import 'package:whisky_hunter/src/constant/tm_icon.dart';
@@ -18,10 +19,9 @@ class AuctionInformation extends StatefulWidget {
 
 class _AuctionInformationState extends State<AuctionInformation> {
   late String url;
-  late  AuctionInfoBloc auctionInfoBloc;
+  late AuctionInfoBloc auctionInfoBloc;
   @override
   void initState() {
-    
     getIt<AuctionInfoBloc>().add(GetAuctionInfoList());
     super.initState();
   }
@@ -43,13 +43,10 @@ class _AuctionInformationState extends State<AuctionInformation> {
   }
 
   Widget _buildListAuctionInfo() {
-    return 
-    BlocBuilder<AuctionInfoBloc, AuctionInfoState>(
+    return BlocBuilder<AuctionInfoBloc, AuctionInfoState>(
       bloc: getIt<AuctionInfoBloc>(),
       builder: (context, state) {
-        if (state is AuctionInfoInitial) {
-          return _buildLoading();
-        } else if (state is AuctionInfoLoading) {
+        if (state is AuctionInfoInitial || state is AuctionLoading) {
           return _buildLoading();
         } else if (state is AuctionInfoLoaded) {
           return _buildCard(context, state.listAuctionInfoModel);

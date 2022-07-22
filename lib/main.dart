@@ -1,19 +1,21 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/route_manager.dart';
-import 'package:whisky_hunter/%20bloc/blocs/auction/bloc/auction_bloc.dart';
+import 'package:whisky_hunter/%20bloc/blocs/auction/auction_bloc.dart';
 import 'package:whisky_hunter/%20bloc/blocs/auction_info/auction_info_bloc.dart';
-import 'package:whisky_hunter/%20bloc/distilleries_info/distilleries_bloc.dart';
-import 'package:whisky_hunter/%20bloc/search_slug/search_slug_bloc.dart';
 import 'package:whisky_hunter/src/route/tm_route.dart';
 import 'package:whisky_hunter/src/utils/dependencies.dart';
 import ' bloc/search_distilleries_slug.dart/search_distilleries_slug_bloc.dart';
+import ' bloc/blocs/search_slug/search_slug_bloc.dart';
+import ' bloc/blocs/distilleries_info/distilleries_bloc.dart';
 import ' bloc/module/bloc_module.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
+  await Firebase.initializeApp();
   provideDependencies();
   BlocModule.provider();
 
@@ -48,7 +50,7 @@ class MyApp extends StatelessWidget {
         localizationsDelegates: context.localizationDelegates,
         locale: context.locale,
         debugShowCheckedModeBanner: false,
-        initialRoute: TMRoute.splash.name!,
+        initialRoute: TMRoute.signin.name!,
         onGenerateRoute: TMRouteExt.generateRoute,
       ),
     );

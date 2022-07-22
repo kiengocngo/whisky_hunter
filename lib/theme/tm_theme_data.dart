@@ -12,6 +12,7 @@ class TMThemeData with Diagnosticable {
   late TextStyle textDataAuction;
   late TextStyle textDataAuctionBlack;
   late TextStyle text_16_500;
+  late TextStyle text_14_700;
   late TextStyle textSeeMore;
   late TextStyle textOnboarding;
 
@@ -56,6 +57,13 @@ class TMThemeData with Diagnosticable {
       fontSize: 16,
       fontStyle: FontStyle.normal,
       color: Colors.white,
+    );
+    theme.text_14_700 = const TextStyle(
+      fontFamily: 'Roboto',
+      fontWeight: FontWeight.w700,
+      fontSize: 14,
+      fontStyle: FontStyle.normal,
+      color: Colors.black,
     );
   theme.textSeeMore = const TextStyle(
       fontFamily: 'Roboto',

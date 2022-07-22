@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:get/instance_manager.dart';
-import 'package:whisky_hunter/%20bloc/aution_bloc/auction/aution_event.dart';
-import 'package:whisky_hunter/%20bloc/aution_bloc/auction/aution_state.dart';
-import 'package:whisky_hunter/%20bloc/blocs/auction/bloc/auction_bloc.dart';
-import 'package:whisky_hunter/%20bloc/distilleries_info/distilleries_bloc.dart';
-import 'package:whisky_hunter/%20bloc/distilleries_info/distilleries_info_event.dart';
-import 'package:whisky_hunter/%20bloc/distilleries_info/distilleries_info_state.dart';
+import 'package:whisky_hunter/%20bloc/blocs/auction/aution_event.dart';
+import 'package:whisky_hunter/%20bloc/blocs/auction/aution_state.dart';
+import 'package:whisky_hunter/%20bloc/blocs/auction/auction_bloc.dart';
+import 'package:whisky_hunter/%20bloc/blocs/distilleries_info/distilleries_bloc.dart';
+import 'package:whisky_hunter/%20bloc/blocs/distilleries_info/distilleries_info_event.dart';
+import 'package:whisky_hunter/%20bloc/blocs/distilleries_info/distilleries_info_state.dart';
 import 'package:whisky_hunter/%20bloc/module/bloc_module.dart';
 import 'package:whisky_hunter/src/constant/tm_icon.dart';
 import 'package:whisky_hunter/src/data/model/auction_data_model.dart';
@@ -83,9 +83,7 @@ class _AuctionDataScreenState extends State<AuctionDataScreen> {
     return BlocBuilder<AuctionBloc, AuctionState>(
       bloc: getIt<AuctionBloc>(),
       builder: (context, state) {
-        if (state is AuctionInitial) {
-          return _buildLoading();
-        } else if (state is AuctionLoading) {
+        if (state is AuctionInitial || state is AuctionLoading) {
           return _buildLoading();
         } else if (state is AuctionLoaded) {
           return _buildCard(context, state.listAutionModel);
@@ -95,7 +93,6 @@ class _AuctionDataScreenState extends State<AuctionDataScreen> {
           return Container();
         }
       },
-      
     );
   }
 
