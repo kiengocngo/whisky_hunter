@@ -1,7 +1,9 @@
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/instance_manager.dart';
+import 'package:whisky_hunter/src/comp/dialog/tm_dialog.dart';
 import 'package:whisky_hunter/src/route/tm_route.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -12,30 +14,34 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
-  final TextEditingController _passwordTextController = TextEditingController();
-  final TextEditingController _emailTextController = TextEditingController();
-  final TextEditingController _userNameTextController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _userNameController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
+        leading: IconButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: const Icon(
+            CupertinoIcons.back,
+            color: Colors.black,
+          ),
+        ),
         backgroundColor: Colors.transparent,
         elevation: 0,
         title: const Text(
           "SIGN UP",
-          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+          style: TextStyle(
+              fontSize: 24, fontWeight: FontWeight.bold, color: Colors.black),
         ),
       ),
-      body: Container(
+      body: SizedBox(
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height,
-          decoration: const BoxDecoration(
-              gradient: LinearGradient(colors: [
-            Color(0xffCB2B93),
-            Color(0xff9546C4),
-            Color(0xff5E61F4)
-          ], begin: Alignment.topCenter, end: Alignment.bottomCenter)),
           child: SingleChildScrollView(
               child: Padding(
             padding: const EdgeInsets.fromLTRB(20, 120, 20, 0),
@@ -45,7 +51,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   height: 20,
                 ),
                 TextFormField(
-                  controller: _emailTextController,
+                  controller: _emailController,
                   decoration: InputDecoration(
                       hintText: 'Email',
                       border: OutlineInputBorder(
@@ -56,7 +62,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   height: 20,
                 ),
                 TextFormField(
-                  controller: _passwordTextController,
+                  controller: _passwordController,
                   decoration: InputDecoration(
                       hintText: 'Password',
                       border: OutlineInputBorder(
@@ -67,7 +73,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   height: 20,
                 ),
                 TextFormField(
-                  controller: _userNameTextController,
+                  controller: _userNameController,
                   decoration: InputDecoration(
                       hintText: 'UserName',
                       border: OutlineInputBorder(
@@ -81,14 +87,26 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     InkWell(
-                      onTap: () {
-                        FirebaseAuth.instance
-                            .createUserWithEmailAndPassword(
-                                email: _emailTextController.text,
-                                password: _passwordTextController.text)
-                            .then((value) {
-                          Get.offAllNamed(TMRoute.signin.name!);
-                        }).onError((error, stackTrace) {});
+                      onTap: () async {
+                        try {
+                          firebase_auth.UserCredential userCredential =
+                              await firebase_auth.FirebaseAuth.instance
+                                  .createUserWithEmailAndPassword(
+                                      email: _emailController.text,
+                                      password: _passwordController.text);
+
+                          await FirebaseFirestore.instance
+                              .collection('users')
+                              .doc(userCredential.user!.uid)
+                              .set({
+                            'uid': userCredential.user!.uid,
+                            'user_name': _userNameController.text,
+                          });
+                          Get.offAndToNamed(TMRoute.signin.name!);
+                        } catch (e) {
+                          String err = e.toString();
+                          TMDialog.show(context, title: err, okText: 'Ok');
+                        }
                       },
                       child: Container(
                         height: 56,
@@ -96,6 +114,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         decoration: BoxDecoration(
                           color: Colors.indigo,
                           borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: const Center(
+                          child: Text('Sign up'),
                         ),
                       ),
                     ),

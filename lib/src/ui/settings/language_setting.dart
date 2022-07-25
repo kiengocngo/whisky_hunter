@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart' hide Trans;
+import 'package:whisky_hunter/src/comp/dialog/tm_dialog.dart';
 import 'package:whisky_hunter/src/route/tm_route.dart';
 import 'package:whisky_hunter/theme/tm_theme_data.dart';
 
@@ -26,6 +27,7 @@ class _SettingsState extends State<Settings> {
         child: Padding(
           padding: const EdgeInsets.only(left: 16, right: 16),
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
@@ -86,11 +88,33 @@ class _SettingsState extends State<Settings> {
                   ),
                 ],
               ),
-              TextButton(
-                onPressed: () {
-                  FirebaseAuth.instance.signOut().then((value) {
-                    Get.offAllNamed(TMRoute.signin.name!);
-                  });
+              const SizedBox(
+                height: 6,
+              ),
+              InkWell(
+                onTap: () {
+                  Get.toNamed(TMRoute.profile.name!);
+                },
+                child: Text(
+                  'Profile',
+                  style: TMThemeData.fromContext(context).text_14_700,
+                ),
+              ),
+              const SizedBox(
+                height: 12,
+              ),
+              InkWell(
+                onTap: () {
+                  TMDialog.show(
+                    context,
+                    okText: 'Log out',
+                    cancelText: 'Cancel',
+                    title: 'Are you sure?',
+                    okHandler: () {
+                      FirebaseAuth.instance.signOut();
+                      Get.offAndToNamed(TMRoute.signin.name!);
+                    },
+                  );
                 },
                 child: Text(
                   'Log out',

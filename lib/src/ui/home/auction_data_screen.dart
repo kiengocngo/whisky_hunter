@@ -52,22 +52,9 @@ class _AuctionDataScreenState extends State<AuctionDataScreen> {
                 flex: 2,
                 child: _buildListDisInfo(context),
               ),
+              const SizedBox(height: 6,),
               const Divider(),
-              Padding(
-                padding: const EdgeInsets.only(left: 16.0, right: 16.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    TextButton(
-                      onPressed: () {},
-                      child: Text(
-                        tr("seeMore"),
-                        style: TMThemeData.fromContext(context).textSeeMore,
-                      ),
-                    )
-                  ],
-                ),
-              ),
+              const SizedBox(height: 6,),
               Expanded(
                 flex: 6,
                 child: _buildListAuction(context),

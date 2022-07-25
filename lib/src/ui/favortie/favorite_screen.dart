@@ -26,8 +26,8 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
     _refreshJournals();
   }
 
-  void _deleteItem(int id) async {
-    await SQLHelper.deleteItem(id);
+  void _deleteItem(int id) {
+    SQLHelper.deleteItem(id);
     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
       content: Text('Successfully deleted a whisky!'),
     ));
