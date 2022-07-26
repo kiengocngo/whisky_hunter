@@ -102,7 +102,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             'uid': userCredential.user!.uid,
                             'user_name': _userNameController.text,
                           });
-                          Get.offAndToNamed(TMRoute.signin.name!);
+                          Get.offAndToNamed(TMRoute.info.name! , arguments: [
+                            userCredential.user!.uid,
+                          ]);
                         } catch (e) {
                           String err = e.toString();
                           TMDialog.show(context, title: err, okText: 'Ok');

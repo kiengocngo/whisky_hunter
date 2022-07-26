@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
+import 'package:whisky_hunter/src/ui/authentication/information/info.dart';
 import 'package:whisky_hunter/src/ui/authentication/signin/sign_in_screen.dart';
 import 'package:whisky_hunter/src/ui/authentication/signup/sign_up_screen.dart';
 
@@ -25,6 +26,7 @@ enum TMRoute {
   setting,
   favorite,
   profile,
+  info,
 }
 
 extension TMRouteExt on TMRoute {
@@ -52,6 +54,8 @@ extension TMRouteExt on TMRoute {
         return '/favorite';
       case TMRoute.profile:
         return '/profile';
+        case TMRoute.info:
+        return '/info';
       default:
         return null;
     }
@@ -152,6 +156,11 @@ extension TMRouteExt on TMRoute {
         return GetPageRoute(
           settings: settings,
           page: () => const ProfileScreen(),
+        );
+        case TMRoute.info:
+        return GetPageRoute(
+          settings: settings,
+          page: () => const Info(),
         );
       default:
         return GetPageRoute(
