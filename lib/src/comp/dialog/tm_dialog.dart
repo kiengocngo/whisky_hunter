@@ -95,14 +95,9 @@ class _TMDialogState extends State<TMDialog> {
   }
 
   Widget _buildTitle(context) {
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Text(
-          widget.title!,
-          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500,),
-        ),
-      ],
+    return Text(
+      widget.title!,
+      style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500,),
     );
   }
 

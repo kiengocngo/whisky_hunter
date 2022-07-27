@@ -1,6 +1,8 @@
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:whisky_hunter/src/comp/dialog/tm_dialog.dart';
+import 'package:whisky_hunter/src/constant/constant.dart';
 import 'package:whisky_hunter/src/route/tm_route.dart';
 import 'package:whisky_hunter/theme/tm_theme_data.dart';
 
@@ -37,6 +39,7 @@ class SignIn extends StatefulWidget {
 }
 
 class _SignInState extends State<SignIn> {
+  final GlobalManager globalManager = Get.find();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   @override
@@ -45,8 +48,7 @@ class _SignInState extends State<SignIn> {
       child: Padding(
         padding: const EdgeInsets.only(left: 16.0, right: 16.0),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(
               'LOGIN',
@@ -89,8 +91,11 @@ class _SignInState extends State<SignIn> {
                       color: Colors.indigo,
                       borderRadius: BorderRadius.circular(12),
                     ),
-                    child: const Center(
-                      child: Text('Login'),
+                    child: Center(
+                      child: Text(
+                        'Login',
+                        style: TMThemeData.fromContext(context).text_16_500,
+                      ),
                     ),
                   ),
                 ),
@@ -103,13 +108,15 @@ class _SignInState extends State<SignIn> {
   }
 
   Future signIn() async {
-    await FirebaseAuth.instance
-        .signInWithEmailAndPassword(
-            email: _emailController.text, password: _passwordController.text)
-        .then((value) {
-      Get.offAllNamed(TMRoute.main.name!);
-    }).onError((error, stackTrace) {
-      print('Error ${error.toString()}');
-    });
+    try {
+      firebase_auth.UserCredential userCredential =
+          await firebase_auth.FirebaseAuth.instance.signInWithEmailAndPassword(
+              email: _emailController.text, password: _passwordController.text);
+      globalManager.uId = userCredential.user!.uid;
+      Get.offAndToNamed(TMRoute.main.name!);
+    } catch (e) {
+      String err = e.toString();
+      TMDialog.show(context, title: err, okText: 'OK');
+    }
   }
 }

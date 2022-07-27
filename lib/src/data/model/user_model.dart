@@ -35,6 +35,6 @@ class UserEntity {
         email: "",
         imgUrl: "",
       );
-  @override
+
   List<Object?> get props => [id, firstName, lastName, email, imgUrl];
 }

@@ -50,6 +50,10 @@ dependencies:
   
   firebase_auth: ^3.5.0
   firebase_core: ^1.20.0
+  cloud_firestore: ^3.4.0
+  image_picker: ^0.8.5+3
+  firebase_storage: ^10.3.3
+  flutter_native_splash: ^2.2.6
   
 
 dev_dependencies:
@@ -62,6 +66,11 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^2.0.0
+flutter_native_splash:
+  color: "#071b5d"
+  image: lib/assets/logo/user.png
+  android: true
+  ios: true
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -79,6 +88,7 @@ flutter:
     - lib/assets/images/
     - lib/assets/icons/
     - lib/assets/l10n/
+    - lib/assets/logo/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
