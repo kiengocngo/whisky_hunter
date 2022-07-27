@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:whisky_hunter/src/comp/dialog/tm_dialog.dart';
 import 'package:whisky_hunter/src/sqflite/sql_helper.dart';
@@ -43,10 +44,10 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
               flex: 1,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: const [
+                children: [
                   Text(
-                    'Favorities Whisky',
-                    style: TextStyle(
+                    tr('favorite_whisky'),
+                    style: const TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
                       color: Colors.black,

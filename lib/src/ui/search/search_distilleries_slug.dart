@@ -1,13 +1,14 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:whisky_hunter/%20bloc/distilleries_info/distilleries_info_state.dart';
+import 'package:whisky_hunter/%20bloc/module/bloc_module.dart';
 import 'package:whisky_hunter/%20bloc/search_distilleries_slug.dart/search_distilleries_slug_bloc.dart';
 import 'package:whisky_hunter/%20bloc/search_distilleries_slug.dart/search_distilleries_slug_event.dart';
 import 'package:whisky_hunter/%20bloc/search_distilleries_slug.dart/search_distilleries_slug_state.dart';
-import 'package:whisky_hunter/%20bloc/search_slug/search_slug_bloc.dart';
-import 'package:whisky_hunter/%20bloc/search_slug/search_slug_event.dart';
-import 'package:whisky_hunter/%20bloc/search_slug/search_slug_state.dart';
-import 'package:whisky_hunter/src/data/model/auction_data_model.dart';
+import 'package:whisky_hunter/src/constant/tm_icon.dart';
+import 'package:whisky_hunter/src/data/model/distilleries_slug.dart';
 import 'package:whisky_hunter/theme/tm_theme_data.dart';
 
 class DistilleriesSlug extends StatefulWidget {
@@ -19,7 +20,7 @@ class DistilleriesSlug extends StatefulWidget {
 
 class _DistilleriesSlugScreenState extends State<DistilleriesSlug> {
   final TextEditingController _searchSlugController = TextEditingController();
-  final DistilleriesSlugBloc _distilleriesSlugBloc = DistilleriesSlugBloc();
+  late DistilleriesSlugBloc distilleriesSlugBloc;
 
   @override
   Widget build(BuildContext context) {
@@ -44,14 +45,14 @@ class _DistilleriesSlugScreenState extends State<DistilleriesSlug> {
                 keyboardType: TextInputType.name,
                 controller: _searchSlugController,
                 decoration: InputDecoration(
-                  hintText: 'Search with Slug...',
+                  hintText: tr("search_slug"),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12.0),
                   ),
                   suffixIcon: IconButton(
                     icon: const Icon(CupertinoIcons.search),
                     onPressed: () {
-                      _distilleriesSlugBloc
+                      getIt<DistilleriesSlugBloc>()
                           .add(GetSLugList1(slug: _searchSlugController.text));
                     },
                   ),
@@ -69,42 +70,35 @@ class _DistilleriesSlugScreenState extends State<DistilleriesSlug> {
   }
 
   Widget _buildSlug() {
-    return BlocProvider(
-      create: (_) => _distilleriesSlugBloc,
-      child: BlocListener<DistilleriesSlugBloc, DistilleriesSlugState>(
-        listener: (context, state) {
-          if (state is SearchSlugError) {
-            ScaffoldMessenger.of(context)
-                .showSnackBar(SnackBar(content: Text('Loi')));
-          }
-        },
-        child: BlocBuilder<SearchSlugBloc, SearchSlugState>(
-          builder: (context, state) {
-            if (state is SearchSlugInitial) {
-              return Container();
-            } else if (state is SearchSlugLoading) {
-              return _buildLoading();
-            } else if (state is SearchSlugLoaded) {
-              return Column(
-              crossAxisAlignment: CrossAxisAlignment.start ,
-                children: [
-                  Text('Ket qua tim kiem cho tu khoa "${_searchSlugController.text}".'),
-                  const SizedBox(height: 6,),
-                  Expanded(child: _buildCard(context, state.listSlug)),
-                ],
-              );
-            } else if (state is SearchSlugError) {
-              return const Text('Loi tim kiem');
-            } else {
-              return const Text('Input slug to search');
-            }
-          },
-        ),
-      ),
+    return BlocBuilder<DistilleriesSlugBloc, DistilleriesSlugState>(
+      bloc: getIt<DistilleriesSlugBloc>(),
+      builder: (context, state) {
+        if (state is DistilleriesInfoInitial) {
+          return Container();
+        } else if (state is DistilleriesSlugLoading) {
+          return _buildLoading();
+        } else if (state is DistilleriesSlugLoaded) {
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                  'Ket qua tim kiem cho tu khoa "${_searchSlugController.text}".'),
+              const SizedBox(
+                height: 6,
+              ),
+              Expanded(child: _buildCard(context, state.listSlug2)),
+            ],
+          );
+        } else if (state is DistilleriesSlugError) {
+          return const Text('Loi tim kiem');
+        } else {
+          return const Text('Input slug to search');
+        }
+      },
     );
   }
 
-  Widget _buildCard(BuildContext context, List<AuctionDataModel> model) {
+  Widget _buildCard(BuildContext context, List<DistilleriesSlugModel> model) {
     return ListView.separated(
         itemCount: model.length,
         separatorBuilder: (context, index) {
@@ -119,7 +113,7 @@ class _DistilleriesSlugScreenState extends State<DistilleriesSlug> {
               borderRadius: BorderRadius.circular(8),
               image: const DecorationImage(
                 image: AssetImage(
-                  'lib/assets/images/whisky.jpeg',
+                  TMIcons.whisky2,
                 ),
                 fit: BoxFit.fill,
               ),
@@ -130,7 +124,7 @@ class _DistilleriesSlugScreenState extends State<DistilleriesSlug> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  data.auctionName,
+                  data.name,
                   style: TMThemeData.fromContext(context).textNameWhisky,
                 ),
                 Text(

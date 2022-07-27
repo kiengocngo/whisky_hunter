@@ -9,8 +9,8 @@ class DistilleriesSlugBloc extends Bloc<DistilleriesSlugEvent, DistilleriesSlugS
     on<GetSLugList1>((event, emit ) async {
       try {
         emit(DistilleriesSlugLoading());
-        final slugList = await _apiRepositoryDistilleriesSlug.fetchSlugList(event.slug);
-        emit(DistilleriesSlugLoaded(slugList));
+        final slugList2 = await _apiRepositoryDistilleriesSlug.fetchSlugList(event.slug);
+        emit(DistilleriesSlugLoaded(slugList2));
         
       } on NetWorkError {
         emit(const DistilleriesSlugError('Failed to fetch data'));        

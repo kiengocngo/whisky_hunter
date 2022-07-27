@@ -8,7 +8,8 @@ import 'package:whisky_hunter/%20bloc/blocs/auction/bloc/auction_bloc.dart';
 import 'package:whisky_hunter/%20bloc/distilleries_info/distilleries_bloc.dart';
 import 'package:whisky_hunter/%20bloc/distilleries_info/distilleries_info_event.dart';
 import 'package:whisky_hunter/%20bloc/distilleries_info/distilleries_info_state.dart';
-import 'package:whisky_hunter/l10n/locale_keys.g.dart';
+import 'package:whisky_hunter/%20bloc/module/bloc_module.dart';
+import 'package:whisky_hunter/src/constant/tm_icon.dart';
 import 'package:whisky_hunter/src/data/model/auction_data_model.dart';
 import 'package:whisky_hunter/src/data/model/distilleries_info.dart';
 import 'package:whisky_hunter/src/route/tm_route.dart';
@@ -25,13 +26,13 @@ class AuctionDataScreen extends StatefulWidget {
 }
 
 class _AuctionDataScreenState extends State<AuctionDataScreen> {
-  final AuctionBloc _auctionBloc = AuctionBloc();
-  final DistilleriesInfoBloc _disInfoBloc = DistilleriesInfoBloc();
+  late AuctionBloc auctionBloc;
+  late DistilleriesInfoBloc disInfoBloc;
 
   @override
   void initState() {
-    _auctionBloc.add(GetAuctionList());
-    _disInfoBloc.add(GetDistilleriesInfoList());
+    getIt<AuctionBloc>().add(GetAuctionList());
+    getIt<DistilleriesInfoBloc>().add(GetDistilleriesInfoList());
     super.initState();
   }
 
@@ -49,7 +50,7 @@ class _AuctionDataScreenState extends State<AuctionDataScreen> {
               ),
               Expanded(
                 flex: 2,
-                child: _buildListDisInfo(),
+                child: _buildListDisInfo(context),
               ),
               const Divider(),
               Padding(
@@ -60,7 +61,7 @@ class _AuctionDataScreenState extends State<AuctionDataScreen> {
                     TextButton(
                       onPressed: () {},
                       child: Text(
-                        LocaleKeys.seeMore.tr(),
+                        tr("seeMore"),
                         style: TMThemeData.fromContext(context).textSeeMore,
                       ),
                     )
@@ -69,7 +70,7 @@ class _AuctionDataScreenState extends State<AuctionDataScreen> {
               ),
               Expanded(
                 flex: 6,
-                child: _buildListAuction(),
+                child: _buildListAuction(context),
               ),
             ],
           ),
@@ -78,32 +79,23 @@ class _AuctionDataScreenState extends State<AuctionDataScreen> {
     );
   }
 
-  Widget _buildListAuction() {
-    return BlocProvider(
-      create: (_) => _auctionBloc,
-      child: BlocListener<AuctionBloc, AuctionState>(
-        listener: (context, state) {
-          if (state is AuctionError) {
-            ScaffoldMessenger.of(context)
-                .showSnackBar(SnackBar(content: Text(state.message!)));
-          }
-        },
-        child: BlocBuilder<AuctionBloc, AuctionState>(
-          builder: (context, state) {
-            if (state is AuctionInitial) {
-              return _buildLoading();
-            } else if (state is AuctionLoading) {
-              return _buildLoading();
-            } else if (state is AuctionLoaded) {
-              return _buildCard(context, state.listAutionModel);
-            } else if (state is AuctionError) {
-              return Container();
-            } else {
-              return Container();
-            }
-          },
-        ),
-      ),
+  Widget _buildListAuction(BuildContext context) {
+    return BlocBuilder<AuctionBloc, AuctionState>(
+      bloc: getIt<AuctionBloc>(),
+      builder: (context, state) {
+        if (state is AuctionInitial) {
+          return _buildLoading();
+        } else if (state is AuctionLoading) {
+          return _buildLoading();
+        } else if (state is AuctionLoaded) {
+          return _buildCard(context, state.listAutionModel);
+        } else if (state is AuctionError) {
+          return Container();
+        } else {
+          return Container();
+        }
+      },
+      
     );
   }
 
@@ -123,7 +115,7 @@ class _AuctionDataScreenState extends State<AuctionDataScreen> {
                   borderRadius: BorderRadius.circular(8),
                   image: const DecorationImage(
                     image: AssetImage(
-                      'lib/assets/images/whisky.jpeg',
+                      TMIcons.whisky2,
                     ),
                     fit: BoxFit.fill,
                   ),
@@ -162,7 +154,7 @@ class _AuctionDataScreenState extends State<AuctionDataScreen> {
                         ),
                         child: Center(
                           child: Text(
-                            LocaleKeys.seeMore.tr(),
+                            tr("seeMore"),
                             style: TMThemeData.fromContext(context).learnMore,
                           ),
                         ),
@@ -202,7 +194,7 @@ class _AuctionDataScreenState extends State<AuctionDataScreen> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
-            LocaleKeys.branch.tr(),
+            tr("branch"),
             style: const TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
@@ -220,32 +212,22 @@ class _AuctionDataScreenState extends State<AuctionDataScreen> {
     );
   }
 
-  Widget _buildListDisInfo() {
-    return BlocProvider(
-      create: (_) => _disInfoBloc,
-      child: BlocListener<DistilleriesInfoBloc, DistilleriesInfoState>(
-        listener: (context, state) {
-          if (state is DistilleriesInfoError) {
-            ScaffoldMessenger.of(context)
-                .showSnackBar(SnackBar(content: Text(state.message!)));
-          }
-        },
-        child: BlocBuilder<DistilleriesInfoBloc, DistilleriesInfoState>(
-          builder: (context, state) {
-            if (state is DistilleriesInfoInitial) {
-              return _buildLoading();
-            } else if (state is DistilleriesInfoLoading) {
-              return _buildLoading();
-            } else if (state is DistilleriesInfoLoaded) {
-              return _buildCard1(context, state.listDistilleriesInfo);
-            } else if (state is DistilleriesInfoError) {
-              return Container();
-            } else {
-              return Container();
-            }
-          },
-        ),
-      ),
+  Widget _buildListDisInfo(BuildContext context) {
+    return BlocBuilder<DistilleriesInfoBloc, DistilleriesInfoState>(
+      bloc: getIt<DistilleriesInfoBloc>(),
+      builder: (context, state) {
+        if (state is DistilleriesInfoInitial) {
+          return _buildLoading();
+        } else if (state is DistilleriesInfoLoading) {
+          return _buildLoading();
+        } else if (state is DistilleriesInfoLoaded) {
+          return _buildCard1(context, state.listDistilleriesInfo);
+        } else if (state is DistilleriesInfoError) {
+          return Container();
+        } else {
+          return Container();
+        }
+      },
     );
   }
 
@@ -268,7 +250,7 @@ class _AuctionDataScreenState extends State<AuctionDataScreen> {
             decoration: const BoxDecoration(
               image: DecorationImage(
                 image: AssetImage(
-                  'lib/assets/images/whisky2.jpeg',
+                  TMIcons.whisky3,
                 ),
                 fit: BoxFit.fill,
               ),
@@ -287,7 +269,7 @@ class _AuctionDataScreenState extends State<AuctionDataScreen> {
                     height: 8.0,
                   ),
                   Text(
-                    '${LocaleKeys.country.tr()}: ${data.country}',
+                    '${tr("country")}: ${data.country}',
                     style: TMThemeData.fromContext(context).textDataAuction,
                   ),
                   const SizedBox(
@@ -298,15 +280,15 @@ class _AuctionDataScreenState extends State<AuctionDataScreen> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Text(
-                        '${LocaleKeys.vote.tr()}: ${data.votes}',
-                       
-                        style:
-                            TMThemeData.fromContext(context).textDataAuction,
+                        '${tr("vote")}: ${data.votes}',
+                        style: TMThemeData.fromContext(context).textDataAuction,
                       ),
                     ],
                   ),
-                  Text('${LocaleKeys.rate.tr()}: ${data.rating}',style:
-                            TMThemeData.fromContext(context).textDataAuction,)
+                  Text(
+                    '${tr("rate")}: ${data.rating}',
+                    style: TMThemeData.fromContext(context).textDataAuction,
+                  )
                 ],
               ),
             ),

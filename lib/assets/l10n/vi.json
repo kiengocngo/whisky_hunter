@@ -7,5 +7,11 @@
     "select_language": "Chọn ngôn ngữ",
     "vote": "Lượt bình chọn",
     "rate": "Đánh giá",
-    "country": "Nơi sản xuất"
+    "country": "Nơi sản xuất",
+    "buyers_fee": "Giá người mua",
+    "sellers_fee": "Giá người bán",
+    "listing_fee": "Giá niêm yết",
+    "favorite_whisky": "LOẠI RƯỢU YÊU THÍCH",
+    "search_slug": "Tìm kiếm theo slug",
+    "search_result": "Kết quả tìm kiếm cho từ khoá"
 }

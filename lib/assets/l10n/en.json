@@ -7,5 +7,11 @@
     "select_language": "Select language",
     "vote": "Vote",
     "rate": "Rate",
-    "country": "Country"
+    "country": "Country",
+    "buyers_fee": "Buyers Fee",
+    "sellers_fee": "Sellers Fee",
+    "listing_fee": "Listing Fee",
+    "favorite_whisky": "FAVORITE WHISKY",
+    "search_slug": "Search with slug",
+    "search_result": "Search results for keyword"
 }
