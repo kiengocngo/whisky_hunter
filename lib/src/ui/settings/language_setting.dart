@@ -1,7 +1,9 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart' hide Trans;
-import 'package:whisky_hunter/src/shared/app_managrer.dart';
+import 'package:whisky_hunter/src/route/tm_route.dart';
+import 'package:whisky_hunter/theme/tm_theme_data.dart';
 
 class Settings extends StatefulWidget {
   const Settings({Key? key}) : super(key: key);
@@ -16,7 +18,7 @@ class _SettingsState extends State<Settings> {
     'EN',
     'VN',
   ];
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,8 +51,7 @@ class _SettingsState extends State<Settings> {
                 children: [
                   Text(
                     tr("select_language"),
-                    style: const TextStyle(
-                        fontSize: 14, fontWeight: FontWeight.bold),
+                    style: TMThemeData.fromContext(context).text_14_700,
                   ),
                   Row(
                     children: [
@@ -84,6 +85,17 @@ class _SettingsState extends State<Settings> {
                     ],
                   ),
                 ],
+              ),
+              TextButton(
+                onPressed: () {
+                  FirebaseAuth.instance.signOut().then((value) {
+                    Get.offAllNamed(TMRoute.signin.name!);
+                  });
+                },
+                child: Text(
+                  'Log out',
+                  style: TMThemeData.fromContext(context).text_14_700,
+                ),
               ),
             ],
           ),

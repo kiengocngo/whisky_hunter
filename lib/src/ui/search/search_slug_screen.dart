@@ -2,10 +2,11 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:whisky_hunter/%20bloc/blocs/search_slug/search_slug_bloc.dart';
+import 'package:whisky_hunter/%20bloc/blocs/search_slug/search_slug_event.dart';
+import 'package:whisky_hunter/%20bloc/blocs/search_slug/search_slug_state.dart';
 import 'package:whisky_hunter/%20bloc/module/bloc_module.dart';
-import 'package:whisky_hunter/%20bloc/search_slug/search_slug_bloc.dart';
-import 'package:whisky_hunter/%20bloc/search_slug/search_slug_event.dart';
-import 'package:whisky_hunter/%20bloc/search_slug/search_slug_state.dart';
+import 'package:whisky_hunter/src/constant/tm_icon.dart';
 import 'package:whisky_hunter/src/data/model/auction_data_model.dart';
 import 'package:whisky_hunter/theme/tm_theme_data.dart';
 
@@ -74,7 +75,7 @@ class _SearchSlugScreenState extends State<SearchSlugScreen> {
      bloc: getIt<SearchSlugBloc>(),
       builder: (context, state) {
         if (state is SearchSlugInitial) {
-          return const Text('');
+          return const Text('Slug');
         } else if (state is SearchSlugLoading) {
           return _buildLoading();
         } else if (state is SearchSlugLoaded) {
@@ -113,7 +114,7 @@ class _SearchSlugScreenState extends State<SearchSlugScreen> {
               borderRadius: BorderRadius.circular(8),
               image: const DecorationImage(
                 image: AssetImage(
-                  'lib/assets/images/whisky.jpeg',
+                  TMIcons.whisky2,
                 ),
                 fit: BoxFit.fill,
               ),

@@ -2,14 +2,15 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:whisky_hunter/%20bloc/distilleries_info/distilleries_info_state.dart';
+import 'package:whisky_hunter/%20bloc/blocs/distilleries_info/distilleries_info_state.dart';
 import 'package:whisky_hunter/%20bloc/module/bloc_module.dart';
 import 'package:whisky_hunter/%20bloc/search_distilleries_slug.dart/search_distilleries_slug_bloc.dart';
-import 'package:whisky_hunter/%20bloc/search_distilleries_slug.dart/search_distilleries_slug_event.dart';
 import 'package:whisky_hunter/%20bloc/search_distilleries_slug.dart/search_distilleries_slug_state.dart';
 import 'package:whisky_hunter/src/constant/tm_icon.dart';
 import 'package:whisky_hunter/src/data/model/distilleries_slug.dart';
 import 'package:whisky_hunter/theme/tm_theme_data.dart';
+
+import '../../../ bloc/search_distilleries_slug.dart/search_distilleries_slug_event.dart';
 
 class DistilleriesSlug extends StatefulWidget {
   const DistilleriesSlug({Key? key}) : super(key: key);

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
+import 'package:whisky_hunter/src/ui/authentication/signin/sign_in_screen.dart';
+import 'package:whisky_hunter/src/ui/authentication/signup/sign_up_screen.dart';
 
 import 'package:whisky_hunter/src/ui/home/auction_data_screen.dart';
 import 'package:whisky_hunter/src/ui/autction_data_slug.dart';
@@ -13,6 +15,8 @@ import 'package:whisky_hunter/src/ui/splash/splash_screen.dart';
 enum TMRoute {
   splash,
   onboarding,
+  signin,
+  signup,
   auction,
   serchslug,
   auctionSlug,
@@ -27,11 +31,15 @@ extension TMRouteExt on TMRoute {
       case TMRoute.splash:
         return '/splash';
       case TMRoute.onboarding:
-      return '/onboarding';
+        return '/onboarding';
+      case TMRoute.signin:
+        return '/signin';
+      case TMRoute.signup:
+        return '/signup';
       case TMRoute.auction:
         return '/auction';
       case TMRoute.serchslug:
-      return '/searchslug';
+        return '/searchslug';
       case TMRoute.auctionSlug:
         return '/auctionSlug';
       case TMRoute.main:
@@ -62,10 +70,22 @@ extension TMRouteExt on TMRoute {
           page: () => const SplashScreen(),
           transition: Transition.cupertino,
         );
-        case TMRoute.onboarding:
+      case TMRoute.onboarding:
         return GetPageRoute(
           settings: settings,
           page: () => const OnBoardingScreen(),
+          transition: Transition.cupertino,
+        );
+      case TMRoute.signin:
+        return GetPageRoute(
+          settings: settings,
+          page: () => const SignInScreen(),
+          transition: Transition.cupertino,
+        );
+      case TMRoute.signup:
+        return GetPageRoute(
+          settings: settings,
+          page: () => const SignUpScreen(),
           transition: Transition.cupertino,
         );
       case TMRoute.auction:
@@ -75,7 +95,7 @@ extension TMRouteExt on TMRoute {
           bindings: [],
           transition: Transition.cupertino,
         );
-        case TMRoute.serchslug:
+      case TMRoute.serchslug:
         return GetPageRoute(
           settings: settings,
           page: () => const SearchSlugScreen(),

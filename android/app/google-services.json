@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "83617368414",
+    "project_id": "whisky-hunter-cbf78",
+    "storage_bucket": "whisky-hunter-cbf78.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:83617368414:android:f5bc5f19a7924212d5e7cf",
+        "android_client_info": {
+          "package_name": "com.example.whisky_hunter"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "83617368414-h4n10vc7cofoes8gus26oaofp5ok97bd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC-RndJ6E07YH8Qgmjmk9h5JQaIhNwuW-w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "83617368414-h4n10vc7cofoes8gus26oaofp5ok97bd.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "83617368414-t268gsnfghar50vhm6lu72mbf4894jlq.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.whiskyHunter"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
