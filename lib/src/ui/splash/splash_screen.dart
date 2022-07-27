@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:whisky_hunter/src/route/tm_route.dart';
@@ -17,16 +18,19 @@ class _SplashScreenState extends State<SplashScreen> {
   void _getFirstOpenApp() async {
     final prefs = await SharedPreferences.getInstance();
     isFirstOpenApp = prefs.getBool(AppManager.firstOpenApp) ?? false;
-  
   }
-  
+
   @override
   void initState() {
     super.initState();
     _getFirstOpenApp();
     Future.delayed(const Duration(seconds: 5), () {
-      if(isFirstOpenApp){
-        Get.offAllNamed(TMRoute.main.name!);
+      if (isFirstOpenApp) {
+        if (FirebaseAuth.instance.currentUser != null) {
+          Get.offAllNamed(TMRoute.main.name!);
+        } else {
+          Get.offAndToNamed(TMRoute.signin.name!);
+        }
       } else {
         Get.offAllNamed(TMRoute.onboarding.name!);
       }

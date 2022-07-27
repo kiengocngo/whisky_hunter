@@ -25,7 +25,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
           InkWell(
             onTap: () {
               _setFirstOpenApp();
-              Get.offAllNamed(TMRoute.main.name!);
+              Get.offAllNamed(TMRoute.signin.name!);
             },
             child: const Center(
               child: Text('Next Screen'),

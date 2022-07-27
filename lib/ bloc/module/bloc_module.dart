@@ -3,6 +3,8 @@ import 'package:whisky_hunter/%20bloc/blocs/auction/auction_bloc.dart';
 import 'package:whisky_hunter/%20bloc/blocs/auction_info/auction_info_bloc.dart';
 import 'package:whisky_hunter/%20bloc/blocs/distilleries_info/distilleries_bloc.dart';
 import 'package:whisky_hunter/%20bloc/blocs/search_slug/search_slug_bloc.dart';
+import 'package:whisky_hunter/%20bloc/blocs/signin/sign_in_bloc.dart';
+import 'package:whisky_hunter/%20bloc/blocs/signup/sign_up_bloc.dart';
 import 'package:whisky_hunter/%20bloc/search_distilleries_slug.dart/search_distilleries_slug_bloc.dart';
 
 final getIt = GetIt.instance;
@@ -18,5 +20,7 @@ class BlocModule {
     getIt.registerLazySingleton<SearchSlugBloc>(() => SearchSlugBloc());
     getIt.registerLazySingleton<DistilleriesSlugBloc>(
         () => DistilleriesSlugBloc());
+    getIt.registerLazySingleton<SignInBloc>(() => SignInBloc());
+    getIt.registerLazySingleton<SignUpBloc>(() => SignUpBloc());
   }
 }
