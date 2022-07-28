@@ -13,5 +13,9 @@
     "listing_fee": "Listing Fee",
     "favorite_whisky": "FAVORITE WHISKY",
     "search_slug": "Search with slug",
-    "search_result": "Search results for keyword"
+    "search_result": "Search results for keyword",
+    "profile": "Profile",
+    "logout": "Logout",
+    "you_are_sure": "You are sure?",
+    "cancel": "Cancel"
 }

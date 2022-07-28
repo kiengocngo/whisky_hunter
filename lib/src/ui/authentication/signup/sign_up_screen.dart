@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:whisky_hunter/src/comp/button.dart/tm_button.dart';
 import 'package:whisky_hunter/src/comp/dialog/tm_dialog.dart';
 import 'package:whisky_hunter/src/route/tm_route.dart';
 
@@ -83,46 +84,34 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 const SizedBox(
                   height: 20,
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    InkWell(
-                      onTap: () async {
-                        try {
-                          firebase_auth.UserCredential userCredential =
-                              await firebase_auth.FirebaseAuth.instance
-                                  .createUserWithEmailAndPassword(
-                                      email: _emailController.text,
-                                      password: _passwordController.text);
+                TMButton(
+                  content: "Sign Up",
+                  onTap: () async {
+                    try {
+                      firebase_auth.UserCredential userCredential =
+                          await firebase_auth.FirebaseAuth.instance
+                              .createUserWithEmailAndPassword(
+                                  email: _emailController.text,
+                                  password: _passwordController.text);
 
-                          await FirebaseFirestore.instance
-                              .collection('users')
-                              .doc(userCredential.user!.uid)
-                              .set({
-                            'uid': userCredential.user!.uid,
-                            'user_name': _userNameController.text,
-                          });
-                          Get.offAndToNamed(TMRoute.info.name! , arguments: [
-                            userCredential.user!.uid,
-                          ]);
-                        } catch (e) {
-                          String err = e.toString();
-                          TMDialog.show(context, title: err, okText: 'Ok');
-                        }
-                      },
-                      child: Container(
-                        height: 56,
-                        width: 220,
-                        decoration: BoxDecoration(
-                          color: Colors.indigo,
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: const Center(
-                          child: Text('Sign up'),
-                        ),
-                      ),
-                    ),
-                  ],
+                      await FirebaseFirestore.instance
+                          .collection('users')
+                          .doc(userCredential.user!.uid)
+                          .set({
+                        'uid': userCredential.user!.uid,
+                        'user_name': _userNameController.text,
+                        'birth_day': '',
+                        'address': '',
+                        'img_profile': '',
+                      });
+                      Get.offAndToNamed(TMRoute.info.name!, arguments: [
+                        userCredential.user!.uid,
+                      ]);
+                    } catch (e) {
+                      String err = e.toString();
+                      TMDialog.show(context, title: err, okText: 'Ok');
+                    }
+                  },
                 ),
               ],
             ),

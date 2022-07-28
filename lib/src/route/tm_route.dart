@@ -54,7 +54,7 @@ extension TMRouteExt on TMRoute {
         return '/favorite';
       case TMRoute.profile:
         return '/profile';
-        case TMRoute.info:
+      case TMRoute.info:
         return '/info';
       default:
         return null;
@@ -157,10 +157,14 @@ extension TMRouteExt on TMRoute {
           settings: settings,
           page: () => const ProfileScreen(),
         );
-        case TMRoute.info:
+      case TMRoute.info:
+        final dynamic args = settings.arguments;
+        final String uid = args[0];
         return GetPageRoute(
           settings: settings,
-          page: () => const Info(),
+          page: () => Info(
+            uid: uid,
+          ),
         );
       default:
         return GetPageRoute(

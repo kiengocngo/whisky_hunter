@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -6,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart';
+import 'package:whisky_hunter/src/comp/button.dart/tm_button.dart';
 import 'package:whisky_hunter/src/constant/constant.dart';
 import 'package:whisky_hunter/src/constant/tm_icon.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
@@ -20,6 +22,9 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   final GlobalManager globalManager = Get.find();
+  final TextEditingController _birthdayController = TextEditingController();
+  final TextEditingController _addressController = TextEditingController();
+  final bool isEdit = true;
   final storge = firebase_storage.FirebaseStorage.instance;
   File? photo;
   final ImagePicker _picker = ImagePicker();
@@ -69,6 +74,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   @override
+  void initState() {
+    isEdit;
+    log(isEdit.toString());
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -96,6 +108,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
             }
             return ListView(
               children: snapshot.data!.docs.map((e) {
+                _birthdayController.text = e['birth_day'];
+                _addressController.text = e['address'];
                 return Padding(
                   padding: const EdgeInsets.only(left: 16.0, right: 16.0),
                   child: Column(
@@ -107,18 +121,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         children: [
                           Stack(
                             children: [
-                              e['img_profile'] != null
+                              e['img_profile'].toString().isNotEmpty
                                   ? ClipRRect(
                                       borderRadius: BorderRadius.circular(30),
                                       child: Container(
                                         height: 60,
                                         width: 60,
                                         decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(20),
+                                          border: Border.all(
+                                              width: 1, color: Colors.green),
+                                          borderRadius:
+                                              BorderRadius.circular(20),
                                         ),
                                         child: Image.network(
                                           e['img_profile'],
-                                          fit: BoxFit.fill,
+                                          fit: BoxFit.cover,
                                         ),
                                       ),
                                     )
@@ -128,13 +145,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                         height: 50,
                                         width: 50,
                                         decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(20),
+                                          border: Border.all(
+                                              width: 1, color: Colors.red),
+                                          borderRadius:
+                                              BorderRadius.circular(20),
                                         ),
                                         child: Image.asset(
                                           TMIcons.person,
                                           height: 30,
                                           width: 30,
-                                          fit: BoxFit.cover,
+                                          fit: BoxFit.fill,
                                         ),
                                       ),
                                     ),
@@ -180,8 +200,57 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       const SizedBox(
                         height: 12,
                       ),
-                     
-                      
+                      isEdit == false
+                          ? Text(
+                              _birthdayController.text,
+                              style:
+                                  TMThemeData.fromContext(context).textNormal,
+                            )
+                          : TextFormField(
+                              controller: _birthdayController,
+                              decoration: InputDecoration(
+                                  hintText: 'Birth of day',
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(12),
+                                  )),
+                            ),
+                      const SizedBox(
+                        height: 12,
+                      ),
+                      isEdit == false
+                          ? Text(
+                              e['address'],
+                              style:
+                                  TMThemeData.fromContext(context).textNormal,
+                            )
+                          : TextFormField(
+                              controller: _addressController,
+                              decoration: InputDecoration(
+                                hintText: 'Address',
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                              ),
+                            ),
+                      const SizedBox(
+                        height: 24,
+                      ),
+                      TMButton(
+                        content: isEdit == false ? 'Update Profile' : 'Update',
+                        onTap: () async {
+                          setState(() {
+                            isEdit != isEdit;
+                          });
+                          await FirebaseFirestore.instance
+                              .collection('users')
+                              .doc(globalManager.uId)
+                              .update({
+                            'birth_day': _birthdayController.text,
+                          });
+
+                          log(isEdit.toString());
+                        },
+                      ),
                     ],
                   ),
                 );

@@ -77,7 +77,7 @@ class _SettingsState extends State<Settings> {
                           setState(() {
                             dropdownValue = newValue!;
                             if (dropdownValue == 'EN') {
-                              context.setLocale(const Locale('e'));
+                              context.setLocale(const Locale('en'));
                               Get.updateLocale(const Locale('en'));
                             } else if (dropdownValue == 'VN') {
                               context.setLocale(const Locale('vi'));
@@ -110,7 +110,7 @@ class _SettingsState extends State<Settings> {
                   Get.toNamed(TMRoute.profile.name!);
                 },
                 child: Text(
-                  'Profile',
+                  tr("profile"),
                   style: TMThemeData.fromContext(context).text_14_700,
                 ),
               ),
@@ -121,9 +121,9 @@ class _SettingsState extends State<Settings> {
                 onTap: () {
                   TMDialog.show(
                     context,
-                    okText: 'Log out',
-                    cancelText:'Cancel',
-                    title: 'Are you sure?',
+                    okText: tr('logout'),
+                    cancelText:tr('cancel'),
+                    title: tr('you_are_sure'),
                     okHandler: () {
                       FirebaseAuth.instance.signOut();
                       Get.offAndToNamed(TMRoute.signin.name!);
@@ -131,7 +131,7 @@ class _SettingsState extends State<Settings> {
                   );
                 },
                 child: Text(
-                  'Log out',
+                  tr('logout'),
                   style: TMThemeData.fromContext(context).text_14_700,
                 ),
               ),
@@ -142,7 +142,6 @@ class _SettingsState extends State<Settings> {
     );
   }
 }
-
 
 
 

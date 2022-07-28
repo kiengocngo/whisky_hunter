@@ -7,6 +7,7 @@ import 'package:whisky_hunter/%20bloc/blocs/signin/sign_in_bloc.dart';
 import 'package:whisky_hunter/%20bloc/blocs/signin/sign_in_event.dart';
 import 'package:whisky_hunter/%20bloc/blocs/signin/sign_in_state.dart';
 import 'package:whisky_hunter/%20bloc/module/bloc_module.dart';
+import 'package:whisky_hunter/src/comp/button.dart/tm_button.dart';
 import 'package:whisky_hunter/src/comp/dialog/tm_dialog.dart';
 import 'package:whisky_hunter/src/constant/constant.dart';
 import 'package:whisky_hunter/src/route/tm_route.dart';
@@ -28,7 +29,7 @@ class _SignInScreenState extends State<SignInScreen> {
         const SignIn(),
         TextButton(
             onPressed: () {
-              Get.offAllNamed(TMRoute.signup.name!);
+              Get.toNamed(TMRoute.signup.name!);
             },
             child: const Text("Sign Up"))
       ],
@@ -83,6 +84,7 @@ class _SignInState extends State<SignIn> {
             ),
             TextFormField(
               controller: _passwordController,
+              obscureText: true,
               decoration: InputDecoration(
                 hintText: 'Password',
                 border: OutlineInputBorder(
@@ -98,29 +100,11 @@ class _SignInState extends State<SignIn> {
             const SizedBox(
               height: 12,
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                InkWell(
-                  onTap: () {
-                    getIt.get<SignInBloc>().add(LoginEvent());
-                  },
-                  child: Container(
-                    height: 56,
-                    width: 220,
-                    decoration: BoxDecoration(
-                      color: Colors.indigo,
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: Center(
-                      child: Text(
-                        'Login',
-                        style: TMThemeData.fromContext(context).text_16_500,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
+            TMButton(
+              content: 'Login',
+              onTap: () {
+                getIt.get<SignInBloc>().add(LoginEvent());
+              },
             ),
           ],
         ),
