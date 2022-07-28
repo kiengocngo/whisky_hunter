@@ -167,10 +167,6 @@ class _SearchSlugScreenState extends State<SearchSlugScreen> {
 //       child: CircularProgressIndicator(),
 //     );
 //   }
+
 // }
-
-
-
-
-
 
