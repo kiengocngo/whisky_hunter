@@ -55,7 +55,7 @@ dependencies:
   firebase_storage: ^10.3.3
   flutter_native_splash: ^2.2.6
   dob_input_field: ^1.0.0
-  
+  email_validator: ^2.1.16
 
 dev_dependencies:
   flutter_test:

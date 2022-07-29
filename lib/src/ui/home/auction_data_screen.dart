@@ -52,9 +52,13 @@ class _AuctionDataScreenState extends State<AuctionDataScreen> {
                 flex: 2,
                 child: _buildListDisInfo(context),
               ),
-              const SizedBox(height: 6,),
+              const SizedBox(
+                height: 6,
+              ),
               const Divider(),
-              const SizedBox(height: 6,),
+              const SizedBox(
+                height: 6,
+              ),
               Expanded(
                 flex: 6,
                 child: _buildListAuction(context),
@@ -70,104 +74,34 @@ class _AuctionDataScreenState extends State<AuctionDataScreen> {
     return BlocBuilder<AuctionBloc, AuctionState>(
       bloc: getIt<AuctionBloc>(),
       builder: (context, state) {
-        if (state is AuctionInitial || state is AuctionLoading) {
-          return _buildLoading();
-        } else if (state is AuctionLoaded) {
-          return _buildCard(context, state.listAutionModel);
-        } else if (state is AuctionError) {
-          return Container();
-        } else {
-          return Container();
+        switch (state.status) {
+          case AuctionStatus.failure:
+            return const Center(
+              child: Text('faild to fetch data 1x'),
+            );
+          case AuctionStatus.success:
+            if (state.auction.isEmpty) {
+              return const Center(
+                child: Text('no data'),
+              );
+            }
+            return GridView.builder(
+                itemCount: state.auction.length,
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    crossAxisSpacing: 16.0,
+                    mainAxisSpacing: 16.0),
+                itemBuilder: (context, index) {
+                  return AuctionListItem(
+                    auction: state.auction[index],
+                  );
+                });
+          default:
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
         }
       },
-    );
-  }
-
-  Widget _buildCard(BuildContext context, List<AuctionDataModel> model) {
-    return GridView.builder(
-        itemCount: 8,
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2, crossAxisSpacing: 16.0, mainAxisSpacing: 16.0),
-        itemBuilder: (context, index) {
-          var data = model[index];
-          return Stack(
-            children: [
-              Container(
-                height: MediaQuery.of(context).size.height * 2 / 5,
-                width: MediaQuery.of(context).size.width,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8),
-                  image: const DecorationImage(
-                    image: AssetImage(
-                      TMIcons.whisky2,
-                    ),
-                    fit: BoxFit.fill,
-                  ),
-                ),
-                padding: const EdgeInsets.all(16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      data.auctionName,
-                      style: TMThemeData.fromContext(context).textNameWhisky,
-                    ),
-                    const SizedBox(
-                      height: 12,
-                    ),
-                    InkWell(
-                      onTap: () {
-                        Get.toNamed(TMRoute.auctionSlug.name!, arguments: [
-                          data.dt,
-                          data.auctionName,
-                          data.auctionSlug,
-                          data.auctionLotsCount,
-                          data.allAuctionsLotsCount,
-                          data.winningBidMax,
-                          data.winningBidMin,
-                          data.auctionTradingVolume,
-                        ]);
-                      },
-                      child: Container(
-                        height: 40,
-                        width: 160,
-                        decoration: BoxDecoration(
-                          border:
-                              Border.all(width: 2, color: TMColors.textWhite),
-                        ),
-                        child: Center(
-                          child: Text(
-                            tr("seeMore"),
-                            style: TMThemeData.fromContext(context).learnMore,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Positioned(
-                top: 4,
-                right: 16,
-                child: InkWell(
-                  onTap: () {
-                    SQLHelper.createItem(data.auctionName, data.auctionSlug);
-                  },
-                  child: const Icon(
-                    Icons.favorite_outline,
-                    color: Colors.red,
-                  ),
-                ),
-              ),
-            ],
-          );
-        });
-  }
-
-  Widget _buildLoading() {
-    return const Center(
-      child: CircularProgressIndicator(),
     );
   }
 
@@ -200,85 +134,175 @@ class _AuctionDataScreenState extends State<AuctionDataScreen> {
     return BlocBuilder<DistilleriesInfoBloc, DistilleriesInfoState>(
       bloc: getIt<DistilleriesInfoBloc>(),
       builder: (context, state) {
-        if (state is DistilleriesInfoInitial) {
-          return _buildLoading();
-        } else if (state is DistilleriesInfoLoading) {
-          return _buildLoading();
-        } else if (state is DistilleriesInfoLoaded) {
-          return _buildCard1(context, state.listDistilleriesInfo);
-        } else if (state is DistilleriesInfoError) {
-          return Container();
-        } else {
-          return Container();
+        switch (state.status) {
+          case AuctionStatus.failure:
+            return const Text('faild to fetch data');
+          case AuctionStatus.success:
+            if (state.distilleries.isEmpty) {
+              return const Text('no data');
+            }
+            return ListView.separated(
+                scrollDirection: Axis.horizontal,
+                itemBuilder: (context, index) {
+                  return DistilleriesListItem(
+                      distilleries: state.distilleries[index]);
+                },
+                separatorBuilder: (context, index) {
+                  return const SizedBox(
+                    width: 10,
+                  );
+                },
+                itemCount: state.distilleries.length);
+          default:
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
         }
       },
     );
   }
+}
 
-  Widget _buildCard1(BuildContext context, List<DistilleriesInfo> model) {
-    return ListView.separated(
-      separatorBuilder: (context, index) {
-        return const SizedBox(
-          width: 10,
-        );
-      },
-      scrollDirection: Axis.horizontal,
-      itemCount: 5,
-      itemBuilder: (context, index) {
-        var data = model[index];
-        return ClipRRect(
-          borderRadius: BorderRadius.circular(12),
-          child: Container(
-            height: 100,
-            width: 300,
-            decoration: const BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage(
-                  TMIcons.whisky3,
-                ),
-                fit: BoxFit.fill,
+class AuctionListItem extends StatelessWidget {
+  const AuctionListItem({Key? key, required this.auction}) : super(key: key);
+
+  final AuctionDataModel auction;
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+        child: Stack(
+      children: [
+        Container(
+          height: MediaQuery.of(context).size.height * 2 / 5,
+          width: MediaQuery.of(context).size.width,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(8),
+            image: const DecorationImage(
+              image: AssetImage(
+                TMIcons.whisky2,
               ),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    data.name,
-                    style: TMThemeData.fromContext(context).textNameWhisky,
-                  ),
-                  const SizedBox(
-                    height: 8.0,
-                  ),
-                  Text(
-                    '${tr("country")}: ${data.country}',
-                    style: TMThemeData.fromContext(context).textDataAuction,
-                  ),
-                  const SizedBox(
-                    height: 8.0,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Text(
-                        '${tr("vote")}: ${data.votes}',
-                        style: TMThemeData.fromContext(context).textDataAuction,
-                      ),
-                    ],
-                  ),
-                  Text(
-                    '${tr("rate")}: ${data.rating}',
-                    style: TMThemeData.fromContext(context).textDataAuction,
-                  )
-                ],
-              ),
+              fit: BoxFit.fill,
             ),
           ),
-        );
-      },
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                auction.auctionName,
+                style: TMThemeData.fromContext(context).textNameWhisky,
+              ),
+              const SizedBox(
+                height: 12,
+              ),
+              InkWell(
+                onTap: () {
+                  Get.toNamed(TMRoute.auctionSlug.name!, arguments: [
+                    auction.dt,
+                    auction.auctionName,
+                    auction.auctionSlug,
+                    auction.auctionLotsCount,
+                    auction.allAuctionsLotsCount,
+                    auction.winningBidMax,
+                    auction.winningBidMin,
+                    auction.auctionTradingVolume,
+                  ]);
+                },
+                child: Container(
+                  height: 40,
+                  width: 160,
+                  decoration: BoxDecoration(
+                    border: Border.all(width: 2, color: TMColors.textWhite),
+                  ),
+                  child: Center(
+                    child: Text(
+                      tr("seeMore"),
+                      style: TMThemeData.fromContext(context).learnMore,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+        Positioned(
+          top: 4,
+          right: 16,
+          child: InkWell(
+            onTap: () {
+              SQLHelper.createItem(auction.auctionName, auction.auctionSlug);
+            },
+            child: const Icon(
+              Icons.favorite_outline,
+              color: Colors.red,
+            ),
+          ),
+        ),
+      ],
+    ));
+  }
+}
+
+class DistilleriesListItem extends StatelessWidget {
+  final DistilleriesInfo distilleries;
+  const DistilleriesListItem({Key? key, required this.distilleries})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(12),
+      child: Container(
+        height: 100,
+        width: 300,
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage(
+              TMIcons.whisky3,
+            ),
+            fit: BoxFit.fill,
+          ),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                distilleries.name,
+                style: TMThemeData.fromContext(context).textNameWhisky,
+              ),
+              const SizedBox(
+                height: 8.0,
+              ),
+              Text(
+                '${tr("country")}: ${distilleries.country}',
+                style: TMThemeData.fromContext(context).textDataAuction,
+              ),
+              const SizedBox(
+                height: 8.0,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(
+                    '${tr("vote")}: ${distilleries.votes}',
+                    style: TMThemeData.fromContext(context).textDataAuction,
+                  ),
+                ],
+              ),
+              Text(
+                '${tr("rate")}: ${distilleries.rating}',
+                style: TMThemeData.fromContext(context).textDataAuction,
+              )
+            ],
+          ),
+        ),
+      ),
     );
   }
 }

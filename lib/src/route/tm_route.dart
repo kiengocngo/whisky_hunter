@@ -3,7 +3,6 @@ import 'package:get/route_manager.dart';
 import 'package:whisky_hunter/src/ui/authentication/information/info.dart';
 import 'package:whisky_hunter/src/ui/authentication/signin/sign_in_screen.dart';
 import 'package:whisky_hunter/src/ui/authentication/signup/sign_up_screen.dart';
-
 import 'package:whisky_hunter/src/ui/home/auction_data_screen.dart';
 import 'package:whisky_hunter/src/ui/autction_data_slug.dart';
 import 'package:whisky_hunter/src/ui/favortie/favorite_screen.dart';
@@ -87,13 +86,13 @@ extension TMRouteExt on TMRoute {
       case TMRoute.signin:
         return GetPageRoute(
           settings: settings,
-          page: () => const SignInScreen(),
+          page: () => const SignIn(),
           transition: Transition.cupertino,
         );
       case TMRoute.signup:
         return GetPageRoute(
           settings: settings,
-          page: () => const SignUpScreen(),
+          page: () => const SignUp(),
           transition: Transition.cupertino,
         );
       case TMRoute.auction:

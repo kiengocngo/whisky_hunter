@@ -1,16 +1,19 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart' hide Trans;
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:whisky_hunter/src/comp/dialog/tm_dialog.dart';
+import 'package:whisky_hunter/%20bloc/blocs/authen/auth_bloc.dart';
 import 'package:whisky_hunter/src/route/tm_route.dart';
+import 'package:whisky_hunter/src/ui/authentication/signin/sign_in_screen.dart';
 import 'package:whisky_hunter/theme/tm_theme_data.dart';
+
 class Settings extends StatefulWidget {
   const Settings({Key? key}) : super(key: key);
   @override
   State<Settings> createState() => _SettingsState();
 }
+
 class _SettingsState extends State<Settings> {
   String dropdownValue = 'EN';
   late SharedPreferences prefs;
@@ -24,6 +27,7 @@ class _SettingsState extends State<Settings> {
     super.initState();
     _getLanguage();
   }
+
   _getLanguage() async {
     prefs = await SharedPreferences.getInstance();
     setState(() {
@@ -33,6 +37,7 @@ class _SettingsState extends State<Settings> {
       }
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -117,23 +122,22 @@ class _SettingsState extends State<Settings> {
               const SizedBox(
                 height: 12,
               ),
-              InkWell(
-                onTap: () {
-                  TMDialog.show(
-                    context,
-                    okText: tr('logout'),
-                    cancelText:tr('cancel'),
-                    title: tr('you_are_sure'),
-                    okHandler: () {
-                      FirebaseAuth.instance.signOut();
-                      Get.offAndToNamed(TMRoute.signin.name!);
-                    },
-                  );
+              BlocListener<AuthBloc, AuthState>(
+                listener: (context, state) {
+                  if (state is Authenticated) {
+                    Navigator.of(context).pushAndRemoveUntil(
+                      MaterialPageRoute(builder: (context) => const SignIn()),
+                      ModalRoute.withName('/sigin'),
+                    );
+                  }
                 },
-                child: Text(
-                  tr('logout'),
-                  style: TMThemeData.fromContext(context).text_14_700,
-                ),
+                child: InkWell(
+                    onTap: () {
+                      context.read<AuthBloc>().add(SignOutRequested());
+                    },
+                    child: Text(
+                      tr('logout'),
+                    )),
               ),
             ],
           ),
@@ -142,21 +146,3 @@ class _SettingsState extends State<Settings> {
     );
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

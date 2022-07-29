@@ -1,121 +1,163 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
-import 'package:flutter/cupertino.dart';
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:whisky_hunter/%20bloc/blocs/authen/auth_bloc.dart';
 import 'package:whisky_hunter/src/comp/button.dart/tm_button.dart';
-import 'package:whisky_hunter/src/comp/dialog/tm_dialog.dart';
-import 'package:whisky_hunter/src/route/tm_route.dart';
+import 'package:whisky_hunter/src/ui/authentication/signin/sign_in_screen.dart';
+import 'package:whisky_hunter/src/ui/main/main_screen.dart';
+import 'package:whisky_hunter/theme/tm_theme_data.dart';
 
-class SignUpScreen extends StatefulWidget {
-  const SignUpScreen({Key? key}) : super(key: key);
+class SignUp extends StatefulWidget {
+  const SignUp({Key? key}) : super(key: key);
 
   @override
-  State<SignUpScreen> createState() => _SignUpScreenState();
+  State<SignUp> createState() => _SignUpState();
 }
 
-class _SignUpScreenState extends State<SignUpScreen> {
-  final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _userNameController = TextEditingController();
+class _SignUpState extends State<SignUp> {
+  final _formKey = GlobalKey<FormState>();
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      extendBodyBehindAppBar: true,
-      appBar: AppBar(
-        leading: IconButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          icon: const Icon(
-            CupertinoIcons.back,
-            color: Colors.black,
-          ),
-        ),
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        title: const Text(
-          "SIGN UP",
-          style: TextStyle(
-              fontSize: 24, fontWeight: FontWeight.bold, color: Colors.black),
-        ),
-      ),
-      body: SizedBox(
-          width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.height,
-          child: SingleChildScrollView(
+      body: BlocConsumer<AuthBloc, AuthState>(
+        listener: (context, state) {
+          if (state is Authenticated) {
+            // Navigating to mainscreen
+            Navigator.of(context).pushReplacement(
+              MaterialPageRoute(
+                builder: (context) => const MainScreen(),
+              ),
+            );
+          }
+          if (state is AuthError) {
+            // show message error
+            ScaffoldMessenger.of(context)
+                .showSnackBar(SnackBar(content: Text(state.error)));
+          }
+        },
+        builder: (context, state) {
+          if (state is Loading) {
+            // show loading
+            return const Center(child: CircularProgressIndicator());
+          }
+          if (state is UnAuthenticated) {
+            // form sign up
+            return Center(
               child: Padding(
-            padding: const EdgeInsets.fromLTRB(20, 120, 20, 0),
-            child: Column(
-              children: <Widget>[
-                const SizedBox(
-                  height: 20,
+                padding: const EdgeInsets.all(18.0),
+                child: SingleChildScrollView(
+                  reverse: true,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Text(
+                        "Sign Up",
+                        style: TextStyle(
+                          fontSize: 38,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 18,
+                      ),
+                      Center(
+                        child: Form(
+                          key: _formKey,
+                          child: Column(
+                            children: [
+                              TextFormField(
+                                controller: _emailController,
+                                decoration: InputDecoration(
+                                  hintText: "Email",
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                ),
+                                autovalidateMode:
+                                    AutovalidateMode.onUserInteraction,
+                                validator: (value) {
+                                  return value != null &&
+                                          !EmailValidator.validate(value)
+                                      ? 'Enter a valid email'
+                                      : null;
+                                },
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              TextFormField(
+                                controller: _passwordController,
+                                decoration: InputDecoration(
+                                  hintText: "Password",
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                ),
+                                autovalidateMode:
+                                    AutovalidateMode.onUserInteraction,
+                                validator: (value) {
+                                  return value != null && value.length < 6
+                                      ? "Enter min. 6 characters"
+                                      : null;
+                                },
+                              ),
+                              const SizedBox(
+                                height: 12,
+                              ),
+                              TMButton(
+                                  content: 'Sign Up',
+                                  onTap: () {
+                                    _createAccountWithEmailAndPassword(context);
+                                  })
+                            ],
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 10,),
+                      const Text("Already have an account?"),
+                      OutlinedButton(
+                        onPressed: () {
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const SignIn()),
+                          );
+                        },
+                        child: Text(
+                          "Sign In",
+                          style: TMThemeData.fromContext(context).textNormal,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-                TextFormField(
-                  controller: _emailController,
-                  decoration: InputDecoration(
-                      hintText: 'Email',
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      )),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                TextFormField(
-                  controller: _passwordController,
-                  decoration: InputDecoration(
-                      hintText: 'Password',
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      )),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                TextFormField(
-                  controller: _userNameController,
-                  decoration: InputDecoration(
-                      hintText: 'UserName',
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      )),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                TMButton(
-                  content: "Sign Up",
-                  onTap: () async {
-                    try {
-                      firebase_auth.UserCredential userCredential =
-                          await firebase_auth.FirebaseAuth.instance
-                              .createUserWithEmailAndPassword(
-                                  email: _emailController.text,
-                                  password: _passwordController.text);
-
-                      await FirebaseFirestore.instance
-                          .collection('users')
-                          .doc(userCredential.user!.uid)
-                          .set({
-                        'uid': userCredential.user!.uid,
-                        'user_name': _userNameController.text,
-                        'birth_day': '',
-                        'address': '',
-                        'img_profile': '',
-                      });
-                      Get.offAndToNamed(TMRoute.info.name!, arguments: [
-                        userCredential.user!.uid,
-                      ]);
-                    } catch (e) {
-                      String err = e.toString();
-                      TMDialog.show(context, title: err, okText: 'Ok');
-                    }
-                  },
-                ),
-              ],
-            ),
-          ))),
+              ),
+            );
+          }
+          return Container();
+        },
+      ),
     );
+  }
+
+  void _createAccountWithEmailAndPassword(BuildContext context) {
+    if (_formKey.currentState!.validate()) {
+      BlocProvider.of<AuthBloc>(context).add(
+        SignUpRequested(
+          _emailController.text,
+          _passwordController.text,
+        ),
+      );
+    }
   }
 }

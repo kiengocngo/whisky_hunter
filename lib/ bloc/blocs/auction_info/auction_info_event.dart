@@ -3,8 +3,8 @@ import 'package:equatable/equatable.dart';
 abstract class AuctionInfoEvent extends Equatable {
   const AuctionInfoEvent();
 
-  @override 
+  @override
   List<Object> get props => [];
 }
 
-class GetAuctionInfoList extends AuctionInfoEvent{}
+class GetAuctionInfoList extends AuctionInfoEvent {}
