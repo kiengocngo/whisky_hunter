@@ -13,5 +13,9 @@
     "listing_fee": "Giá niêm yết",
     "favorite_whisky": "LOẠI RƯỢU YÊU THÍCH",
     "search_slug": "Tìm kiếm theo slug",
-    "search_result": "Kết quả tìm kiếm cho từ khoá"
+    "search_result": "Kết quả tìm kiếm cho từ khoá",
+    "profile": "Thông tin cá nhân",
+    "logout": "Đăng xuất",
+    "you_are_sure": "Bạn có muốn?",
+    "cancel": "Huỷ"
 }

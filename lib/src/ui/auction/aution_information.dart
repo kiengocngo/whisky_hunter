@@ -46,86 +46,92 @@ class _AuctionInformationState extends State<AuctionInformation> {
     return BlocBuilder<AuctionInfoBloc, AuctionInfoState>(
       bloc: getIt<AuctionInfoBloc>(),
       builder: (context, state) {
-        if (state is AuctionInfoInitial || state is AuctionLoading) {
-          return _buildLoading();
-        } else if (state is AuctionInfoLoaded) {
-          return _buildCard(context, state.listAuctionInfoModel);
-        } else if (state is AuctionInfoError) {
-          return Container();
-        } else {
-          return Container();
+        switch (state.status) {
+          case AuctionStatus.failure:
+            return const Text('faild to fetch data');
+          case AuctionStatus.success:
+            if (state.auctionInfo.isEmpty) {
+              return const Center(
+                child: Text('no data'),
+              );
+            }
+            return ListView.separated(
+                itemBuilder: (context, index) {
+                  return AuctionInfoListItem(
+                    auctionInfo: state.auctionInfo[index],
+                  );
+                },
+                separatorBuilder: (context, index) {
+                  return const Divider();
+                },
+                itemCount: state.auctionInfo.length);
+          default:
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
         }
       },
     );
   }
+}
 
-  Widget _buildLoading() {
-    return const Center(
-      child: CircularProgressIndicator(),
-    );
-  }
+class AuctionInfoListItem extends StatelessWidget {
+  final AuctionInformations auctionInfo;
+  const AuctionInfoListItem({Key? key, required this.auctionInfo})
+      : super(key: key);
 
-  Widget _buildCard(BuildContext context, List<AuctionInformations> model) {
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: ListView.separated(
-        itemCount: model.length,
-        separatorBuilder: (context, index) {
-          return const Divider();
-        },
-        itemBuilder: (context, index) {
-          var data = model[index];
-          return Container(
-            height: MediaQuery.of(context).size.height * 2 / 5,
-            width: MediaQuery.of(context).size.width,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(8.0),
-              image: const DecorationImage(
-                image: AssetImage(TMIcons.whisky1),
-                fit: BoxFit.fill,
-              ),
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      child: Container(
+        height: MediaQuery.of(context).size.height * 2 / 5,
+        width: MediaQuery.of(context).size.width,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(8.0),
+          image: const DecorationImage(
+            image: AssetImage(TMIcons.whisky1),
+            fit: BoxFit.fill,
+          ),
+        ),
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Text(
+              auctionInfo.name,
+              style: TMThemeData.fromContext(context).textNameWhisky,
             ),
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Text(
-                  data.name,
-                  style: TMThemeData.fromContext(context).textNameWhisky,
-                ),
-                const SizedBox(
-                  height: 12,
-                ),
-                Text(
-                  data.slug,
-                  style: TMThemeData.fromContext(context).textNameWhisky,
-                ),
-                const SizedBox(
-                  height: 12.0,
-                ),
-                Text(
-                  '${tr("buyers_fee")}: ${data.buyersFee} ${data.baseCurrency}',
-                  style: TMThemeData.fromContext(context).textDataAuction,
-                ),
-                const SizedBox(
-                  height: 12.0,
-                ),
-                Text(
-                  '${tr("sellers_fee")}: ${data.sellersFee} ${data.baseCurrency}',
-                  style: TMThemeData.fromContext(context).textDataAuction,
-                ),
-                const SizedBox(
-                  height: 12.0,
-                ),
-                Text(
-                  '${tr("listing_fee")}: ${data.listingFee} ${data.baseCurrency}',
-                  style: TMThemeData.fromContext(context).textDataAuction,
-                ),
-              ],
+            const SizedBox(
+              height: 12,
             ),
-          );
-        },
+            Text(
+              auctionInfo.slug,
+              style: TMThemeData.fromContext(context).textNameWhisky,
+            ),
+            const SizedBox(
+              height: 12.0,
+            ),
+            Text(
+              '${tr("buyers_fee")}: ${auctionInfo.buyersFee} ${auctionInfo.baseCurrency}',
+              style: TMThemeData.fromContext(context).textDataAuction,
+            ),
+            const SizedBox(
+              height: 12.0,
+            ),
+            Text(
+              '${tr("sellers_fee")}: ${auctionInfo.sellersFee} ${auctionInfo.baseCurrency}',
+              style: TMThemeData.fromContext(context).textDataAuction,
+            ),
+            const SizedBox(
+              height: 12.0,
+            ),
+            Text(
+              '${tr("listing_fee")}: ${auctionInfo.listingFee} ${auctionInfo.baseCurrency}',
+              style: TMThemeData.fromContext(context).textDataAuction,
+            ),
+          ],
+        ),
       ),
     );
   }

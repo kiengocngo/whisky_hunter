@@ -1,19 +1,16 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:get/instance_manager.dart';
-import 'package:whisky_hunter/src/constant/constant.dart';
+import 'package:whisky_hunter/src/comp/button.dart/tm_button.dart';
 
 class Info extends StatefulWidget {
-  const Info({
-    Key? key,
-  }) : super(key: key);
+  final String uid;
+  const Info({Key? key, required this.uid}) : super(key: key);
 
   @override
   State<Info> createState() => _InfoState();
 }
 
 class _InfoState extends State<Info> {
-  final GlobalManager globalManager = Get.find();
   final TextEditingController _dobController = TextEditingController();
   final TextEditingController _genderController = TextEditingController();
   final TextEditingController _addressController = TextEditingController();
@@ -49,19 +46,19 @@ class _InfoState extends State<Info> {
                     borderRadius: BorderRadius.circular(12),
                   )),
             ),
-            ElevatedButton(
-              onPressed: () async {
-                await FirebaseFirestore.instance
-                    .collection('users')
-                    .doc(globalManager.uId)
-                    .set({
-                  'date_of_birth': _dobController.text,
-                  'gender': _genderController.text,
-                  'address': _addressController.text,
-                });
-              },
-              child: Text('Update'),
-            ),
+            TMButton(
+                content: "Update",
+                onTap: () async {
+                  await FirebaseFirestore.instance
+                      .collection('users')
+                      .doc(widget.uid)
+                      .update(
+                    {
+                      'birth_day': _dobController.text,
+                      'address': _addressController.text,
+                    },
+                  );
+                })
           ],
         ),
       ),

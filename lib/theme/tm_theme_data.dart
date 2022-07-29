@@ -15,6 +15,7 @@ class TMThemeData with Diagnosticable {
   late TextStyle text_14_700;
   late TextStyle textSeeMore;
   late TextStyle textOnboarding;
+  late TextStyle textNormal;
 
   // Builds the Custom Themes, EFd on the currently defined EF Themes
   // ignore: avoid_unused_constructor_parameters
@@ -76,6 +77,13 @@ class TMThemeData with Diagnosticable {
       fontSize: 24,
       fontWeight: FontWeight.bold,
       color: Colors.white,
+    );
+    theme.textNormal = const TextStyle(
+      fontFamily: 'Roboto',
+      fontSize: 16,
+      fontWeight: FontWeight.normal,
+      fontStyle: FontStyle.normal,
+      color: Colors.black,
     );
 
     return theme;

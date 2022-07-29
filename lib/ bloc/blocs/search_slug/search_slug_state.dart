@@ -1,24 +1,21 @@
 import 'package:equatable/equatable.dart';
+import 'package:whisky_hunter/%20bloc/blocs/auction/aution_state.dart';
 import 'package:whisky_hunter/src/data/model/auction_data_model.dart';
 
+class SearchSlugState extends Equatable {
+  const SearchSlugState(
+      {this.status = AuctionStatus.initial,
+      this.search = const <AuctionDataModel>[]});
+  final List<AuctionDataModel> search;
+  final AuctionStatus status;
+  SearchSlugState copyWith({
+    AuctionStatus? status,
+    List<AuctionDataModel>? search,
+  }) {
+    return SearchSlugState(
+        status: status ?? this.status, search: search ?? this.search);
+  }
 
-abstract class SearchSlugState extends Equatable {
-  const SearchSlugState();
-
-  @override 
-  List<Object?> get props => [];
-}
-
-class SearchSlugInitial extends SearchSlugState{}
-
-class SearchSlugLoading extends SearchSlugState{}
-
-class SearchSlugLoaded extends SearchSlugState {
-  final List<AuctionDataModel> listSlug;
-  const SearchSlugLoaded(this.listSlug);
-}
-
-class SearchSlugError extends SearchSlugState{
-  final String? message;
-  const SearchSlugError(this.message);
+  @override
+  List<Object?> get props => [status, search];
 }
