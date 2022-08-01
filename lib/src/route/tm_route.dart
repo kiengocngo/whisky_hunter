@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
-import 'package:whisky_hunter/src/ui/authentication/information/info.dart';
-import 'package:whisky_hunter/src/ui/authentication/signin/sign_in_screen.dart';
-import 'package:whisky_hunter/src/ui/authentication/signup/sign_up_screen.dart';
 import 'package:whisky_hunter/src/ui/home/auction_data_screen.dart';
 import 'package:whisky_hunter/src/ui/autction_data_slug.dart';
 import 'package:whisky_hunter/src/ui/favortie/favorite_screen.dart';
@@ -16,8 +13,6 @@ import 'package:whisky_hunter/src/ui/splash/splash_screen.dart';
 enum TMRoute {
   splash,
   onboarding,
-  signin,
-  signup,
   auction,
   serchslug,
   auctionSlug,
@@ -25,7 +20,6 @@ enum TMRoute {
   setting,
   favorite,
   profile,
-  info,
 }
 
 extension TMRouteExt on TMRoute {
@@ -35,10 +29,6 @@ extension TMRouteExt on TMRoute {
         return '/splash';
       case TMRoute.onboarding:
         return '/onboarding';
-      case TMRoute.signin:
-        return '/signin';
-      case TMRoute.signup:
-        return '/signup';
       case TMRoute.auction:
         return '/auction';
       case TMRoute.serchslug:
@@ -53,8 +43,6 @@ extension TMRouteExt on TMRoute {
         return '/favorite';
       case TMRoute.profile:
         return '/profile';
-      case TMRoute.info:
-        return '/info';
       default:
         return null;
     }
@@ -81,18 +69,6 @@ extension TMRouteExt on TMRoute {
         return GetPageRoute(
           settings: settings,
           page: () => const OnBoardingScreen(),
-          transition: Transition.cupertino,
-        );
-      case TMRoute.signin:
-        return GetPageRoute(
-          settings: settings,
-          page: () => const SignIn(),
-          transition: Transition.cupertino,
-        );
-      case TMRoute.signup:
-        return GetPageRoute(
-          settings: settings,
-          page: () => const SignUp(),
           transition: Transition.cupertino,
         );
       case TMRoute.auction:
@@ -156,15 +132,7 @@ extension TMRouteExt on TMRoute {
           settings: settings,
           page: () => const ProfileScreen(),
         );
-      case TMRoute.info:
-        final dynamic args = settings.arguments;
-        final String uid = args[0];
-        return GetPageRoute(
-          settings: settings,
-          page: () => Info(
-            uid: uid,
-          ),
-        );
+
       default:
         return GetPageRoute(
             settings: settings,

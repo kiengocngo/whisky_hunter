@@ -52,7 +52,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                       fontWeight: FontWeight.bold,
                       color: Colors.black,
                     ),
-                  )
+                  ),
                 ],
               ),
             ),

@@ -1,11 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart' hide Trans;
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:whisky_hunter/%20bloc/blocs/authen/auth_bloc.dart';
-import 'package:whisky_hunter/src/route/tm_route.dart';
-import 'package:whisky_hunter/src/ui/authentication/signin/sign_in_screen.dart';
 import 'package:whisky_hunter/theme/tm_theme_data.dart';
 
 class Settings extends StatefulWidget {
@@ -60,8 +56,7 @@ class _SettingsState extends State<Settings> {
               ),
               Text(
                 tr('language'),
-                style: const TextStyle(
-                    fontSize: 14, fontWeight: FontWeight.normal),
+                style: TMThemeData.fromContext(context).text_14_700,
               ),
               const SizedBox(
                 height: 12,
@@ -107,38 +102,36 @@ class _SettingsState extends State<Settings> {
                   ),
                 ],
               ),
-              const SizedBox(
-                height: 6,
-              ),
-              InkWell(
-                onTap: () {
-                  Get.toNamed(TMRoute.profile.name!);
-                },
-                child: Text(
-                  tr("profile"),
-                  style: TMThemeData.fromContext(context).text_14_700,
-                ),
-              ),
-              const SizedBox(
-                height: 12,
-              ),
-              BlocListener<AuthBloc, AuthState>(
-                listener: (context, state) {
-                  if (state is Authenticated) {
-                    Navigator.of(context).pushAndRemoveUntil(
-                      MaterialPageRoute(builder: (context) => const SignIn()),
-                      ModalRoute.withName('/sigin'),
-                    );
-                  }
-                },
-                child: InkWell(
-                    onTap: () {
-                      context.read<AuthBloc>().add(SignOutRequested());
-                    },
-                    child: Text(
-                      tr('logout'),
-                    )),
-              ),
+              // Todo: authenicate
+              // const SizedBox(
+              //   height: 6,
+              // ),
+              // InkWell(
+              //   onTap: () {
+              //     Get.toNamed(TMRoute.profile.name!);
+              //   },
+              //   child: Text(
+              //     tr("profile"),
+              //     style: TMThemeData.fromContext(context).text_14_700,
+              //   ),
+              // ),
+              // const SizedBox(
+              //   height: 12,
+              // ),
+              // BlocListener<AuthBloc, AuthState>(
+              //   listener: (context, state) {
+              //     if (state is Authenticated) {
+              //       Get.offAndToNamed(TMRoute.signin.name!);
+              //     }
+              //   },
+              //   child: InkWell(
+              //       onTap: () {
+              //         context.read<AuthBloc>().add(SignOutRequested());
+              //       },
+              //       child: Text(
+              //         tr('logout'),
+              //       )),
+              // ),
             ],
           ),
         ),

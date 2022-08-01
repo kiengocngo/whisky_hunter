@@ -4,42 +4,27 @@ import 'package:whisky_hunter/src/data/model/auction_data_model.dart';
 enum AuctionStatus { initial, success, failure }
 
 class AuctionState extends Equatable {
-  const AuctionState(
-      {this.status = AuctionStatus.initial,
-      this.auction = const <AuctionDataModel>[]});
+  const AuctionState({
+    this.status = AuctionStatus.initial,
+    this.auction = const <AuctionDataModel>[],
+    required this.error,
+  });
 
   final List<AuctionDataModel> auction;
   final AuctionStatus status;
-
+  final String error;
   AuctionState copyWith({
     AuctionStatus? status,
     List<AuctionDataModel>? auction,
+    String? error,
   }) {
     return AuctionState(
       status: status ?? this.status,
       auction: auction ?? this.auction,
+      error: error ?? this.error,
     );
   }
 
   @override
-  String toString() {
-    return 'AuctionState {status : $status, auction: ${auction.length}}';
-  }
-
-  @override
-  List<Object> get props => [status, auction];
+  List<Object> get props => [status, auction, error];
 }
-
-// class AuctionInitial extends AuctionState {}
-
-// class AuctionLoading extends AuctionState {}
-
-// class AuctionLoaded extends AuctionState {
-//   final List<AuctionDataModel> listAutionModel;
-//   const AuctionLoaded(this.listAutionModel);
-// }
-
-// class AuctionError extends AuctionState {
-//   final String? message;
-//   const AuctionError(this.message);
-// }

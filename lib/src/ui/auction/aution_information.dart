@@ -1,14 +1,11 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:whisky_hunter/%20bloc/blocs/auction/aution_state.dart';
-import 'package:whisky_hunter/%20bloc/blocs/auction_info/auctio_info_state.dart';
-import 'package:whisky_hunter/%20bloc/blocs/auction_info/auction_info_event.dart';
-import 'package:whisky_hunter/%20bloc/blocs/auction_info/auction_info_bloc.dart';
+import 'package:whisky_hunter/%20bloc/blocs/blocs.dart';
 import 'package:whisky_hunter/%20bloc/module/bloc_module.dart';
 import 'package:whisky_hunter/src/constant/tm_icon.dart';
-import 'package:whisky_hunter/src/data/model/auction_information_model.dart';
 import 'package:whisky_hunter/theme/tm_theme_data.dart';
+import '../../data/model/model.dart';
 
 class AuctionInformation extends StatefulWidget {
   const AuctionInformation({Key? key}) : super(key: key);
@@ -48,7 +45,9 @@ class _AuctionInformationState extends State<AuctionInformation> {
       builder: (context, state) {
         switch (state.status) {
           case AuctionStatus.failure:
-            return const Text('faild to fetch data');
+            return Center(
+              child: Text(state.error),
+            );
           case AuctionStatus.success:
             if (state.auctionInfo.isEmpty) {
               return const Center(

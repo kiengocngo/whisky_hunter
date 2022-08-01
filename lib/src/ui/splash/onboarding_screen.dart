@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:whisky_hunter/src/route/tm_route.dart';
 import 'package:whisky_hunter/src/shared/app_managrer.dart';
@@ -25,7 +24,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
           InkWell(
             onTap: () {
               _setFirstOpenApp();
-              Get.offAllNamed(TMRoute.signin.name!);
+              Get.offAllNamed(TMRoute.main.name!);
             },
             child: const Center(
               child: Text('Next Screen'),

@@ -2,16 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:get/instance_manager.dart';
-import 'package:whisky_hunter/%20bloc/blocs/auction/aution_event.dart';
-import 'package:whisky_hunter/%20bloc/blocs/auction/aution_state.dart';
-import 'package:whisky_hunter/%20bloc/blocs/auction/auction_bloc.dart';
-import 'package:whisky_hunter/%20bloc/blocs/distilleries_info/distilleries_bloc.dart';
-import 'package:whisky_hunter/%20bloc/blocs/distilleries_info/distilleries_info_event.dart';
-import 'package:whisky_hunter/%20bloc/blocs/distilleries_info/distilleries_info_state.dart';
+import 'package:whisky_hunter/%20bloc/blocs/blocs.dart';
 import 'package:whisky_hunter/%20bloc/module/bloc_module.dart';
 import 'package:whisky_hunter/src/constant/tm_icon.dart';
-import 'package:whisky_hunter/src/data/model/auction_data_model.dart';
-import 'package:whisky_hunter/src/data/model/distilleries_info.dart';
+import 'package:whisky_hunter/src/data/model/model.dart';
 import 'package:whisky_hunter/src/route/tm_route.dart';
 import 'package:whisky_hunter/src/sqflite/sql_helper.dart';
 import 'package:whisky_hunter/theme/tm_colors.dart';
@@ -76,13 +70,14 @@ class _AuctionDataScreenState extends State<AuctionDataScreen> {
       builder: (context, state) {
         switch (state.status) {
           case AuctionStatus.failure:
-            return const Center(
-              child: Text('faild to fetch data 1x'),
+            return Center(
+              child: Text(state.error),
             );
+
           case AuctionStatus.success:
             if (state.auction.isEmpty) {
               return const Center(
-                child: Text('no data'),
+                child: Text('No data'),
               );
             }
             return GridView.builder(
@@ -136,7 +131,9 @@ class _AuctionDataScreenState extends State<AuctionDataScreen> {
       builder: (context, state) {
         switch (state.status) {
           case AuctionStatus.failure:
-            return const Text('faild to fetch data');
+            return Center(
+              child: Text(state.error),
+            );
           case AuctionStatus.success:
             if (state.distilleries.isEmpty) {
               return const Text('no data');

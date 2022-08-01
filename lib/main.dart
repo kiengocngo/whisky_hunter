@@ -5,14 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get/get.dart';
-import 'package:whisky_hunter/%20bloc/blocs/authen/auth_bloc.dart';
-import 'package:whisky_hunter/src/data/repo/auth_repository.dart';
 import 'package:whisky_hunter/src/route/tm_route.dart';
 import 'package:whisky_hunter/src/utils/dependencies.dart';
-import ' bloc/blocs/search_slug/search_slug_bloc.dart';
-import ' bloc/blocs/distilleries_info/distilleries_bloc.dart';
-import ' bloc/blocs/auction_info/auction_info_bloc.dart';
-import ' bloc/blocs/auction/auction_bloc.dart';
+import ' bloc/blocs/blocs.dart';
 import ' bloc/module/bloc_module.dart';
 import 'src/constant/constant.dart';
 
@@ -52,9 +47,6 @@ class MyApp extends StatelessWidget {
             create: (BuildContext context) => DistilleriesInfoBloc(dio: Dio())),
         BlocProvider(
             create: (BuildContext context) => SearchSlugBloc(dio: Dio())),
-        BlocProvider(
-            create: (BuildContext context) =>
-                AuthBloc(authRepository: AuthRepository())),
       ],
       child: GetMaterialApp(
         supportedLocales: context.supportedLocales,

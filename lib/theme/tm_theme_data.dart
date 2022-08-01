@@ -57,7 +57,7 @@ class TMThemeData with Diagnosticable {
       fontWeight: FontWeight.w500,
       fontSize: 16,
       fontStyle: FontStyle.normal,
-      color: Colors.white,
+      color: Colors.black,
     );
     theme.text_14_700 = const TextStyle(
       fontFamily: 'Roboto',

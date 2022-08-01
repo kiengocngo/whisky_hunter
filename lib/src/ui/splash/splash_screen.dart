@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:whisky_hunter/src/route/tm_route.dart';
@@ -26,11 +25,7 @@ class _SplashScreenState extends State<SplashScreen> {
     _getFirstOpenApp();
     Future.delayed(const Duration(seconds: 5), () {
       if (isFirstOpenApp) {
-        if (FirebaseAuth.instance.currentUser != null) {
-          Get.offAllNamed(TMRoute.main.name!);
-        } else {
-          Get.offAndToNamed(TMRoute.signin.name!);
-        }
+        Get.offAllNamed(TMRoute.main.name!);
       } else {
         Get.offAllNamed(TMRoute.onboarding.name!);
       }
