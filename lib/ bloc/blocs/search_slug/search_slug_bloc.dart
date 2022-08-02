@@ -1,61 +1,62 @@
+// import 'package:dio/dio.dart';
+// import 'package:flutter_bloc/flutter_bloc.dart';
+// import 'package:whisky_hunter/%20bloc/blocs/auction/aution_state.dart';
+// import 'package:whisky_hunter/%20bloc/blocs/search_slug/search_slug_event.dart';
+// import 'package:whisky_hunter/dio/dio.dart';
+// import 'search_slug_state.dart';
+
+// class SearchSlugBloc extends Bloc<SearchSlugEvent, SearchSlugState> {
+//   SearchSlugBloc({required this.dio})
+//       : super(const SearchSlugState(error: '')) {
+//     on<GetSLugList>(_onGetSearch);
+//   }
+//   final Dio dio;
+
+//   Future<void> _onGetSearch(
+//       GetSLugList event, Emitter<SearchSlugState> emit) async {
+//     try {
+//       if (state.status == AuctionStatus.initial) {
+//         final search = await DioClient().fetchSearch(event.slug);
+//         return emit(state.copyWith(
+//           status: AuctionStatus.success,
+//           search: search,
+//         ));
+//       }
+//     } catch (_) {
+//       emit(
+//         state.copyWith(
+//           status: AuctionStatus.failure,
+//           error: _.toString(),
+//         ),
+//       );
+//     }
+//   }
+// }
 import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:whisky_hunter/%20bloc/blocs/auction/aution_state.dart';
 import 'package:whisky_hunter/%20bloc/blocs/search_slug/search_slug_event.dart';
-import 'package:whisky_hunter/src/data/model/auction_data_model.dart';
-import 'search_slug_state.dart';
+import 'package:whisky_hunter/%20bloc/blocs/search_slug/search_slug_state.dart';
+import 'package:whisky_hunter/dio/config_dio.dart';
 
 class SearchSlugBloc extends Bloc<SearchSlugEvent, SearchSlugState> {
-  SearchSlugBloc({required this.dio}) : super(const SearchSlugState()) {
-    on<GetSLugList>(_onGetSearch);
+  SearchSlugBloc({required this.dio}) : super(SearchEmpty()) {
+    on<GetSLugList>(_onGetSlugList);
   }
+
   final Dio dio;
 
-  Future<void> _onGetSearch(
+  Future<void> _onGetSlugList(
       GetSLugList event, Emitter<SearchSlugState> emit) async {
+    final searchName = event.slug;
+    if (searchName.isEmpty) return emit(SearchEmpty());
+    emit(SearchLoading());
     try {
-      if (state.status == AuctionStatus.initial) {
-        final search = await _fetchSearch();
-        return emit(state.copyWith(
-          status: AuctionStatus.success,
-          search: search,
-        ));
-      }
-    } catch (_) {
-      emit(state.copyWith(status: AuctionStatus.failure));
+      final search = await DioClient().fetchSearch(searchName);
+      emit(SearchSuccess(search));
+    } catch (error) {
+      emit(error is SearchError
+          ? SearchError(error.toString())
+          : const SearchError('Something went wrong'));
     }
-  }
-
-  Future<List<AuctionDataModel>> _fetchSearch() async {
-    final response =
-        await dio.get('https://whiskyhunter.net/api/auction_data/bonhams');
-    if (response.statusCode == 200) {
-      var getData = response.data as List;
-      var slug = getData.map((e) => AuctionDataModel.fromJson(e)).toList();
-      return slug;
-    }
-    throw Exception('faild to fecth data');
   }
 }
-
-//search
-//  Response response =
-//         await _dio.get(');
-//     if (response.statusCode == 200) {
-//       var getData = response.data as List;
-//       slugs = getData.map((e) => AuctionDataModel.fromJson(e)).toList();
-//       if (slug != null) {
-//         slugs = slugs
-//             .where((element) => element.allAuctionsLotsCount
-//                 .toString()
-//                 .toLowerCase()
-//                 .contains((slug.toLowerCase())))
-//             .toList();
-//       } else if (slug == null) {
-//         slugs = getData.map((e) => AuctionDataModel.fromJson(e)).toList();
-//       }
-//     } else {
-//       throw Exception('Failded to load data');
-//     }
-//     return slugs;
-//   }

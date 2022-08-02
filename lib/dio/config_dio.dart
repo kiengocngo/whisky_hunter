@@ -52,4 +52,16 @@ class DioClient {
       throw errorMesage;
     }
   }
+
+  Future<List<AuctionDataModel>> fetchSearch(String slugName) async {
+    try {
+      final response = await _dio.get('/auction_data/$slugName');
+      var getData = response.data as List;
+      var slug = getData.map((e) => AuctionDataModel.fromJson(e)).toList();
+      return slug;
+    } on DioError catch (err) {
+      final errorMesage = DioException.fromDioError(err).toString();
+      throw errorMesage;
+    }
+  }
 }
