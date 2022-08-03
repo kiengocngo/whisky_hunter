@@ -4,7 +4,6 @@ import 'package:whisky_hunter/src/ui/home/auction_data_screen.dart';
 import 'package:whisky_hunter/src/ui/autction_data_slug.dart';
 import 'package:whisky_hunter/src/ui/favortie/favorite_screen.dart';
 import 'package:whisky_hunter/src/ui/main/main_screen.dart';
-import 'package:whisky_hunter/src/ui/profile/profile_screen.dart';
 import 'package:whisky_hunter/src/ui/search/search_slug_screen.dart';
 import 'package:whisky_hunter/src/ui/settings/language_setting.dart';
 import 'package:whisky_hunter/src/ui/splash/onboarding_screen.dart';
@@ -19,7 +18,6 @@ enum TMRoute {
   main,
   setting,
   favorite,
-  profile,
 }
 
 extension TMRouteExt on TMRoute {
@@ -41,8 +39,7 @@ extension TMRouteExt on TMRoute {
         return '/setting';
       case TMRoute.favorite:
         return '/favorite';
-      case TMRoute.profile:
-        return '/profile';
+
       default:
         return null;
     }
@@ -92,9 +89,9 @@ extension TMRouteExt on TMRoute {
         final String auctionSlug = args[2];
         final int auctionLotsCount = args[3];
         final int allAuctionsLotsCount = args[4];
-        final double winningBidMax = args[5];
-        final double winningBidMin = args[6];
-        final double auctionTradingVolume = args[7];
+        final int winningBidMax = args[5];
+        final int winningBidMin = args[6];
+        final int auctionTradingVolume = args[7];
         return GetPageRoute(
           settings: settings,
           bindings: [],
@@ -127,12 +124,6 @@ extension TMRouteExt on TMRoute {
           bindings: [],
           page: () => const FavoriteScreen(),
         );
-      case TMRoute.profile:
-        return GetPageRoute(
-          settings: settings,
-          page: () => const ProfileScreen(),
-        );
-
       default:
         return GetPageRoute(
             settings: settings,

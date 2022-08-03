@@ -1,9 +1,12 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:whisky_hunter/src/constant/tm_icon.dart';
 import 'package:whisky_hunter/src/ui/auction/aution_information.dart';
 import 'package:whisky_hunter/src/ui/home/auction_data_screen.dart';
 import 'package:whisky_hunter/src/ui/favortie/favorite_screen.dart';
 import 'package:whisky_hunter/src/ui/settings/language_setting.dart';
+import 'package:whisky_hunter/theme/tm_colors.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({Key? key}) : super(key: key);
@@ -21,80 +24,110 @@ class _MainScreenState extends State<MainScreen> {
     Settings(),
   ];
 
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: _widgetOptions.elementAt(_selectedIndex),
+        child: _widgetOptions[_selectedIndex],
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        items: <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: SvgPicture.asset(
-              'lib/assets/icons/home.svg',
-              width: 25,
-              height: 25,
+      bottomNavigationBar: buildBottomNavigationBar(context),
+    );
+  }
+
+  Container buildBottomNavigationBar(BuildContext context) {
+    return Container(
+      height: 60,
+      decoration: const BoxDecoration(
+        color: TMColors.backgroundColor,
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(20),
+          topRight: Radius.circular(20),
+        ),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            IconButton(
+              enableFeedback: false,
+              onPressed: () {
+                setState(() {
+                  _selectedIndex = 0;
+                });
+              },
+              icon: _selectedIndex == 0
+                  ? const Icon(
+                      CupertinoIcons.home,
+                      color: Colors.green,
+                      size: 25,
+                    )
+                  : const Icon(
+                      CupertinoIcons.home,
+                      color: Colors.white,
+                      size: 25,
+                    ),
             ),
-            label: '',
-            activeIcon: SvgPicture.asset(
-              'lib/assets/icons/home.svg',
-              width: 30,
-              height: 30,
+            IconButton(
+              enableFeedback: false,
+              onPressed: () {
+                setState(() {
+                  _selectedIndex = 1;
+                });
+              },
+              icon: _selectedIndex == 1
+                  ? const Icon(
+                      CupertinoIcons.archivebox,
+                      color: Colors.green,
+                      size: 25,
+                    )
+                  : const Icon(
+                      CupertinoIcons.archivebox,
+                      color: Colors.white,
+                      size: 25,
+                    ),
             ),
-          ),
-          BottomNavigationBarItem(
-            icon: SvgPicture.asset(
-              'lib/assets/icons/auction.svg',
-              height: 25,
-              width: 25,
+            IconButton(
+              enableFeedback: false,
+              onPressed: () {
+                setState(() {
+                  _selectedIndex = 2;
+                });
+              },
+              icon: _selectedIndex == 2
+                  ? const Icon(
+                      CupertinoIcons.heart,
+                      color: Colors.red,
+                      size: 25,
+                    )
+                  : const Icon(
+                      CupertinoIcons.heart,
+                      color: Colors.white,
+                      size: 25,
+                    ),
             ),
-            label: '',
-            activeIcon: SvgPicture.asset(
-              'lib/assets/icons/auction.svg',
-              width: 30,
-              height: 30,
+            IconButton(
+              enableFeedback: false,
+              onPressed: () {
+                setState(() {
+                  _selectedIndex = 3;
+                });
+              },
+              icon: _selectedIndex == 3
+                  ? const Icon(
+                      CupertinoIcons.settings,
+                      color: Colors.green,
+                      size: 25,
+                    )
+                  : const Icon(
+                      CupertinoIcons.settings,
+                      color: Colors.white,
+                      size: 25,
+                    ),
             ),
-          ),
-          BottomNavigationBarItem(
-            icon: SvgPicture.asset(
-              'lib/assets/icons/favorite.svg',
-              height: 25,
-              width: 25,
-            ),
-            label: '',
-            activeIcon: ClipRRect(
-              borderRadius: BorderRadius.circular(12),
-              child: SvgPicture.asset(
-                'lib/assets/icons/favorite.svg',
-                width: 30,
-                height: 30,
-                fit: BoxFit.scaleDown,
-              ),
-            ),
-          ),
-          BottomNavigationBarItem(
-            icon: SvgPicture.asset(
-              'lib/assets/icons/setting.svg',
-              height: 25,
-              width: 25,
-            ),
-            label: '',
-            activeIcon: SvgPicture.asset(
-              'lib/assets/icons/setting.svg',
-              height: 30,
-              width: 30,
-            ),
-          ),
-        ],
-        currentIndex: _selectedIndex,
-        onTap: _onItemTapped,
+          ],
+        ),
       ),
     );
   }

@@ -1,57 +1,58 @@
 import 'package:dio/dio.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class DioException implements Exception {
   late String errroMessage;
   DioException.fromDioError(DioError dioError) {
     switch (dioError.type) {
       case DioErrorType.cancel:
-        errroMessage = 'Request to service was cancelled.';
+        errroMessage = tr('err_cancel');
         break;
       case DioErrorType.connectTimeout:
-        errroMessage = 'Connection timed out.';
+        errroMessage = tr('err_connect');
         break;
       case DioErrorType.receiveTimeout:
-        errroMessage = 'Recevie timed out';
+        errroMessage = tr('err_receive');
         break;
       case DioErrorType.sendTimeout:
-        errroMessage = 'Send timed out';
+        errroMessage = tr('err_send');
         break;
       case DioErrorType.response:
         errroMessage = _handleStatusCode(dioError.response?.statusCode);
         break;
       case DioErrorType.other:
         if (dioError.message.contains('SocketException')) {
-          errroMessage = 'No internet';
+          errroMessage = tr('err_internet');
           break;
         }
-        errroMessage = 'Unexpected error occured';
+        errroMessage = tr('err_other1');
         break;
       default:
-        errroMessage = 'Something went wrong';
+        errroMessage = tr('err_other2');
     }
   }
   String _handleStatusCode(int? statusCode) {
     switch (statusCode) {
       case 400:
-        return 'Bad request';
+        return tr('err_400');
       case 401:
-        return 'Authenticaion failed';
+        return tr('err_401');
       case 403:
-        return 'The authenticated user is not allowed to access the specified API endpoint.';
+        return tr('err_403');
       case 404:
-        return 'The requested resource does not exist.';
+        return tr('err_404');
       case 405:
-        return 'Method not allowed. Please check the Allow header for the allowed HTTP methods.';
+        return tr('err_405');
       case 415:
-        return 'Unsupported media type. The requested content type or version number is invalid.';
+        return tr('err_415');
       case 422:
-        return 'Data validation failed.';
+        return tr('err_422');
       case 429:
-        return 'Too many requests.';
+        return tr('err_429');
       case 500:
-        return 'Internal server error.';
+        return tr('err_500');
       default:
-        return 'Oops something went wrong!';
+        return tr('err_other3');
     }
   }
 

@@ -1,10 +1,14 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:whisky_hunter/%20bloc/blocs/search_slug/search_slug_bloc.dart';
 import 'package:whisky_hunter/%20bloc/blocs/search_slug/search_slug_event.dart';
 import 'package:whisky_hunter/%20bloc/blocs/search_slug/search_slug_state.dart';
+import 'package:whisky_hunter/src/comp/appbar/tm_app_bar.dart';
 import 'package:whisky_hunter/src/data/model/auction_data_model.dart';
+import 'package:whisky_hunter/theme/tm_colors.dart';
+import 'package:whisky_hunter/theme/tm_theme_data.dart';
 
 class SearchSlugScreen extends StatefulWidget {
   const SearchSlugScreen({Key? key}) : super(key: key);
@@ -31,51 +35,94 @@ class _SearchSlugScreenState extends State<SearchSlugScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: CustomAppBar(tr('search')),
       body: Padding(
         padding: const EdgeInsets.fromLTRB(16, 10, 16, 0),
         child: Column(
           children: [
             TextFormField(
+              textInputAction: TextInputAction.done,
+              style: TMThemeData.fromContext(context).textDataAuctionBlack,
+              cursorHeight: 20,
+              cursorColor: TMColors.backgroundColor,
               controller: _searchController,
               onChanged: (text) {
                 _searchSlugBloc.add(GetSLugList(slug: text));
               },
               decoration: InputDecoration(
+                fillColor: Colors.grey[200],
+                filled: true,
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                  borderSide: const BorderSide(
+                      width: 1, color: TMColors.backgroundColor),
+                ),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
                 ),
                 enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
                 ),
-                // hintText: 'Search with all auctions lots count',
-                prefixIcon: const Icon(CupertinoIcons.search),
+                prefixIcon: const Icon(
+                  CupertinoIcons.search,
+                  color: TMColors.backgroundColor,
+                ),
                 suffixIcon: InkWell(
                   onTap: () {
                     _searchController.text = '';
                     _searchSlugBloc.add(const GetSLugList(slug: ''));
                   },
-                  child: const Icon(CupertinoIcons.clear),
+                  child: const Icon(
+                    CupertinoIcons.clear,
+                    color: TMColors.backgroundColor,
+                  ),
                 ),
               ),
             ),
             BlocBuilder<SearchSlugBloc, SearchSlugState>(
               builder: (context, state) {
                 if (state is SearchLoading) {
-                  return const CircularProgressIndicator();
+                  return const Padding(
+                    padding: EdgeInsets.only(top: 5.0),
+                    child: CircularProgressIndicator(
+                      color: TMColors.backgroundColor,
+                    ),
+                  );
                 }
                 if (state is SearchError) {
-                  return Text(state.error);
+                  return Padding(
+                    padding: const EdgeInsets.only(top: 50),
+                    child: Text(
+                      state.error,
+                      style:
+                          TMThemeData.fromContext(context).textNameWhiskyBlack,
+                    ),
+                  );
                 }
                 if (state is SearchSuccess) {
                   return state.search.isEmpty
-                      ? const Text('No result')
+                      ? Text(tr("no_data"))
                       : Expanded(
+                          child: Padding(
+                          padding: const EdgeInsets.only(top: 20.0),
                           child: _SearchListItem(
-                          search: state.search,
+                            search: state.search,
+                          ),
                         ));
                 }
-                return const Center(
-                    child: Text('Please enter a slug to search'));
+                return Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const SizedBox(
+                      height: 50,
+                    ),
+                    Text(
+                      tr('please_enter'),
+                      style:
+                          TMThemeData.fromContext(context).textNameWhiskyBlack,
+                    )
+                  ],
+                );
               },
             ),
           ],
@@ -84,37 +131,7 @@ class _SearchSlugScreenState extends State<SearchSlugScreen> {
     );
   }
 }
-// todo search view
-// class SearchListItem extends StatelessWidget {
-//   final AuctionDataModel search;
-//   const SearchListItem({Key? key, required this.search}) : super(key: key);
 
-//   @override
-//   Widget build(BuildContext context) {
-//     return Card(
-//       shape: RoundedRectangleBorder(
-//         borderRadius: BorderRadius.circular(12),
-//       ),
-//       child: Padding(
-//         padding: const EdgeInsets.all(12.0),
-//         child: Column(
-//           crossAxisAlignment: CrossAxisAlignment.start,
-//           children: [
-//             Text(search.auctionName),
-//             const SizedBox(
-//               height: 6,
-//             ),
-//             Text(search.auctionSlug),
-//             const SizedBox(
-//               height: 8,
-//             ),
-//             Text(search.allAuctionsLotsCount.toString()),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }
 class _SearchListItem extends StatelessWidget {
   final List<AuctionDataModel> search;
   const _SearchListItem({Key? key, required this.search}) : super(key: key);
@@ -137,14 +154,15 @@ class _SearchItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(12),
-          boxShadow: const [
-            BoxShadow(color: Colors.grey, blurRadius: 7),
-          ]),
-      child: Card(
-        shape: RoundedRectangleBorder(
+    return Card(
+      elevation: 5,
+      shadowColor: TMColors.backgroundColor,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Container(
+        decoration: BoxDecoration(
+          gradient: TMColors.gradient,
           borderRadius: BorderRadius.circular(12),
         ),
         child: Padding(

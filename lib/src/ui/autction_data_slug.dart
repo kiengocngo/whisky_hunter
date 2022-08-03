@@ -1,5 +1,8 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:whisky_hunter/src/comp/appbar/tm_app_bar.dart';
+import 'package:whisky_hunter/src/constant/tm_icon.dart';
 import 'package:whisky_hunter/theme/tm_theme_data.dart';
 
 class AuctionDataSlug extends StatefulWidget {
@@ -8,9 +11,9 @@ class AuctionDataSlug extends StatefulWidget {
   final String auctionSlug;
   final int auctionLotsCount;
   final int allAuctionsLotsCount;
-  final double winningBidMax;
-  final double winningBidMin;
-  final double auctionTradingVolume;
+  final int winningBidMax;
+  final int winningBidMin;
+  final int auctionTradingVolume;
 
   const AuctionDataSlug({
     Key? key,
@@ -29,93 +32,113 @@ class AuctionDataSlug extends StatefulWidget {
 }
 
 class _AuctionDataSlugState extends State<AuctionDataSlug> {
-  int currentPage = 0;
-  List listPage = [
-    {"image": "lib/assets/images/whisky.jpeg"},
-    {"image": "lib/assets/images/whiskey1.jpeg"},
-    {"image": "lib/assets/images/whisky2.jpeg"}
-  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: CustomAppBar('${(tr('info'))} ${widget.auctionName}'),
       body: SafeArea(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Padding(
-              padding: const EdgeInsets.only(
-                  left: 16, right: 16, top: 8, bottom: 12),
-              child: Row(
-                children: [
-                  InkWell(
-                    onTap: () {
-                      Navigator.pop(context);
-                    },
-                    child: const Icon(CupertinoIcons.back),
-                  )
-                ],
-              ),
-            ),
             Expanded(
-              flex: 4,
-              child: PageView.builder(
-                onPageChanged: (value) {
-                  currentPage = value;
-                },
-                itemCount: listPage.length,
-                itemBuilder: (context, index) => ClipRRect(
-                    borderRadius: const BorderRadius.only(
-                      topLeft: Radius.circular(16),
-                      topRight: Radius.circular(16),
-                    ),
+              flex: 1,
+              child: ClipRRect(
+                  borderRadius: const BorderRadius.only(
+                    bottomLeft: Radius.circular(16),
+                    bottomRight: Radius.circular(16),
+                  ),
+                  child: SizedBox(
+                    width: MediaQuery.of(context).size.width,
                     child: Image.asset(
-                      listPage[index]['image'],
+                      TMIcons.whisky1,
                       fit: BoxFit.fill,
-                    )),
-              ),
+                    ),
+                  )),
             ),
             Expanded(
-              flex: 3,
+              flex: 1,
               child: Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(widget.auctionName,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          Text(
+                            tr('info'),
+                            style: TMThemeData.fromContext(context)
+                                .textDataAuctionBlack,
+                          ),
+                          const SizedBox(
+                            width: 5,
+                          ),
+                          const Icon(CupertinoIcons.info),
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 12,
+                      ),
+                      Text(tr('auction_name') + widget.auctionName,
                           style: TMThemeData.fromContext(context)
                               .textNameWhiskyBlack),
+                      const SizedBox(
+                        height: 6,
+                      ),
                       Text(
-                        widget.auctionSlug,
+                        tr('auction_slug') + (widget.auctionSlug),
                         style: TMThemeData.fromContext(context)
                             .textDataAuctionBlack,
                       ),
+                      const SizedBox(
+                        height: 6,
+                      ),
                       Text(
-                        widget.dt,
+                        tr('dt') + widget.dt,
                         style: TMThemeData.fromContext(context)
                             .textDataAuctionBlack,
                       ),
+                      const SizedBox(
+                        height: 6,
+                      ),
                       Text(
-                        widget.auctionLotsCount.toString(),
+                        tr('auction_lots_count') +
+                            widget.auctionLotsCount.toString(),
                         style: TMThemeData.fromContext(context)
                             .textDataAuctionBlack,
                       ),
+                      const SizedBox(
+                        height: 6,
+                      ),
                       Text(
-                        widget.allAuctionsLotsCount.toString(),
+                        tr('all_auctions_lots_count') +
+                            widget.allAuctionsLotsCount.toString(),
                         style: TMThemeData.fromContext(context)
                             .textDataAuctionBlack,
                       ),
+                      const SizedBox(
+                        height: 6,
+                      ),
                       Text(
-                        widget.winningBidMax.toString(),
+                        tr('winning_bid_max') + widget.winningBidMax.toString(),
                         style: TMThemeData.fromContext(context)
                             .textDataAuctionBlack,
                       ),
+                      const SizedBox(
+                        height: 6,
+                      ),
                       Text(
-                        widget.winningBidMin.toString(),
+                        tr('winning_bid_min') + widget.winningBidMin.toString(),
                         style: TMThemeData.fromContext(context)
                             .textDataAuctionBlack,
                       ),
+                      const SizedBox(
+                        height: 6,
+                      ),
                       Text(
-                        widget.auctionTradingVolume.toString(),
+                        tr('auction_trading_volume') +
+                            widget.auctionTradingVolume.toString(),
                         style: TMThemeData.fromContext(context)
                             .textDataAuctionBlack,
                       ),
@@ -128,3 +151,9 @@ class _AuctionDataSlugState extends State<AuctionDataSlug> {
     );
   }
 }
+// todo format string to date
+// formatStringToDate(String dateString) {
+//   final DateTime dateFormat = DateFormat('yyyy-MM-dd').parse(dateString);
+//   final String date = dateFormat.toString();
+//   return date;
+// }

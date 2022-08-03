@@ -102,36 +102,6 @@ class _SettingsState extends State<Settings> {
                   ),
                 ],
               ),
-              // Todo: authenicate
-              // const SizedBox(
-              //   height: 6,
-              // ),
-              // InkWell(
-              //   onTap: () {
-              //     Get.toNamed(TMRoute.profile.name!);
-              //   },
-              //   child: Text(
-              //     tr("profile"),
-              //     style: TMThemeData.fromContext(context).text_14_700,
-              //   ),
-              // ),
-              // const SizedBox(
-              //   height: 12,
-              // ),
-              // BlocListener<AuthBloc, AuthState>(
-              //   listener: (context, state) {
-              //     if (state is Authenticated) {
-              //       Get.offAndToNamed(TMRoute.signin.name!);
-              //     }
-              //   },
-              //   child: InkWell(
-              //       onTap: () {
-              //         context.read<AuthBloc>().add(SignOutRequested());
-              //       },
-              //       child: Text(
-              //         tr('logout'),
-              //       )),
-              // ),
             ],
           ),
         ),

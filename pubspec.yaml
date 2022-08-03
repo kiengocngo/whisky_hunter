@@ -69,7 +69,7 @@ dev_dependencies:
   flutter_lints: ^2.0.0
 flutter_native_splash:
   color: "#071b5d"
-  image: lib/assets/logo/user.png
+  image: lib/assets/images/whiskey1.png
   android: true
   ios: true
 
@@ -89,7 +89,6 @@ flutter:
     - lib/assets/images/
     - lib/assets/icons/
     - lib/assets/l10n/
-    - lib/assets/logo/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

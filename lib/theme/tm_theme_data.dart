@@ -2,7 +2,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:whisky_hunter/theme/tm_colors.dart';
 
-
 class TMThemeData with Diagnosticable {
   TMThemeData();
 
@@ -16,30 +15,27 @@ class TMThemeData with Diagnosticable {
   late TextStyle textSeeMore;
   late TextStyle textOnboarding;
   late TextStyle textNormal;
+  late TextStyle textAppBar;
 
-  // Builds the Custom Themes, EFd on the currently defined EF Themes
-  // ignore: avoid_unused_constructor_parameters
   factory TMThemeData.fromContext(BuildContext context) {
-    // final ThemeData themeData = Theme.of(context);
     final TMThemeData theme = TMThemeData();
 
     theme.textNameWhisky = const TextStyle(
       fontFamily: 'Roboto',
       fontWeight: FontWeight.w600,
       fontSize: 20.0,
-      color:TMColors.textWhite,
+      color: TMColors.textWhite,
     );
     theme.textNameWhiskyBlack = const TextStyle(
       fontFamily: 'Roboto',
       fontWeight: FontWeight.w600,
       fontSize: 20.0,
-      
     );
     theme.learnMore = const TextStyle(
       fontFamily: 'Roboto',
       fontWeight: FontWeight.normal,
       fontSize: 16.0,
-      color:TMColors.textWhite,
+      color: TMColors.textWhite,
     );
     theme.textDataAuction = const TextStyle(
       fontFamily: 'Roboto',
@@ -66,12 +62,11 @@ class TMThemeData with Diagnosticable {
       fontStyle: FontStyle.normal,
       color: Colors.black,
     );
-  theme.textSeeMore = const TextStyle(
-      fontFamily: 'Roboto',
-      fontWeight: FontWeight.bold,
-      fontSize: 14,
-      color: Colors.black
-    );
+    theme.textSeeMore = const TextStyle(
+        fontFamily: 'Roboto',
+        fontWeight: FontWeight.bold,
+        fontSize: 14,
+        color: Colors.black);
     theme.textOnboarding = const TextStyle(
       fontFamily: 'Roboto',
       fontSize: 24,
@@ -85,9 +80,14 @@ class TMThemeData with Diagnosticable {
       fontStyle: FontStyle.normal,
       color: Colors.black,
     );
+    theme.textAppBar = const TextStyle(
+      fontFamily: 'Roboto',
+      fontSize: 20,
+      fontWeight: FontWeight.w600,
+      fontStyle: FontStyle.normal,
+      color: Colors.white,
+    );
 
     return theme;
   }
-
-  
 }

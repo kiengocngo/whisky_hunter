@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
@@ -33,23 +34,57 @@ class _AuctionDataScreenState extends State<AuctionDataScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: TMColors.backgroundColor,
+        centerTitle: true,
+        title: Text(
+          tr("branch"),
+          style: const TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+            fontStyle: FontStyle.normal,
+          ),
+        ),
+        actions: [
+          IconButton(
+            onPressed: () {
+              Get.toNamed(TMRoute.serchslug.name!);
+            },
+            icon: const Icon(CupertinoIcons.search),
+          ),
+        ],
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+              bottomLeft: Radius.circular(12),
+              bottomRight: Radius.circular(12)),
+        ),
+      ),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.only(left: 16.0, right: 16.0),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Expanded(flex: 1, child: _buildSearch()),
               const SizedBox(
                 height: 12,
+              ),
+              Text(
+                tr('distilleries'),
+                style: TMThemeData.fromContext(context).textNameWhiskyBlack,
+              ),
+              const SizedBox(
+                height: 6,
               ),
               Expanded(
                 flex: 2,
                 child: _buildListDisInfo(context),
               ),
-              const SizedBox(
-                height: 6,
-              ),
               const Divider(),
+              Text(
+                tr('auction'),
+                style: TMThemeData.fromContext(context).textNameWhiskyBlack,
+              ),
               const SizedBox(
                 height: 6,
               ),
@@ -76,8 +111,8 @@ class _AuctionDataScreenState extends State<AuctionDataScreen> {
 
           case AuctionStatus.success:
             if (state.auction.isEmpty) {
-              return const Center(
-                child: Text('No data'),
+              return Center(
+                child: Text(tr('no_data')),
               );
             }
             return GridView.builder(
@@ -100,31 +135,6 @@ class _AuctionDataScreenState extends State<AuctionDataScreen> {
     );
   }
 
-  Widget _buildSearch() {
-    return Padding(
-      padding: const EdgeInsets.only(left: 16.0, right: 16.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(
-            tr("branch"),
-            style: const TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-                color: Colors.black,
-                fontStyle: FontStyle.italic),
-          ),
-          IconButton(
-            onPressed: () {
-              Get.toNamed(TMRoute.serchslug.name!);
-            },
-            icon: const Icon(Icons.search),
-          ),
-        ],
-      ),
-    );
-  }
-
   Widget _buildListDisInfo(BuildContext context) {
     return BlocBuilder<DistilleriesInfoBloc, DistilleriesInfoState>(
       bloc: getIt<DistilleriesInfoBloc>(),
@@ -136,7 +146,7 @@ class _AuctionDataScreenState extends State<AuctionDataScreen> {
             );
           case AuctionStatus.success:
             if (state.distilleries.isEmpty) {
-              return const Text('no data');
+              return Text(tr('no_data'));
             }
             return ListView.separated(
                 scrollDirection: Axis.horizontal,
@@ -170,58 +180,62 @@ class AuctionListItem extends StatelessWidget {
     return Material(
         child: Stack(
       children: [
-        Container(
-          height: MediaQuery.of(context).size.height * 2 / 5,
-          width: MediaQuery.of(context).size.width,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(8),
-            image: const DecorationImage(
-              image: AssetImage(
-                TMIcons.whisky2,
+        ClipRRect(
+          borderRadius: BorderRadius.circular(12),
+          child: Container(
+            height: MediaQuery.of(context).size.height * 2 / 5,
+            width: MediaQuery.of(context).size.width,
+            decoration: const BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage(
+                  TMIcons.whisky2,
+                ),
+                fit: BoxFit.fill,
               ),
-              fit: BoxFit.fill,
             ),
-          ),
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                auction.auctionName,
-                style: TMThemeData.fromContext(context).textNameWhisky,
-              ),
-              const SizedBox(
-                height: 12,
-              ),
-              InkWell(
-                onTap: () {
-                  Get.toNamed(TMRoute.auctionSlug.name!, arguments: [
-                    auction.dt,
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(top: 8.0),
+                  child: Text(
                     auction.auctionName,
-                    auction.auctionSlug,
-                    auction.auctionLotsCount,
-                    auction.allAuctionsLotsCount,
-                    auction.winningBidMax,
-                    auction.winningBidMin,
-                    auction.auctionTradingVolume,
-                  ]);
-                },
-                child: Container(
-                  height: 40,
-                  width: 160,
-                  decoration: BoxDecoration(
-                    border: Border.all(width: 2, color: TMColors.textWhite),
+                    style: TMThemeData.fromContext(context).textNameWhisky,
                   ),
-                  child: Center(
-                    child: Text(
-                      tr("seeMore"),
-                      style: TMThemeData.fromContext(context).learnMore,
+                ),
+                InkWell(
+                  onTap: () {
+                    Get.toNamed(TMRoute.auctionSlug.name!, arguments: [
+                      auction.dt,
+                      auction.auctionName,
+                      auction.auctionSlug,
+                      auction.auctionLotsCount,
+                      auction.allAuctionsLotsCount,
+                      auction.winningBidMax.round(),
+                      auction.winningBidMin.round(),
+                      auction.auctionTradingVolume.round(),
+                    ]);
+                  },
+                  child: Container(
+                    height: 40,
+                    width: 160,
+                    decoration: BoxDecoration(
+                      gradient: TMColors.gradient,
+                      borderRadius: BorderRadius.circular(12),
+                      border: Border.all(width: 2, color: TMColors.textWhite),
+                    ),
+                    child: Center(
+                      child: Text(
+                        tr("seeMore"),
+                        style: TMThemeData.fromContext(context).learnMore,
+                      ),
                     ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
         Positioned(
@@ -252,8 +266,8 @@ class DistilleriesListItem extends StatelessWidget {
     return ClipRRect(
       borderRadius: BorderRadius.circular(12),
       child: Container(
-        height: 100,
-        width: 300,
+        height: 120,
+        width: 240,
         decoration: const BoxDecoration(
           image: DecorationImage(
             image: AssetImage(
