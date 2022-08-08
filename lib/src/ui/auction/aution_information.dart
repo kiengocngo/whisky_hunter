@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:whisky_hunter/%20bloc/blocs/blocs.dart';
 import 'package:whisky_hunter/%20bloc/module/bloc_module.dart';
 import 'package:whisky_hunter/src/constant/tm_icon.dart';
+import 'package:whisky_hunter/theme/tm_colors.dart';
 import 'package:whisky_hunter/theme/tm_theme_data.dart';
 import '../../data/model/model.dart';
 
@@ -20,12 +21,31 @@ class _AuctionInformationState extends State<AuctionInformation> {
   @override
   void initState() {
     getIt<AuctionInfoBloc>().add(GetAuctionInfoList());
+    
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+       appBar: AppBar(
+        backgroundColor: TMColors.backgroundColor,
+        centerTitle: true,
+        title: Text(
+          tr("auction_info"),
+          style: const TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+            fontStyle: FontStyle.normal,
+          ),
+        ),
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+              bottomLeft: Radius.circular(12),
+              bottomRight: Radius.circular(12)),
+        ),
+      ),
       body: SafeArea(
         child: Column(
           children: [
@@ -50,8 +70,8 @@ class _AuctionInformationState extends State<AuctionInformation> {
             );
           case AuctionStatus.success:
             if (state.auctionInfo.isEmpty) {
-              return const Center(
-                child: Text('no data'),
+              return Center(
+                child: Text(tr('no_data')),
               );
             }
             return ListView.separated(
@@ -82,54 +102,75 @@ class AuctionInfoListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      child: Container(
-        height: MediaQuery.of(context).size.height * 2 / 5,
-        width: MediaQuery.of(context).size.width,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(8.0),
-          image: const DecorationImage(
-            image: AssetImage(TMIcons.whisky1),
-            fit: BoxFit.fill,
-          ),
+      child: Card(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12),
         ),
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Text(
-              auctionInfo.name,
-              style: TMThemeData.fromContext(context).textNameWhisky,
-            ),
-            const SizedBox(
-              height: 12,
-            ),
-            Text(
-              auctionInfo.slug,
-              style: TMThemeData.fromContext(context).textNameWhisky,
-            ),
-            const SizedBox(
-              height: 12.0,
-            ),
-            Text(
-              '${tr("buyers_fee")}: ${auctionInfo.buyersFee} ${auctionInfo.baseCurrency}',
-              style: TMThemeData.fromContext(context).textDataAuction,
-            ),
-            const SizedBox(
-              height: 12.0,
-            ),
-            Text(
-              '${tr("sellers_fee")}: ${auctionInfo.sellersFee} ${auctionInfo.baseCurrency}',
-              style: TMThemeData.fromContext(context).textDataAuction,
-            ),
-            const SizedBox(
-              height: 12.0,
-            ),
-            Text(
-              '${tr("listing_fee")}: ${auctionInfo.listingFee} ${auctionInfo.baseCurrency}',
-              style: TMThemeData.fromContext(context).textDataAuction,
-            ),
-          ],
+        child: Container(
+          width: MediaQuery.of(context).size.width,
+          decoration: BoxDecoration(
+            gradient: TMColors.gradient,
+            borderRadius: BorderRadius.circular(12),
+          ),
+          padding: const EdgeInsets.all(16.0),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Text(
+                    auctionInfo.name,
+                    style: TMThemeData.fromContext(context).textNameWhisky,
+                  ),
+                  const SizedBox(
+                    height: 6,
+                  ),
+                  Text(
+                    auctionInfo.slug,
+                    style: TMThemeData.fromContext(context).textNameWhisky,
+                  ),
+                  const SizedBox(
+                    height: 12.0,
+                  ),
+                  Text(
+                    '${tr("buyers_fee")}: ${auctionInfo.buyersFee.round()} ${auctionInfo.baseCurrency}',
+                    style: TMThemeData.fromContext(context).textDataAuctionBlack,
+                  ),
+                  const SizedBox(
+                    height: 6.0,
+                  ),
+                  Text(
+                    '${tr("sellers_fee")}: ${auctionInfo.sellersFee.round()} ${auctionInfo.baseCurrency}',
+                    style: TMThemeData.fromContext(context).textDataAuctionBlack,
+                  ),
+                  const SizedBox(
+                    height: 6.0,
+                  ),
+                  Text(
+                    '${tr("listing_fee")}: ${auctionInfo.listingFee.round()} ${auctionInfo.baseCurrency}',
+                    style: TMThemeData.fromContext(context).textDataAuctionBlack,
+                  ),
+                ],
+              ),
+              ClipRRect(
+                borderRadius: BorderRadius.circular(20),
+                child: Container(
+                  height: 120,
+                  width: 120,
+                  decoration: BoxDecoration(
+                    image: const DecorationImage(
+                      image: AssetImage(TMIcons.whisky2),
+                      fit: BoxFit.fill,
+                    ),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

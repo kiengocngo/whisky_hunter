@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:whisky_hunter/theme/tm_theme_data.dart';
 
-
 class TMDialog extends StatefulWidget {
   const TMDialog({
     Key? key,
@@ -30,7 +29,7 @@ class TMDialog extends StatefulWidget {
   static var isShowing = false;
 
   @override
-  _TMDialogState createState() => _TMDialogState();
+  State<TMDialog> createState() => _TMDialogState();
 
   static void show(
     BuildContext context, {
@@ -74,7 +73,6 @@ class _TMDialogState extends State<TMDialog> {
     return Dialog(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(4.0),
-        
       ),
       child: LayoutBuilder(
         builder: (context, constraints) {
@@ -97,7 +95,10 @@ class _TMDialogState extends State<TMDialog> {
   Widget _buildTitle(context) {
     return Text(
       widget.title!,
-      style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500,),
+      style: const TextStyle(
+        fontSize: 16,
+        fontWeight: FontWeight.w500,
+      ),
     );
   }
 
@@ -126,9 +127,7 @@ class _TMDialogState extends State<TMDialog> {
   Widget _buildButtons() {
     return Container(
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(4.0),
-          color: Colors.green
-        ),
+          borderRadius: BorderRadius.circular(4.0), color: Colors.green),
       child: Row(
         children: [
           if (widget.cancelText != null || widget.cancelHandler != null) ...[

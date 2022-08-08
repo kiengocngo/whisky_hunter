@@ -1,7 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:whisky_hunter/src/constant/tm_icon.dart';
 import 'package:whisky_hunter/src/ui/auction/aution_information.dart';
 import 'package:whisky_hunter/src/ui/home/auction_data_screen.dart';
 import 'package:whisky_hunter/src/ui/favortie/favorite_screen.dart';

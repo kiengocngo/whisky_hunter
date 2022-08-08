@@ -9,6 +9,7 @@ class TMThemeData with Diagnosticable {
   late TextStyle textNameWhiskyBlack;
   late TextStyle learnMore;
   late TextStyle textDataAuction;
+  late TextStyle textDataAuctionBold;
   late TextStyle textDataAuctionBlack;
   late TextStyle text_16_500;
   late TextStyle text_14_700;
@@ -40,14 +41,20 @@ class TMThemeData with Diagnosticable {
     theme.textDataAuction = const TextStyle(
       fontFamily: 'Roboto',
       fontWeight: FontWeight.normal,
-      fontSize: 14,
+      fontSize: 16,
       color: TMColors.textWhite,
     );
-    theme.textDataAuctionBlack = const TextStyle(
+    theme.textDataAuctionBold = const TextStyle(
       fontFamily: 'Roboto',
-      fontWeight: FontWeight.normal,
+      fontWeight: FontWeight.w600,
       fontSize: 16,
+      color: Colors.black
     );
+    theme.textDataAuctionBlack = const TextStyle(
+        fontFamily: 'Roboto',
+        fontWeight: FontWeight.normal,
+        fontSize: 16,
+        color: Colors.black);
     theme.text_16_500 = const TextStyle(
       fontFamily: 'Roboto',
       fontWeight: FontWeight.w500,

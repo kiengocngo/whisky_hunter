@@ -6,3 +6,5 @@ void provideDependencies() {
   Get.put(AppManager());
   Get.lazyPut(() => GlobalManager(), fenix: true);
 }
+
+

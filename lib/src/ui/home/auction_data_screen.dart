@@ -287,14 +287,14 @@ class DistilleriesListItem extends StatelessWidget {
                 style: TMThemeData.fromContext(context).textNameWhisky,
               ),
               const SizedBox(
-                height: 8.0,
+                height:6.0,
               ),
               Text(
                 '${tr("country")}: ${distilleries.country}',
                 style: TMThemeData.fromContext(context).textDataAuction,
               ),
               const SizedBox(
-                height: 8.0,
+                height:6.0,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,

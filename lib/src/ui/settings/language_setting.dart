@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart' hide Trans;
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:whisky_hunter/theme/tm_colors.dart';
 import 'package:whisky_hunter/theme/tm_theme_data.dart';
 
 class Settings extends StatefulWidget {
@@ -37,6 +38,24 @@ class _SettingsState extends State<Settings> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: TMColors.backgroundColor,
+        centerTitle: true,
+        title: Text(
+          tr("setting_text"),
+          style: const TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+            fontStyle: FontStyle.normal,
+          ),
+        ),
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+              bottomLeft: Radius.circular(12),
+              bottomRight: Radius.circular(12)),
+        ),
+      ),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.only(left: 16, right: 16),
@@ -44,19 +63,12 @@ class _SettingsState extends State<Settings> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                tr("setting_text"),
-                style: const TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w500,
-                    color: Colors.black),
-              ),
               const SizedBox(
                 height: 12,
               ),
               Text(
                 tr('language'),
-                style: TMThemeData.fromContext(context).text_14_700,
+                style: TMThemeData.fromContext(context).textDataAuctionBold,
               ),
               const SizedBox(
                 height: 12,
@@ -66,11 +78,16 @@ class _SettingsState extends State<Settings> {
                 children: [
                   Text(
                     tr("select_language"),
-                    style: TMThemeData.fromContext(context).text_14_700,
+                    style: TMThemeData.fromContext(context).textDataAuctionBold,
                   ),
                   Row(
                     children: [
+                  
                       DropdownButton<String>(
+                        iconEnabledColor: TMColors.backgroundColor,
+                        dropdownColor: TMColors.backgroundColor,
+                        borderRadius: BorderRadius.circular(12),
+                        
                         value: dropdownValue,
                         elevation: 16,
                         onChanged: (String? newValue) {
