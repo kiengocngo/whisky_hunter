@@ -14,7 +14,6 @@ Future<void> main() async {
   await EasyLocalization.ensureInitialized();
   provideDependencies();
   BlocModule.provider();
-
   runApp(
     EasyLocalization(
       path: 'lib/assets/l10n',

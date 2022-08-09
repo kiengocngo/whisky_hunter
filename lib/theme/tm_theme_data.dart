@@ -17,6 +17,8 @@ class TMThemeData with Diagnosticable {
   late TextStyle textOnboarding;
   late TextStyle textNormal;
   late TextStyle textAppBar;
+  late TextStyle textSetting;
+  late TextStyle textLanguage;
 
   factory TMThemeData.fromContext(BuildContext context) {
     final TMThemeData theme = TMThemeData();
@@ -45,11 +47,10 @@ class TMThemeData with Diagnosticable {
       color: TMColors.textWhite,
     );
     theme.textDataAuctionBold = const TextStyle(
-      fontFamily: 'Roboto',
-      fontWeight: FontWeight.w600,
-      fontSize: 16,
-      color: Colors.black
-    );
+        fontFamily: 'Roboto',
+        fontWeight: FontWeight.w600,
+        fontSize: 16,
+        color: Colors.black);
     theme.textDataAuctionBlack = const TextStyle(
         fontFamily: 'Roboto',
         fontWeight: FontWeight.normal,
@@ -94,6 +95,18 @@ class TMThemeData with Diagnosticable {
       fontStyle: FontStyle.normal,
       color: Colors.white,
     );
+    theme.textSetting = const TextStyle(
+      fontFamily: 'Roboto',
+      fontSize: 20,
+      fontWeight: FontWeight.bold,
+      color: Colors.white,
+      fontStyle: FontStyle.normal,
+    );
+    theme.textLanguage = const TextStyle(
+        fontFamily: 'Roboto',
+        fontSize: 15,
+        fontWeight: FontWeight.w500,
+        color: Colors.black);
 
     return theme;
   }

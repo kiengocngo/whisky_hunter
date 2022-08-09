@@ -42,15 +42,8 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
       appBar: AppBar(
         backgroundColor: TMColors.backgroundColor,
         centerTitle: true,
-        title: Text(
-          tr("favorite_whisky"),
-          style: const TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-            color: Colors.white,
-            fontStyle: FontStyle.normal,
-          ),
-        ),
+        title: Text(tr("favorite_whisky"),
+            style: TMThemeData.fromContext(context).textSetting),
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
               bottomLeft: Radius.circular(12),

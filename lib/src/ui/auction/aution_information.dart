@@ -21,25 +21,18 @@ class _AuctionInformationState extends State<AuctionInformation> {
   @override
   void initState() {
     getIt<AuctionInfoBloc>().add(GetAuctionInfoList());
-    
+
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-       appBar: AppBar(
+      appBar: AppBar(
         backgroundColor: TMColors.backgroundColor,
         centerTitle: true,
-        title: Text(
-          tr("auction_info"),
-          style: const TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-            color: Colors.white,
-            fontStyle: FontStyle.normal,
-          ),
-        ),
+        title: Text(tr("auction_info"),
+            style: TMThemeData.fromContext(context).textSetting),
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
               bottomLeft: Radius.circular(12),
@@ -137,35 +130,38 @@ class AuctionInfoListItem extends StatelessWidget {
                   ),
                   Text(
                     '${tr("buyers_fee")}: ${auctionInfo.buyersFee.round()} ${auctionInfo.baseCurrency}',
-                    style: TMThemeData.fromContext(context).textDataAuctionBlack,
+                    style:
+                        TMThemeData.fromContext(context).textDataAuctionBlack,
                   ),
                   const SizedBox(
                     height: 6.0,
                   ),
                   Text(
                     '${tr("sellers_fee")}: ${auctionInfo.sellersFee.round()} ${auctionInfo.baseCurrency}',
-                    style: TMThemeData.fromContext(context).textDataAuctionBlack,
+                    style:
+                        TMThemeData.fromContext(context).textDataAuctionBlack,
                   ),
                   const SizedBox(
                     height: 6.0,
                   ),
                   Text(
                     '${tr("listing_fee")}: ${auctionInfo.listingFee.round()} ${auctionInfo.baseCurrency}',
-                    style: TMThemeData.fromContext(context).textDataAuctionBlack,
+                    style:
+                        TMThemeData.fromContext(context).textDataAuctionBlack,
                   ),
                 ],
               ),
               ClipRRect(
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: BorderRadius.circular(8),
                 child: Container(
-                  height: 100,
-                  width: 100,
+                  height: 120,
+                  width: 80,
                   decoration: BoxDecoration(
                     image: const DecorationImage(
                       image: AssetImage(TMIcons.whisky2),
                       fit: BoxFit.fill,
                     ),
-                    borderRadius: BorderRadius.circular(20),
+                    borderRadius: BorderRadius.circular(8),
                   ),
                 ),
               ),

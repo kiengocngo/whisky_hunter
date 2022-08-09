@@ -41,15 +41,8 @@ class _SettingsState extends State<Settings> {
       appBar: AppBar(
         backgroundColor: TMColors.backgroundColor,
         centerTitle: true,
-        title: Text(
-          tr("setting_text"),
-          style: const TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-            color: Colors.white,
-            fontStyle: FontStyle.normal,
-          ),
-        ),
+        title: Text(tr("setting_text"),
+            style: TMThemeData.fromContext(context).textSetting),
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
               bottomLeft: Radius.circular(12),
@@ -82,12 +75,10 @@ class _SettingsState extends State<Settings> {
                   ),
                   Row(
                     children: [
-                  
                       DropdownButton<String>(
                         iconEnabledColor: TMColors.backgroundColor,
                         dropdownColor: TMColors.backgroundColor,
                         borderRadius: BorderRadius.circular(12),
-                        
                         value: dropdownValue,
                         elevation: 16,
                         onChanged: (String? newValue) {
@@ -109,8 +100,7 @@ class _SettingsState extends State<Settings> {
                             value: value,
                             child: Text(
                               value,
-                              style: const TextStyle(
-                                  fontSize: 15, fontWeight: FontWeight.w500),
+                              style: TMThemeData.fromContext(context).textLanguage,
                             ),
                           );
                         }).toList(),
