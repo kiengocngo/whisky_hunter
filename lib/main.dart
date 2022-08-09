@@ -6,14 +6,12 @@ import 'package:get/get.dart';
 import 'package:whisky_hunter/src/route/tm_route.dart';
 import 'package:whisky_hunter/src/utils/dependencies.dart';
 import ' bloc/blocs/blocs.dart';
-import ' bloc/module/bloc_module.dart';
 import 'src/constant/constant.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
   provideDependencies();
-  BlocModule.provider();
   runApp(
     EasyLocalization(
       path: 'lib/assets/l10n',
@@ -49,7 +47,7 @@ class MyApp extends StatelessWidget {
         localizationsDelegates: context.localizationDelegates,
         locale: context.locale,
         debugShowCheckedModeBanner: false,
-        initialRoute: TMRoute.onboarding.name!,
+        initialRoute: TMRoute.main.name!,
         onGenerateRoute: TMRouteExt.generateRoute,
         navigatorKey: globalManager.navigatorKey,
       ),
