@@ -3,29 +3,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:whisky_hunter/src/comp/appbar/tm_app_bar.dart';
 import 'package:whisky_hunter/src/constant/tm_icon.dart';
+import 'package:whisky_hunter/src/data/model/auction_data_model.dart';
 import 'package:whisky_hunter/theme/tm_theme_data.dart';
 
 class AuctionDataSlug extends StatefulWidget {
-  final String dt;
-  final String auctionName;
-  final String auctionSlug;
-  final int auctionLotsCount;
-  final int allAuctionsLotsCount;
-  final int winningBidMax;
-  final int winningBidMin;
-  final int auctionTradingVolume;
-
-  const AuctionDataSlug({
-    Key? key,
-    required this.dt,
-    required this.auctionName,
-    required this.auctionSlug,
-    required this.auctionLotsCount,
-    required this.allAuctionsLotsCount,
-    required this.winningBidMax,
-    required this.winningBidMin,
-    required this.auctionTradingVolume,
-  }) : super(key: key);
+  final AuctionDataModel auction;
+  const AuctionDataSlug({Key? key, required this.auction}) : super(key: key);
 
   @override
   State<AuctionDataSlug> createState() => _AuctionDataSlugState();
@@ -35,7 +18,7 @@ class _AuctionDataSlugState extends State<AuctionDataSlug> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar('${(tr('info'))} ${widget.auctionName}'),
+      appBar: CustomAppBar('${(tr('info'))} ${widget.auction.auctionName}'),
       body: SafeArea(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -80,14 +63,14 @@ class _AuctionDataSlugState extends State<AuctionDataSlug> {
                       const SizedBox(
                         height: 12,
                       ),
-                      Text(tr('auction_name') + widget.auctionName,
+                      Text(tr('auction_name') + widget.auction.auctionName,
                           style: TMThemeData.fromContext(context)
                               .textNameWhiskyBlack),
                       const SizedBox(
                         height: 6,
                       ),
                       Text(
-                        tr('auction_slug') + (widget.auctionSlug),
+                        tr('auction_slug') + (widget.auction.auctionSlug),
                         style: TMThemeData.fromContext(context)
                             .textDataAuctionBlack,
                       ),
@@ -95,7 +78,7 @@ class _AuctionDataSlugState extends State<AuctionDataSlug> {
                         height: 6,
                       ),
                       Text(
-                        tr('dt') + widget.dt,
+                        tr('dt') + widget.auction.dt,
                         style: TMThemeData.fromContext(context)
                             .textDataAuctionBlack,
                       ),
@@ -104,7 +87,7 @@ class _AuctionDataSlugState extends State<AuctionDataSlug> {
                       ),
                       Text(
                         tr('auction_lots_count') +
-                            widget.auctionLotsCount.toString(),
+                            widget.auction.auctionLotsCount.toString(),
                         style: TMThemeData.fromContext(context)
                             .textDataAuctionBlack,
                       ),
@@ -113,7 +96,7 @@ class _AuctionDataSlugState extends State<AuctionDataSlug> {
                       ),
                       Text(
                         tr('all_auctions_lots_count') +
-                            widget.allAuctionsLotsCount.toString(),
+                            widget.auction.allAuctionsLotsCount.toString(),
                         style: TMThemeData.fromContext(context)
                             .textDataAuctionBlack,
                       ),
@@ -121,7 +104,8 @@ class _AuctionDataSlugState extends State<AuctionDataSlug> {
                         height: 6,
                       ),
                       Text(
-                        tr('winning_bid_max') + widget.winningBidMax.toString(),
+                        tr('winning_bid_max') +
+                            widget.auction.winningBidMax.toString(),
                         style: TMThemeData.fromContext(context)
                             .textDataAuctionBlack,
                       ),
@@ -129,7 +113,8 @@ class _AuctionDataSlugState extends State<AuctionDataSlug> {
                         height: 6,
                       ),
                       Text(
-                        tr('winning_bid_min') + widget.winningBidMin.toString(),
+                        tr('winning_bid_min') +
+                            widget.auction.winningBidMin.toString(),
                         style: TMThemeData.fromContext(context)
                             .textDataAuctionBlack,
                       ),
@@ -138,7 +123,7 @@ class _AuctionDataSlugState extends State<AuctionDataSlug> {
                       ),
                       Text(
                         tr('auction_trading_volume') +
-                            widget.auctionTradingVolume.toString(),
+                            widget.auction.auctionTradingVolume.toString(),
                         style: TMThemeData.fromContext(context)
                             .textDataAuctionBlack,
                       ),
@@ -151,9 +136,3 @@ class _AuctionDataSlugState extends State<AuctionDataSlug> {
     );
   }
 }
-// todo format string to date
-// formatStringToDate(String dateString) {
-//   final DateTime dateFormat = DateFormat('yyyy-MM-dd').parse(dateString);
-//   final String date = dateFormat.toString();
-//   return date;
-// }

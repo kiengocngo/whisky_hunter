@@ -1,6 +1,4 @@
-import 'package:equatable/equatable.dart';
-import 'package:whisky_hunter/src/data/model/distilleries_info.dart';
-import '../auction/aution_state.dart';
+part of  'distilleries_info_cubit.dart';
 
 class DistilleriesInfoState extends Equatable {
   const DistilleriesInfoState(

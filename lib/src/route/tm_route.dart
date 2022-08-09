@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
+import 'package:whisky_hunter/src/data/model/auction_data_model.dart';
 import 'package:whisky_hunter/src/ui/home/auction_data_screen.dart';
 import 'package:whisky_hunter/src/data/model/autction_data_slug.dart';
 import 'package:whisky_hunter/src/ui/favortie/favorite_screen.dart';
@@ -84,26 +85,14 @@ extension TMRouteExt on TMRoute {
         );
       case TMRoute.auctionSlug:
         final dynamic args = settings.arguments;
-        final String dt = args[0];
-        final String auctionName = args[1];
-        final String auctionSlug = args[2];
-        final int auctionLotsCount = args[3];
-        final int allAuctionsLotsCount = args[4];
-        final int winningBidMax = args[5];
-        final int winningBidMin = args[6];
-        final int auctionTradingVolume = args[7];
+        final AuctionDataModel auction = args[0];
+
         return GetPageRoute(
           settings: settings,
           bindings: [],
           page: () => AuctionDataSlug(
-              dt: dt,
-              auctionName: auctionName,
-              auctionSlug: auctionSlug,
-              auctionLotsCount: auctionLotsCount,
-              allAuctionsLotsCount: allAuctionsLotsCount,
-              winningBidMax: winningBidMax,
-              winningBidMin: winningBidMin,
-              auctionTradingVolume: auctionTradingVolume),
+            auction: auction,
+          ),
           transition: Transition.cupertino,
         );
       case TMRoute.main:

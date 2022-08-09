@@ -4,11 +4,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:get/instance_manager.dart';
 import 'package:whisky_hunter/%20bloc/blocs/blocs.dart';
-import 'package:whisky_hunter/%20bloc/module/bloc_module.dart';
 import 'package:whisky_hunter/src/constant/tm_icon.dart';
 import 'package:whisky_hunter/src/data/model/model.dart';
 import 'package:whisky_hunter/src/route/tm_route.dart';
 import 'package:whisky_hunter/src/sqflite/sql_helper.dart';
+import 'package:whisky_hunter/src/ui/search/animation.dart';
 import 'package:whisky_hunter/theme/tm_colors.dart';
 import 'package:whisky_hunter/theme/tm_theme_data.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -21,13 +21,12 @@ class AuctionDataScreen extends StatefulWidget {
 }
 
 class _AuctionDataScreenState extends State<AuctionDataScreen> {
-  late AuctionBloc auctionBloc;
-  late DistilleriesInfoBloc disInfoBloc;
+  final bool favorited = false;
 
   @override
   void initState() {
-    getIt<AuctionBloc>().add(GetAuctionList());
-    getIt<DistilleriesInfoBloc>().add(GetDistilleriesInfoList());
+    context.read<AuctionCubit>().getAuctionList();
+    context.read<DistilleriesInfoCubit>().getListDistillInfo();
     super.initState();
   }
 
@@ -49,7 +48,7 @@ class _AuctionDataScreenState extends State<AuctionDataScreen> {
         actions: [
           IconButton(
             onPressed: () {
-              Get.toNamed(TMRoute.serchslug.name!);
+              Navigator.of(context).push(createRoutToPage());
             },
             icon: const Icon(CupertinoIcons.search),
           ),
@@ -100,8 +99,7 @@ class _AuctionDataScreenState extends State<AuctionDataScreen> {
   }
 
   Widget _buildListAuction(BuildContext context) {
-    return BlocBuilder<AuctionBloc, AuctionState>(
-      bloc: getIt<AuctionBloc>(),
+    return BlocBuilder<AuctionCubit, AuctionState>(
       builder: (context, state) {
         switch (state.status) {
           case AuctionStatus.failure:
@@ -136,8 +134,7 @@ class _AuctionDataScreenState extends State<AuctionDataScreen> {
   }
 
   Widget _buildListDisInfo(BuildContext context) {
-    return BlocBuilder<DistilleriesInfoBloc, DistilleriesInfoState>(
-      bloc: getIt<DistilleriesInfoBloc>(),
+    return BlocBuilder<DistilleriesInfoCubit, DistilleriesInfoState>(
       builder: (context, state) {
         switch (state.status) {
           case AuctionStatus.failure:
@@ -170,10 +167,17 @@ class _AuctionDataScreenState extends State<AuctionDataScreen> {
   }
 }
 
-class AuctionListItem extends StatelessWidget {
+class AuctionListItem extends StatefulWidget {
   const AuctionListItem({Key? key, required this.auction}) : super(key: key);
 
   final AuctionDataModel auction;
+
+  @override
+  State<AuctionListItem> createState() => _AuctionListItemState();
+}
+
+class _AuctionListItemState extends State<AuctionListItem> {
+  bool _favorited = false;
 
   @override
   Widget build(BuildContext context) {
@@ -201,22 +205,14 @@ class AuctionListItem extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.only(top: 8.0),
                   child: Text(
-                    auction.auctionName,
+                    widget.auction.auctionName,
                     style: TMThemeData.fromContext(context).textNameWhisky,
                   ),
                 ),
                 InkWell(
                   onTap: () {
-                    Get.toNamed(TMRoute.auctionSlug.name!, arguments: [
-                      auction.dt,
-                      auction.auctionName,
-                      auction.auctionSlug,
-                      auction.auctionLotsCount,
-                      auction.allAuctionsLotsCount,
-                      auction.winningBidMax.round(),
-                      auction.winningBidMin.round(),
-                      auction.auctionTradingVolume.round(),
-                    ]);
+                    Get.toNamed(TMRoute.auctionSlug.name!,
+                        arguments: [widget.auction]);
                   },
                   child: Container(
                     height: 40,
@@ -242,14 +238,17 @@ class AuctionListItem extends StatelessWidget {
           top: 4,
           right: 16,
           child: InkWell(
-            onTap: () {
-              SQLHelper.createItem(auction.auctionName, auction.auctionSlug);
-            },
-            child: const Icon(
-              Icons.favorite_outline,
-              color: Colors.red,
-            ),
-          ),
+              onTap: () {
+                setState(() {
+                  _favorited = !_favorited;
+                });
+                SQLHelper.createItem(
+                    widget.auction.auctionName, widget.auction.auctionSlug);
+              },
+              child: Icon(
+                Icons.favorite,
+                color: _favorited ? Colors.red : Colors.white,
+              )),
         ),
       ],
     ));
@@ -287,14 +286,14 @@ class DistilleriesListItem extends StatelessWidget {
                 style: TMThemeData.fromContext(context).textNameWhisky,
               ),
               const SizedBox(
-                height:6.0,
+                height: 6.0,
               ),
               Text(
                 '${tr("country")}: ${distilleries.country}',
                 style: TMThemeData.fromContext(context).textDataAuction,
               ),
               const SizedBox(
-                height:6.0,
+                height: 6.0,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,

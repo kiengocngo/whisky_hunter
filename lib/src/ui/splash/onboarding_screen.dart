@@ -60,14 +60,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
               itemCount: listBoarding.length,
               itemBuilder: (context, index) {
                 return ClipRRect(
-                  borderRadius: BorderRadius.only(
-                    bottomRight: currentPage == 0
-                        ? const Radius.circular(0)
-                        : const Radius.circular(20),
-                    bottomLeft: currentPage == 2
-                        ? const Radius.circular(0)
-                        : const Radius.circular(20),
-                  ),
+                  borderRadius: BorderRadius.circular(20),
                   child: Container(
                     decoration: BoxDecoration(
                       image: DecorationImage(
@@ -97,21 +90,20 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Container(
-                  height: 56,
-                  width: 240,
-                  decoration: BoxDecoration(
-                    gradient: TMColors.gradient,
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: InkWell(
-                    onTap: () {
-                      _setFirstOpenApp();
-                      Get.offAllNamed(TMRoute.main.name!);
-                    },
+                InkWell(
+                  onTap: () {
+                    _setFirstOpenApp();
+                    Get.offAllNamed(TMRoute.main.name!);
+                  },
+                  child: Container(
+                    height: 56,
+                    width: 240,
+                    decoration: BoxDecoration(
+                      gradient: TMColors.gradient,
+                      borderRadius: BorderRadius.circular(12),
+                    ),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Text(
                           tr('skip'),

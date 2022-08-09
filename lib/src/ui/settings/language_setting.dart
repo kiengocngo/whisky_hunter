@@ -12,7 +12,7 @@ class Settings extends StatefulWidget {
 }
 
 class _SettingsState extends State<Settings> {
-  String dropdownValue = 'EN';
+  String dropdownValue = 'VN';
   late SharedPreferences prefs;
   final _key = 'language';
   final List<String> language = [
@@ -94,7 +94,7 @@ class _SettingsState extends State<Settings> {
                           });
                           prefs.setString(_key, dropdownValue);
                         },
-                        items: <String>['EN', 'VN']
+                        items: <String>['VN', 'EN']
                             .map<DropdownMenuItem<String>>((String value) {
                           return DropdownMenuItem<String>(
                             value: value,

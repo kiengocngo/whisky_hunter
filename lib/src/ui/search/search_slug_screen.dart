@@ -19,11 +19,11 @@ class SearchSlugScreen extends StatefulWidget {
 
 class _SearchSlugScreenState extends State<SearchSlugScreen> {
   final TextEditingController _searchController = TextEditingController();
-  late SearchSlugBloc _searchSlugBloc;
+  // late SearchSlugBloc _searchSlugBloc;
   @override
   void initState() {
     super.initState();
-    _searchSlugBloc = context.read<SearchSlugBloc>();
+    // _searchSlugBloc = context.read<SearchSlugBloc>();
   }
 
   @override
@@ -47,7 +47,8 @@ class _SearchSlugScreenState extends State<SearchSlugScreen> {
               cursorColor: TMColors.backgroundColor,
               controller: _searchController,
               onChanged: (text) {
-                _searchSlugBloc.add(GetSLugList(slug: text));
+                // _searchSlugBloc.add(GetSLugList(slug: text));
+                context.read<SearchCubit>().getSearchList(text);
               },
               decoration: InputDecoration(
                 fillColor: Colors.grey[200],
@@ -70,7 +71,8 @@ class _SearchSlugScreenState extends State<SearchSlugScreen> {
                 suffixIcon: InkWell(
                   onTap: () {
                     _searchController.text = '';
-                    _searchSlugBloc.add(const GetSLugList(slug: ''));
+                    context.read<SearchCubit>().getSearchList('');
+                    // _searchSlugBloc.add(const GetSLugList(slug: ''));
                   },
                   child: const Icon(
                     CupertinoIcons.clear,
@@ -79,7 +81,7 @@ class _SearchSlugScreenState extends State<SearchSlugScreen> {
                 ),
               ),
             ),
-            BlocBuilder<SearchSlugBloc, SearchSlugState>(
+            BlocBuilder<SearchCubit, SearchSlugState>(
               builder: (context, state) {
                 if (state is SearchLoading) {
                   return const Padding(

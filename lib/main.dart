@@ -17,9 +17,10 @@ Future<void> main() async {
   runApp(
     EasyLocalization(
       path: 'lib/assets/l10n',
+      startLocale: const Locale('vi'),
       supportedLocales: const [
-        Locale('en'),
         Locale('vi'),
+        Locale('en'),
       ],
       fallbackLocale: const Locale('vi'),
       child: MyApp(),
@@ -34,20 +35,21 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (BuildContext context) => AuctionBloc(dio: Dio())),
         BlocProvider(
-            create: (BuildContext context) => AuctionInfoBloc(dio: Dio())),
+            create: (BuildContext context) => AuctionCubit(dio: Dio())),
         BlocProvider(
-            create: (BuildContext context) => DistilleriesInfoBloc(dio: Dio())),
+            create: (BuildContext context) => AuctionInfoCubit(dio: Dio())),
         BlocProvider(
-            create: (BuildContext context) => SearchSlugBloc(dio: Dio())),
+            create: (BuildContext context) =>
+                DistilleriesInfoCubit(dio: Dio())),
+        BlocProvider(create: (BuildContext context) => SearchCubit(dio: Dio())),
       ],
       child: GetMaterialApp(
         supportedLocales: context.supportedLocales,
         localizationsDelegates: context.localizationDelegates,
         locale: context.locale,
         debugShowCheckedModeBanner: false,
-        initialRoute: TMRoute.splash.name!,
+        initialRoute: TMRoute.onboarding.name!,
         onGenerateRoute: TMRouteExt.generateRoute,
         navigatorKey: globalManager.navigatorKey,
       ),
