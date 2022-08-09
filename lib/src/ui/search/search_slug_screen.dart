@@ -2,8 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:whisky_hunter/%20bloc/blocs/search_slug/search_slug_bloc.dart';
-import 'package:whisky_hunter/%20bloc/blocs/search_slug/search_slug_event.dart';
+import 'package:whisky_hunter/%20bloc/blocs/search_slug/search_slug_cubit.dart';
 import 'package:whisky_hunter/%20bloc/blocs/search_slug/search_slug_state.dart';
 import 'package:whisky_hunter/src/comp/appbar/tm_app_bar.dart';
 import 'package:whisky_hunter/src/data/model/auction_data_model.dart';
@@ -19,11 +18,9 @@ class SearchSlugScreen extends StatefulWidget {
 
 class _SearchSlugScreenState extends State<SearchSlugScreen> {
   final TextEditingController _searchController = TextEditingController();
-  // late SearchSlugBloc _searchSlugBloc;
   @override
   void initState() {
     super.initState();
-    // _searchSlugBloc = context.read<SearchSlugBloc>();
   }
 
   @override
@@ -47,7 +44,6 @@ class _SearchSlugScreenState extends State<SearchSlugScreen> {
               cursorColor: TMColors.backgroundColor,
               controller: _searchController,
               onChanged: (text) {
-                // _searchSlugBloc.add(GetSLugList(slug: text));
                 context.read<SearchCubit>().getSearchList(text);
               },
               decoration: InputDecoration(
@@ -72,7 +68,6 @@ class _SearchSlugScreenState extends State<SearchSlugScreen> {
                   onTap: () {
                     _searchController.text = '';
                     context.read<SearchCubit>().getSearchList('');
-                    // _searchSlugBloc.add(const GetSLugList(slug: ''));
                   },
                   child: const Icon(
                     CupertinoIcons.clear,

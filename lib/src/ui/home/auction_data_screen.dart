@@ -34,6 +34,7 @@ class _AuctionDataScreenState extends State<AuctionDataScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         backgroundColor: TMColors.backgroundColor,
         centerTitle: true,
         title: Text(

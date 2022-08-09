@@ -32,19 +32,14 @@ class _MainScreenState extends State<MainScreen> {
 
   Container buildBottomNavigationBar(BuildContext context) {
     return Container(
-      height: 60,
+      height: 80,
       decoration: const BoxDecoration(
         color: TMColors.backgroundColor,
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(20),
-          topRight: Radius.circular(20),
-        ),
       ),
       child: Padding(
-        padding: const EdgeInsets.all(10.0),
+        padding: const EdgeInsets.all(16.0),
         child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             IconButton(
               enableFeedback: false,

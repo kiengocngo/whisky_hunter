@@ -24,66 +24,43 @@ class AuctionInfoListItem extends StatelessWidget {
             borderRadius: BorderRadius.circular(12),
           ),
           padding: const EdgeInsets.all(16.0),
-          child: Row(
+          child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Text(
-                    auctionInfo.name,
-                    style: TMThemeData.fromContext(context).textNameWhisky,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  const SizedBox(
-                    height: 6,
-                  ),
-                  Text(
-                    auctionInfo.slug,
-                    style: TMThemeData.fromContext(context).textNameWhisky,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  const SizedBox(
-                    height: 12.0,
-                  ),
-                  Text(
-                    '${tr("buyers_fee")}: ${auctionInfo.buyersFee.round()} ${auctionInfo.baseCurrency}',
-                    style:
-                        TMThemeData.fromContext(context).textDataAuctionBlack,
-                  ),
-                  const SizedBox(
-                    height: 6.0,
-                  ),
-                  Text(
-                    '${tr("sellers_fee")}: ${auctionInfo.sellersFee.round()} ${auctionInfo.baseCurrency}',
-                    style:
-                        TMThemeData.fromContext(context).textDataAuctionBlack,
-                  ),
-                  const SizedBox(
-                    height: 6.0,
-                  ),
-                  Text(
-                    '${tr("listing_fee")}: ${auctionInfo.listingFee.round()} ${auctionInfo.baseCurrency}',
-                    style:
-                        TMThemeData.fromContext(context).textDataAuctionBlack,
-                  ),
-                ],
+              Text(
+                auctionInfo.name,
+                style: TMThemeData.fromContext(context).textNameWhisky,
+                overflow: TextOverflow.ellipsis,
               ),
-              ClipRRect(
-                borderRadius: BorderRadius.circular(8),
-                child: Container(
-                  height: 100,
-                  width: 70,
-                  decoration: BoxDecoration(
-                    image: const DecorationImage(
-                      image: AssetImage(TMIcons.whisky2),
-                      fit: BoxFit.fill,
-                    ),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                ),
+              const SizedBox(
+                height: 6,
+              ),
+              Text(
+                auctionInfo.slug,
+                style: TMThemeData.fromContext(context).textNameWhisky,
+                overflow: TextOverflow.ellipsis,
+              ),
+              const SizedBox(
+                height: 12.0,
+              ),
+              Text(
+                '${tr("buyers_fee")}: ${auctionInfo.buyersFee.round()} ${auctionInfo.baseCurrency}',
+                style: TMThemeData.fromContext(context).textDataAuctionBlack,
+              ),
+              const SizedBox(
+                height: 6.0,
+              ),
+              Text(
+                '${tr("sellers_fee")}: ${auctionInfo.sellersFee.round()} ${auctionInfo.baseCurrency}',
+                style: TMThemeData.fromContext(context).textDataAuctionBlack,
+              ),
+              const SizedBox(
+                height: 6.0,
+              ),
+              Text(
+                '${tr("listing_fee")}: ${auctionInfo.listingFee.round()} ${auctionInfo.baseCurrency}',
+                style: TMThemeData.fromContext(context).textDataAuctionBlack,
               ),
             ],
           ),

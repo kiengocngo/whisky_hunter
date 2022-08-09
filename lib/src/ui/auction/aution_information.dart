@@ -27,6 +27,7 @@ class _AuctionInformationState extends State<AuctionInformation> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         backgroundColor: TMColors.backgroundColor,
         centerTitle: true,
         title: Text(tr("auction_info"),

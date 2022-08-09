@@ -39,6 +39,7 @@ class _SettingsState extends State<Settings> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         backgroundColor: TMColors.backgroundColor,
         centerTitle: true,
         title: Text(tr("setting_text"),
@@ -100,7 +101,8 @@ class _SettingsState extends State<Settings> {
                             value: value,
                             child: Text(
                               value,
-                              style: TMThemeData.fromContext(context).textLanguage,
+                              style:
+                                  TMThemeData.fromContext(context).textLanguage,
                             ),
                           );
                         }).toList(),
