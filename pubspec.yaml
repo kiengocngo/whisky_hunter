@@ -47,13 +47,6 @@ dependencies:
   flutter_bloc: ^8.0.1
   dropdown_button2: ^1.6.3
   get_it: ^7.2.0
-  
-  firebase_auth: ^3.5.0
-  firebase_core: ^1.20.0
-  cloud_firestore: ^3.4.0
-  image_picker: ^0.8.5+3
-  firebase_storage: ^10.3.3
-  flutter_native_splash: ^2.2.6
   dob_input_field: ^1.0.0
   email_validator: ^2.1.16
 
@@ -67,11 +60,7 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^2.0.0
-flutter_native_splash:
-  color: "#071b5d"
-  image: lib/assets/images/whiskey1.png
-  android: true
-  ios: true
+
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

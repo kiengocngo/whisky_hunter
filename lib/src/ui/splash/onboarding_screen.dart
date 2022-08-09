@@ -51,11 +51,10 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: TMColors.backgroundColor,
       body: Column(
         children: [
           Expanded(
-            flex: 5,
+            flex: 4,
             child: PageView.builder(
               controller: pageController,
               itemCount: listBoarding.length,
@@ -64,10 +63,10 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                   borderRadius: BorderRadius.only(
                     bottomRight: currentPage == 0
                         ? const Radius.circular(0)
-                        : const Radius.circular(40),
+                        : const Radius.circular(20),
                     bottomLeft: currentPage == 2
                         ? const Radius.circular(0)
-                        : const Radius.circular(40),
+                        : const Radius.circular(20),
                   ),
                   child: Container(
                     decoration: BoxDecoration(
@@ -112,11 +111,15 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                     },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Text(
                           tr('skip'),
                           style: TMThemeData.fromContext(context)
                               .textNameWhiskyBlack,
+                        ),
+                        const SizedBox(
+                          width: 10,
                         ),
                         const Icon(Icons.skip_next),
                       ],

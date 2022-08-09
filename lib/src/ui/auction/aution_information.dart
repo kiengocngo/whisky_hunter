@@ -158,8 +158,8 @@ class AuctionInfoListItem extends StatelessWidget {
               ClipRRect(
                 borderRadius: BorderRadius.circular(20),
                 child: Container(
-                  height: 120,
-                  width: 120,
+                  height: 100,
+                  width: 100,
                   decoration: BoxDecoration(
                     image: const DecorationImage(
                       image: AssetImage(TMIcons.whisky2),

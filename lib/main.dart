@@ -1,9 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get/get.dart';
 import 'package:whisky_hunter/src/route/tm_route.dart';
 import 'package:whisky_hunter/src/utils/dependencies.dart';
@@ -12,10 +10,8 @@ import ' bloc/module/bloc_module.dart';
 import 'src/constant/constant.dart';
 
 Future<void> main() async {
-  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
-  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
+  WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
-  await Firebase.initializeApp();
   provideDependencies();
   BlocModule.provider();
 
@@ -30,7 +26,6 @@ Future<void> main() async {
       child: MyApp(),
     ),
   );
-  FlutterNativeSplash.remove();
 }
 
 class MyApp extends StatelessWidget {

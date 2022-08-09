@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
 import 'package:whisky_hunter/src/ui/home/auction_data_screen.dart';
-import 'package:whisky_hunter/src/ui/autction_data_slug.dart';
+import 'package:whisky_hunter/src/data/model/autction_data_slug.dart';
 import 'package:whisky_hunter/src/ui/favortie/favorite_screen.dart';
 import 'package:whisky_hunter/src/ui/main/main_screen.dart';
 import 'package:whisky_hunter/src/ui/search/search_slug_screen.dart';
