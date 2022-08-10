@@ -1,6 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:whisky_hunter/src/constant/tm_icon.dart';
 import 'package:whisky_hunter/src/data/model/model.dart';
 import 'package:whisky_hunter/theme/tm_colors.dart';
 import 'package:whisky_hunter/theme/tm_theme_data.dart';
