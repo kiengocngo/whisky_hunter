@@ -8,6 +8,7 @@ import 'package:whisky_hunter/src/constant/tm_icon.dart';
 import 'package:whisky_hunter/src/data/model/model.dart';
 import 'package:whisky_hunter/src/route/tm_route.dart';
 import 'package:whisky_hunter/src/sqflite/sql_helper.dart';
+import 'package:whisky_hunter/src/ui/favortie/favorite_screen.dart';
 import 'package:whisky_hunter/src/ui/search/animation.dart';
 import 'package:whisky_hunter/theme/tm_colors.dart';
 import 'package:whisky_hunter/theme/tm_theme_data.dart';
@@ -81,9 +82,27 @@ class _AuctionDataScreenState extends State<AuctionDataScreen> {
                 child: _buildListDisInfo(context),
               ),
               const Divider(),
-              Text(
-                tr('auction'),
-                style: TMThemeData.fromContext(context).textNameWhiskyBlack,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    tr('auction'),
+                    style: TMThemeData.fromContext(context).textNameWhiskyBlack,
+                  ),
+                  InkWell(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (_) => const FavoriteScreen()));
+                    },
+                    child: Text(
+                      tr('favorite'),
+                      style:
+                          TMThemeData.fromContext(context).textNameWhiskyBlack,
+                    ),
+                  ),
+                ],
               ),
               const SizedBox(
                 height: 6,
@@ -240,11 +259,11 @@ class _AuctionListItemState extends State<AuctionListItem> {
           right: 16,
           child: InkWell(
               onTap: () {
+                SQLHelper.createItem(
+                    widget.auction.auctionName, widget.auction.auctionSlug);
                 setState(() {
                   _favorited = !_favorited;
                 });
-                SQLHelper.createItem(
-                    widget.auction.auctionName, widget.auction.auctionSlug);
               },
               child: Icon(
                 Icons.favorite,

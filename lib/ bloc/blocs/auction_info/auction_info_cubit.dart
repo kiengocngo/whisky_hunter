@@ -10,19 +10,19 @@ class AuctionInfoCubit extends Cubit<AuctionInfoState> {
   final Dio dio;
 
   Future<void> getListAucionInfo() async {
-    try {
-      if (state.status == AuctionStatus.initial) {
-        final auctionInfo = await DioClient().fetchAuctionInfoList();
-        emit(state.copyWith(
-          status: AuctionStatus.success,
-          auctionInfo: auctionInfo,
-        ));
-      }
-    } catch (_) {
-      emit(state.copyWith(
-        status: AuctionStatus.failure,
-        error: _.toString(),
+    final auctionInfo = await DioClient().fetchAuctionInfoList();
+
+    if (state.status == AuctionStatus.initial) {
+      final listAuctionInfo = auctionInfo.data;
+      return emit(state.copyWith(
+        status: AuctionStatus.success,
+        auctionInfo: listAuctionInfo,
       ));
     }
+
+    return emit(state.copyWith(
+      status: AuctionStatus.failure,
+      error: auctionInfo.error,
+    ));
   }
 }

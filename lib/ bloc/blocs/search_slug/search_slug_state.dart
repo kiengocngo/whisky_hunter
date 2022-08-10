@@ -25,8 +25,8 @@ class SearchSuccess extends SearchSlugState {
 
 class SearchError extends SearchSlugState {
   const SearchError(this.error);
-  final String error;
+  final String? error;
 
   @override
-  List<Object> get props => [error];
+  List<Object> get props => [error!];
 }

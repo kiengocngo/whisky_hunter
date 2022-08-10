@@ -26,11 +26,10 @@ class SearchCubit extends Cubit<SearchSlugState> {
       return emit(SearchEmpty());
     }
     emit(SearchLoading());
-    try {
-      final search = await DioClient().fetchSearch(slug);
-      emit(SearchSuccess(search));
-    } catch (_) {
-      emit(SearchError(_.toString()));
+    final search = await DioClient().fetchSearch(slug);
+    if (search.data != null) {
+      return emit(SearchSuccess(search.data));
     }
+    emit(SearchError(search.error));
   }
 }

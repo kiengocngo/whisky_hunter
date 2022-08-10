@@ -12,56 +12,62 @@ class DioClient {
         ));
   late final Dio _dio;
 
-  Future<List<AuctionDataModel>> fetchAuctionList() async {
+  Future<BaseModel> fetchAuctionList() async {
     try {
       final response = await _dio.get('/auctions_data');
       var getData = response.data as List;
       var listAuctionData =
           getData.map((e) => AuctionDataModel.fromJson(e)).toList();
-      return listAuctionData;
+      return BaseModel(data: listAuctionData);
     } on DioError catch (err) {
       final errorMesage = DioException.fromDioError(err).toString();
-      throw errorMesage;
+      return BaseModel(data: null, error: errorMesage);
     }
   }
 
-  Future<List<AuctionInformations>> fetchAuctionInfoList() async {
+  Future<BaseModel> fetchAuctionInfoList() async {
     try {
       final response = await _dio.get('/auctions_info');
 
       var getData = response.data as List;
       var listAuctionInfo =
           getData.map((e) => AuctionInformations.fromJson(e)).toList();
-      return listAuctionInfo;
+      return BaseModel(data: listAuctionInfo);
     } on DioError catch (err) {
       final errorMesage = DioException.fromDioError(err).toString();
-      throw errorMesage;
+      return BaseModel(data: null, error: errorMesage);
     }
   }
 
-  Future<List<DistilleriesInfo>> fetchDistilleriesList() async {
+  Future<BaseModel> fetchDistilleriesList() async {
     try {
       final response = await _dio.get('/distilleries_info/');
 
       var getData = response.data as List;
       var listDistilleries =
           getData.map((e) => DistilleriesInfo.fromJson(e)).toList();
-      return listDistilleries;
+      return BaseModel(data: listDistilleries);
     } on DioError catch (err) {
       final errorMesage = DioException.fromDioError(err).toString();
-      throw errorMesage;
+      return BaseModel(data: null, error: errorMesage);
     }
   }
 
-  Future<List<AuctionDataModel>> fetchSearch(String slugName) async {
+  Future<BaseModel> fetchSearch(String slugName) async {
     try {
       final response = await _dio.get('/auction_data/$slugName');
       var getData = response.data as List;
       var slug = getData.map((e) => AuctionDataModel.fromJson(e)).toList();
-      return slug;
+      return BaseModel(data: slug);
     } on DioError catch (err) {
       final errorMesage = DioException.fromDioError(err).toString();
-      throw errorMesage;
+      return BaseModel(data: null, error: errorMesage);
     }
   }
+}
+
+class BaseModel {
+  BaseModel({this.data, this.error});
+  final String? error;
+  final dynamic data;
 }

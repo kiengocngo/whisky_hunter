@@ -3,6 +3,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
+import 'package:whisky_hunter/%20bloc/blocs/favorite/favorite_cubit.dart';
 import 'package:whisky_hunter/src/route/tm_route.dart';
 import 'package:whisky_hunter/src/utils/dependencies.dart';
 import ' bloc/blocs/blocs.dart';
@@ -41,6 +42,7 @@ class MyApp extends StatelessWidget {
             create: (BuildContext context) =>
                 DistilleriesInfoCubit(dio: Dio())),
         BlocProvider(create: (BuildContext context) => SearchCubit(dio: Dio())),
+        BlocProvider(create: (BuildContext context) => FavoriteCubit()),
       ],
       child: GetMaterialApp(
         supportedLocales: context.supportedLocales,

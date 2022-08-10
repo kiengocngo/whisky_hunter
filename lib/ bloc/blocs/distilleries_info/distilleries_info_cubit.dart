@@ -13,19 +13,20 @@ class DistilleriesInfoCubit extends Cubit<DistilleriesInfoState> {
   final Dio dio;
 
   Future<void> getListDistillInfo() async {
-    try {
+    final distilleriesInfo = await DioClient().fetchDistilleriesList();
+    
       if (state.status == AuctionStatus.initial) {
-        final distilleriesInfo = await DioClient().fetchDistilleriesList();
-        emit(state.copyWith(
+        
+        return emit(state.copyWith(
           status: AuctionStatus.success,
-          distilleries: distilleriesInfo,
+          distilleries: distilleriesInfo.data,
         ));
       }
-    } catch (_) {
-      emit(state.copyWith(
+   
+      return emit(state.copyWith(
         status: AuctionStatus.failure,
-        error: _.toString(),
+        error: distilleriesInfo.error,
       ));
-    }
+    
   }
 }

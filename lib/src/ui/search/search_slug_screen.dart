@@ -90,7 +90,7 @@ class _SearchSlugScreenState extends State<SearchSlugScreen> {
                   return Padding(
                     padding: const EdgeInsets.only(top: 50),
                     child: Text(
-                      state.error,
+                      state.error!,
                       style:
                           TMThemeData.fromContext(context).textNameWhiskyBlack,
                     ),

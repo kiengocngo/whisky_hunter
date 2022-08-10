@@ -18,14 +18,17 @@ class _MainScreenState extends State<MainScreen> {
   static const List<Widget> _widgetOptions = <Widget>[
     AuctionDataScreen(),
     AuctionInformation(),
-    FavoriteScreen(),
+    // FavoriteScreen(),
     Settings(),
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: IndexedStack(index: _selectedIndex, children: _widgetOptions),
+      body: IndexedStack(
+        index: _selectedIndex,
+        children: _widgetOptions,
+      ),
       bottomNavigationBar: buildBottomNavigationBar(context),
     );
   }
@@ -79,6 +82,25 @@ class _MainScreenState extends State<MainScreen> {
                       size: 25,
                     ),
             ),
+            // IconButton(
+            //   enableFeedback: false,
+            //   onPressed: () {
+            //     setState(() {
+            //       _selectedIndex = 2;
+            //     });
+            //   },
+            //   icon: _selectedIndex == 2
+            //       ? const Icon(
+            //           CupertinoIcons.heart,
+            //           color: Colors.red,
+            //           size: 25,
+            //         )
+            //       : const Icon(
+            //           CupertinoIcons.heart,
+            //           color: Colors.white,
+            //           size: 25,
+            //         ),
+            // ),
             IconButton(
               enableFeedback: false,
               onPressed: () {
@@ -87,25 +109,6 @@ class _MainScreenState extends State<MainScreen> {
                 });
               },
               icon: _selectedIndex == 2
-                  ? const Icon(
-                      CupertinoIcons.heart,
-                      color: Colors.red,
-                      size: 25,
-                    )
-                  : const Icon(
-                      CupertinoIcons.heart,
-                      color: Colors.white,
-                      size: 25,
-                    ),
-            ),
-            IconButton(
-              enableFeedback: false,
-              onPressed: () {
-                setState(() {
-                  _selectedIndex = 3;
-                });
-              },
-              icon: _selectedIndex == 3
                   ? const Icon(
                       CupertinoIcons.settings,
                       color: Colors.green,

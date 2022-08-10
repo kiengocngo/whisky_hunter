@@ -1,13 +1,3 @@
-// import 'package:equatable/equatable.dart';
-
-// abstract class AuctionEvent extends Equatable {
-//   const AuctionEvent();
-
-//   @override
-//   List<Object> get props => [];
-// }
-
-// class GetAuctionList extends AuctionEvent{}
 import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:whisky_hunter/%20bloc/blocs/auction/auction.dart';
@@ -18,19 +8,18 @@ class AuctionCubit extends Cubit<AuctionState> {
   final Dio dio;
 
   Future<void> getAuctionList() async {
-    try {
-      if (state.status == AuctionStatus.initial) {
-        final autions = await DioClient().fetchAuctionList();
-        return emit(state.copyWith(
-          status: AuctionStatus.success,
-          auction: autions,
-        ));
-      }
-    } catch (_) {
-      emit(state.copyWith(
-        status: AuctionStatus.failure,
-        error: _.toString(),
+    final autions = await DioClient().fetchAuctionList();
+    if (state.status == AuctionStatus.initial) {
+      final listAuction = autions.data;
+      return emit(state.copyWith(
+        status: AuctionStatus.success,
+        auction: listAuction,
       ));
     }
+
+    return emit(state.copyWith(
+      status: AuctionStatus.failure,
+      error: autions.error,
+    ));
   }
 }

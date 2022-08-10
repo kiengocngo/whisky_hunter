@@ -40,7 +40,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        automaticallyImplyLeading: false,
+        automaticallyImplyLeading: true,
         backgroundColor: TMColors.backgroundColor,
         centerTitle: true,
         title: Text(tr("favorite_whisky"),
