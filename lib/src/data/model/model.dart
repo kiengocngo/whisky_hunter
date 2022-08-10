@@ -4,3 +4,4 @@ export 'distilleries_slug.dart';
 export 'auction_data_model.dart';
 export 'auction_information_model.dart';
 export 'distilleries_info.dart';
+export 'base_model.dart';
